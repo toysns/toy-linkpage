@@ -154,16 +154,32 @@
         window.location.href = intentUrl;
       }
 
-      // iOS / other: try direct navigation first
-      if (!isAndroid) {
-        window.location.href = url;
+      // Try LINE app scheme for line.me URLs
+      var lineSchemeUrl = null;
+      if (url.indexOf('line.me/ti/g2/') > -1) {
+        // OpenChat: extract path and use line:// scheme
+        lineSchemeUrl = url.replace('https://line.me', 'line://');
+      } else if (url.indexOf('line.me/R/') > -1) {
+        lineSchemeUrl = url.replace('https://line.me', 'line://');
       }
 
-      // If still here after 1.5s, show fallback UI
+      // iOS / other: try LINE scheme first, then fallback to URL
+      if (!isAndroid) {
+        if (lineSchemeUrl) {
+          // Try line:// scheme to open LINE app directly
+          window.location.href = lineSchemeUrl;
+          // If that didn't work, try the https URL after a short delay
+          setTimeout(function() { window.location.href = url; }, 500);
+        } else {
+          window.location.href = url;
+        }
+      }
+
+      // If still here after 2s, show fallback UI
       setTimeout(function() {
         document.getElementById('phase-loading').classList.add('hidden');
         document.getElementById('phase-fallback').classList.remove('hidden');
-      }, 1500);
+      }, 2000);
 
       // Copy URL button
       copyBtn.addEventListener('click', function() {

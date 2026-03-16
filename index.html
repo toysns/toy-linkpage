@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toy | SNS愛は止められない</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700;900&display=swap');
+
+    :root {
+      --eva-red: #ff1a1a;
+      --eva-orange: #ff6600;
+      --eva-purple: #6b1d7b;
+      --eva-green: #00ff41;
+      --eva-dark: #0a0a0f;
+      --eva-darker: #050508;
+      --eva-gray: #1a1a2e;
+      --eva-text: #e0e0e0;
+      --eva-yellow: #ffcc00;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--eva-darker);
+      color: var(--eva-text);
+      font-family: 'Noto Sans JP', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* Background hex grid */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(107, 29, 123, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(255, 26, 26, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(255, 102, 0, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Scan line effect */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      margin: 20px auto;
+    }
+
+    /* Top warning stripe */
+    .warning-stripe {
+      height: 6px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--eva-yellow),
+        var(--eva-yellow) 10px,
+        var(--eva-dark) 10px,
+        var(--eva-dark) 20px
+      );
+      margin-bottom: 20px;
+      opacity: 0.7;
+    }
+
+    /* System status bar */
+    .system-bar {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--eva-green);
+      text-align: right;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+      opacity: 0.7;
+    }
+
+    .system-bar span {
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Profile section */
+    .profile {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .profile-image-wrapper {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+    }
+
+    .profile-image-wrapper::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border: 2px solid var(--eva-red);
+      clip-path: polygon(
+        0% 15%, 15% 0%, 85% 0%, 100% 15%,
+        100% 85%, 85% 100%, 15% 100%, 0% 85%
+      );
+      animation: border-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes border-pulse {
+      0%, 100% { border-color: var(--eva-red); }
+      50% { border-color: var(--eva-orange); }
+    }
+
+    .profile-image {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      clip-path: polygon(
+        0% 15%, 15% 0%, 85% 0%, 100% 15%,
+        100% 85%, 85% 100%, 15% 100%, 0% 85%
+      );
+      background: var(--eva-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-image-placeholder {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--eva-gray), var(--eva-purple));
+      clip-path: polygon(
+        0% 15%, 15% 0%, 85% 0%, 100% 15%,
+        100% 85%, 85% 100%, 15% 100%, 0% 85%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+
+    .profile-name {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      margin-bottom: 4px;
+      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .profile-handle {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--eva-green);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    .profile-bio {
+      font-size: 13px;
+      color: rgba(224, 224, 224, 0.7);
+      line-height: 1.6;
+      padding: 0 10px;
+    }
+
+    /* NERV-style classification tag */
+    .classification {
+      display: inline-block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--eva-red);
+      border: 1px solid var(--eva-red);
+      padding: 3px 12px;
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    /* Section divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 24px 0 16px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--eva-orange);
+      letter-spacing: 3px;
+      opacity: 0.6;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--eva-orange), transparent);
+    }
+
+    /* Link buttons */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-item {
+      position: relative;
+      display: block;
+      text-decoration: none;
+      color: var(--eva-text);
+      background: rgba(26, 26, 46, 0.8);
+      border: 1px solid rgba(255, 26, 26, 0.3);
+      padding: 16px 20px;
+      transition: all 0.3s ease;
+      clip-path: polygon(
+        0 0, calc(100% - 12px) 0, 100% 12px,
+        100% 100%, 12px 100%, 0 calc(100% - 12px)
+      );
+      cursor: pointer;
+    }
+
+    .link-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--eva-red);
+      transition: all 0.3s ease;
+    }
+
+    .link-item:hover {
+      background: rgba(255, 26, 26, 0.1);
+      border-color: var(--eva-red);
+      transform: translateX(4px);
+    }
+
+    .link-item:hover::before {
+      width: 5px;
+      background: var(--eva-orange);
+    }
+
+    .link-item:active {
+      transform: translateX(4px) scale(0.98);
+    }
+
+    .link-label {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .link-label .icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .link-desc {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: rgba(224, 224, 224, 0.4);
+      margin-top: 4px;
+      padding-left: 34px;
+      letter-spacing: 1px;
+    }
+
+    .link-number {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      color: var(--eva-red);
+      opacity: 0.5;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    .footer .warning-stripe {
+      margin-bottom: 12px;
+      margin-top: 0;
+    }
+
+    .footer-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      color: rgba(224, 224, 224, 0.3);
+      letter-spacing: 2px;
+    }
+
+    /* Hex decorations */
+    .hex-decoration {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      border: 1px solid rgba(255, 26, 26, 0.1);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: hex-float 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hex-decoration:nth-child(1) {
+      top: 10%;
+      left: 5%;
+      animation-delay: 0s;
+    }
+
+    .hex-decoration:nth-child(2) {
+      top: 30%;
+      right: 3%;
+      width: 40px;
+      height: 40px;
+      animation-delay: -3s;
+    }
+
+    .hex-decoration:nth-child(3) {
+      bottom: 20%;
+      left: 8%;
+      width: 50px;
+      height: 50px;
+      animation-delay: -5s;
+    }
+
+    @keyframes hex-float {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+      50% { transform: translateY(-20px) rotate(30deg); opacity: 0.6; }
+    }
+
+    /* Glitch effect on hover for name */
+    .profile-name:hover {
+      animation: glitch 0.3s ease;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(2px, -2px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 1px); }
+      100% { transform: translate(0); }
+    }
+
+    /* AT Field effect - subtle border animation */
+    .at-field {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 160px;
+      height: 160px;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(255, 102, 0, 0.2);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: at-field-pulse 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes at-field-pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+      .container {
+        padding: 16px;
+      }
+      .hex-decoration {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background hex decorations -->
+  <div class="hex-decoration"></div>
+  <div class="hex-decoration"></div>
+  <div class="hex-decoration"></div>
+
+  <div class="container">
+
+    <!-- Warning stripe top -->
+    <div class="warning-stripe"></div>
+
+    <!-- System status -->
+    <div class="system-bar">
+      SYSTEM STATUS: <span>ACTIVE</span> /// MAGI-01
+    </div>
+
+    <!-- Profile -->
+    <div class="profile">
+      <div class="profile-image-wrapper">
+        <div class="at-field"></div>
+        <img src="profile.jpg" alt="Toy" class="profile-image">
+      </div>
+      <div class="classification">CLASSIFIED /// PERSONAL</div>
+      <div class="profile-name">TOY</div>
+      <div class="profile-handle">@TOY_NO_SNS_AI</div>
+      <div class="profile-bio">
+        SNS愛は止められない。
+      </div>
+    </div>
+
+    <!-- Links section -->
+    <div class="divider">LINK ACCESS</div>
+
+    <div class="links">
+
+      <a href="https://www.tiktok.com/@toysns?lang=ja-JP" class="link-item" target="_blank" rel="noopener">
+        <span class="link-number">01</span>
+        <div class="link-label">
+          <span class="icon">▶</span>TikTok
+        </div>
+        <div class="link-desc">// MAIN ACCOUNT</div>
+      </a>
+
+      <a href="https://bit.ly/toysns-001" class="link-item" target="_blank" rel="noopener">
+        <span class="link-number">02</span>
+        <div class="link-label">
+          <span class="icon">◈</span>オープンチャット
+        </div>
+        <div class="link-desc">// OPEN CHAT</div>
+      </a>
+
+      <a href="https://bit.ly/sakiyomi010" class="link-item" target="_blank" rel="noopener">
+        <span class="link-number">03</span>
+        <div class="link-label">
+          <span class="icon">◇</span>個別相談
+        </div>
+        <div class="link-desc">// PRIVATE CONSULTATION</div>
+      </a>
+
+      <a href="https://www.youtube.com/@sns_sakiyomi" class="link-item" target="_blank" rel="noopener">
+        <span class="link-number">04</span>
+        <div class="link-label">
+          <span class="icon">▷</span>SAKIYOMI YouTube
+        </div>
+        <div class="link-desc">// VIDEO CONTENT</div>
+      </a>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="warning-stripe"></div>
+      <div class="footer-text">NERV TOKYO-3 /// ALL RIGHTS RESERVED</div>
+    </div>
+
+  </div>
+
+</body>
+</html>

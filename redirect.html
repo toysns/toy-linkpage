@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>リダイレクト中...</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #050508;
+      color: #e0e0e0;
+      font-family: 'Noto Sans JP', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+    .container { max-width: 360px; }
+    .status {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: #00ff41;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+      animation: blink 1.5s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .message {
+      font-size: 14px;
+      color: rgba(224,224,224,0.7);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+    .open-btn {
+      display: inline-block;
+      text-decoration: none;
+      color: #e0e0e0;
+      background: rgba(255, 26, 26, 0.15);
+      border: 1px solid #ff1a1a;
+      padding: 16px 40px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      clip-path: polygon(
+        0 0, calc(100% - 10px) 0, 100% 10px,
+        100% 100%, 10px 100%, 0 calc(100% - 10px)
+      );
+    }
+    .open-btn:hover {
+      background: rgba(255, 26, 26, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="status">/// REDIRECTING...</div>
+    <p class="message">
+      自動で移動しない場合は<br>下のボタンをタップしてください
+    </p>
+    <a id="openBtn" class="open-btn" href="#">OPEN LINK</a>
+  </div>
+
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var url = params.get('url');
+      if (!url) return;
+
+      var btn = document.getElementById('openBtn');
+      btn.href = url;
+
+      // Method 1: intent URL for Android (opens system browser)
+      var ua = navigator.userAgent.toLowerCase();
+      var isAndroid = ua.indexOf('android') > -1;
+      var isTikTok = ua.indexOf('tiktok') > -1 || ua.indexOf('bytedance') > -1;
+      var isLine = ua.indexOf('line') > -1;
+      var isInApp = isTikTok || isLine || ua.indexOf('instagram') > -1 || ua.indexOf('fbav') > -1;
+
+      if (isInApp && isAndroid) {
+        // Android: use intent to open in Chrome
+        var intentUrl = 'intent://' + url.replace(/^https?:\/\//, '') +
+          '#Intent;scheme=https;package=com.android.chrome;end';
+        btn.href = intentUrl;
+        window.location.href = intentUrl;
+        return;
+      }
+
+      // Method 2: For iOS in-app browsers, try direct navigation
+      // then fall back to the button
+      window.location.href = url;
+
+      // Method 3: If still here after 2s, the redirect didn't work
+      // The user can tap the button manually
+      setTimeout(function() {
+        document.querySelector('.status').textContent = '/// TAP BUTTON BELOW';
+      }, 2000);
+    })();
+  </script>
+</body>
+</html>

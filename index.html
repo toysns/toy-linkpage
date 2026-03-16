@@ -1003,6 +1003,200 @@
       50% { opacity: 0.6; }
     }
 
+    /* ============================================
+       MAGI VOTING OVERLAY
+    ============================================ */
+    .magi-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 10002;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .magi-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .magi-line {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 16px;
+      color: var(--eva-green);
+      letter-spacing: 4px;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      margin: 6px 0;
+    }
+
+    .magi-line.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .magi-approved {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 20px;
+      color: var(--eva-yellow);
+      letter-spacing: 6px;
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .magi-approved.show {
+      opacity: 1;
+    }
+
+    .magi-progress {
+      width: 200px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-top: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .magi-progress.show {
+      opacity: 1;
+    }
+
+    .magi-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--eva-green), var(--eva-yellow));
+      transition: width 0.4s ease;
+    }
+
+    /* ============================================
+       LONG PRESS EASTER EGG
+    ============================================ */
+    .easter-egg-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #000;
+      z-index: 10002;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .easter-egg-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .easter-egg-text {
+      font-size: 18px;
+      color: #fff;
+      letter-spacing: 4px;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    .easter-egg-overlay.active .easter-egg-text {
+      opacity: 1;
+    }
+
+    .easter-egg-credit {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 16px;
+      opacity: 0;
+      transition: opacity 1.5s ease 0.5s;
+    }
+
+    .easter-egg-overlay.active .easter-egg-credit {
+      opacity: 1;
+    }
+
+    /* ============================================
+       INTRUSION TIMER
+    ============================================ */
+    .intrusion-timer {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--eva-red);
+      letter-spacing: 2px;
+      text-align: center;
+      margin-top: 8px;
+      opacity: 0.6;
+    }
+
+    .intrusion-warning {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      color: var(--eva-red);
+      letter-spacing: 1px;
+      text-align: center;
+      margin-top: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      animation: none;
+    }
+
+    .intrusion-warning.active {
+      opacity: 1;
+      animation: warning-flash 0.5s ease-in-out infinite;
+    }
+
+    @keyframes warning-flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ============================================
+       DUMMY SYSTEM GLITCH
+    ============================================ */
+    .dummy-system-text {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 24px;
+      color: var(--eva-red);
+      letter-spacing: 6px;
+      z-index: 0;
+      opacity: 0;
+      pointer-events: none;
+      text-shadow: 0 0 20px rgba(255, 26, 26, 0.8);
+    }
+
+    .dummy-system-text.active {
+      opacity: 1;
+    }
+
+    .container.glitch-effect {
+      transform: translate(3px, -2px);
+      filter: invert(0.08) hue-rotate(30deg);
+    }
+
+    /* ============================================
+       COUNTDOWN TIMER
+    ============================================ */
+    .countdown-timer {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--eva-red);
+      letter-spacing: 3px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
     /* Mobile */
     @media (max-width: 480px) {
       .container { padding: 16px; }
@@ -1014,6 +1208,26 @@
   </style>
 </head>
 <body>
+
+  <!-- MAGI Voting Overlay -->
+  <div class="magi-overlay" id="magiOverlay">
+    <div class="magi-line" id="magiCasper">CASPER: 承認</div>
+    <div class="magi-line" id="magiBalthasar">BALTHASAR: 承認</div>
+    <div class="magi-line" id="magiMelchior">MELCHIOR: 承認</div>
+    <div class="magi-approved" id="magiApproved">承認完了</div>
+    <div class="magi-progress" id="magiProgress">
+      <div class="magi-progress-fill" id="magiProgressFill"></div>
+    </div>
+  </div>
+
+  <!-- Long Press Easter Egg -->
+  <div class="easter-egg-overlay" id="easterEggOverlay">
+    <div class="easter-egg-text">「僕はここにいてもいいんだ」</div>
+    <div class="easter-egg-credit">— 碇シンジ</div>
+  </div>
+
+  <!-- Dummy System Glitch Text -->
+  <div class="dummy-system-text" id="dummySystemText">DUMMY SYSTEM ACTIVATED</div>
 
   <!-- Profile Modal -->
   <div class="modal-backdrop" id="profileModal">
@@ -1172,6 +1386,8 @@
   <!-- Main Content -->
   <div class="container" id="mainContent">
 
+    <div class="countdown-timer" id="countdownTimer">人類補完計画 発動まで 00:00:00</div>
+
     <div class="warning-stripe"></div>
 
     <div class="system-bar">
@@ -1258,6 +1474,8 @@
     <div class="footer">
       <div class="warning-stripe"></div>
       <div class="footer-text">NERV TOKYO-3 /// ALL RIGHTS RESERVED</div>
+      <div class="intrusion-timer" id="intrusionTimer">侵入から 00:00:00 経過</div>
+      <div class="intrusion-warning" id="intrusionWarning">/// WARNING: NERV本部がアクセスを検知しました</div>
     </div>
 
   </div>
@@ -1360,6 +1578,162 @@
       startBoot();
       sessionStorage.setItem('bootSeen', '1');
     }
+    // ============================================
+    // FEATURE 1: MAGI VOTING OVERLAY
+    // ============================================
+    var magiActive = false;
+
+    document.querySelectorAll('.link-item').forEach(function(item) {
+      item.addEventListener('click', function(e) {
+        if (magiActive) return;
+        e.preventDefault();
+        var targetUrl = this.getAttribute('href');
+        var targetBlank = this.getAttribute('target') === '_blank';
+        magiActive = true;
+
+        var overlay = document.getElementById('magiOverlay');
+        overlay.classList.add('active');
+
+        // Reset
+        document.getElementById('magiCasper').classList.remove('show');
+        document.getElementById('magiBalthasar').classList.remove('show');
+        document.getElementById('magiMelchior').classList.remove('show');
+        document.getElementById('magiApproved').classList.remove('show');
+        document.getElementById('magiProgress').classList.remove('show');
+        document.getElementById('magiProgressFill').style.width = '0%';
+
+        setTimeout(function() { document.getElementById('magiCasper').classList.add('show'); }, 150);
+        setTimeout(function() { document.getElementById('magiBalthasar').classList.add('show'); }, 400);
+        setTimeout(function() { document.getElementById('magiMelchior').classList.add('show'); }, 650);
+        setTimeout(function() {
+          document.getElementById('magiApproved').classList.add('show');
+          document.getElementById('magiProgress').classList.add('show');
+          setTimeout(function() { document.getElementById('magiProgressFill').style.width = '100%'; }, 50);
+        }, 850);
+
+        setTimeout(function() {
+          overlay.classList.remove('active');
+          magiActive = false;
+          if (targetBlank) {
+            window.open(targetUrl, '_blank');
+          } else {
+            window.location.href = targetUrl;
+          }
+        }, 1200);
+      });
+    });
+
+    // ============================================
+    // FEATURE 2: LONG PRESS EASTER EGG
+    // ============================================
+    (function() {
+      var profileWrapper = document.querySelector('.profile-image-wrapper');
+      var pressTimer = null;
+      var easterEggActive = false;
+
+      function startPress(e) {
+        if (easterEggActive) return;
+        pressTimer = setTimeout(function() {
+          easterEggActive = true;
+          var overlay = document.getElementById('easterEggOverlay');
+          overlay.classList.add('active');
+
+          setTimeout(function() {
+            overlay.classList.remove('active');
+            setTimeout(function() { easterEggActive = false; }, 1000);
+          }, 3000);
+        }, 2000);
+      }
+
+      function cancelPress() {
+        if (pressTimer) {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+        }
+      }
+
+      profileWrapper.addEventListener('touchstart', startPress);
+      profileWrapper.addEventListener('touchend', cancelPress);
+      profileWrapper.addEventListener('touchmove', cancelPress);
+      profileWrapper.addEventListener('mousedown', startPress);
+      profileWrapper.addEventListener('mouseup', cancelPress);
+      profileWrapper.addEventListener('mouseleave', cancelPress);
+    })();
+
+    // ============================================
+    // FEATURE 3: INTRUSION TIMER
+    // ============================================
+    (function() {
+      var startTime = Date.now();
+      var timerEl = document.getElementById('intrusionTimer');
+      var warningEl = document.getElementById('intrusionWarning');
+      var warningShown = false;
+
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+      setInterval(function() {
+        var elapsed = Math.floor((Date.now() - startTime) / 1000);
+        var h = pad(Math.floor(elapsed / 3600));
+        var m = pad(Math.floor((elapsed % 3600) / 60));
+        var s = pad(elapsed % 60);
+        timerEl.textContent = '侵入から ' + h + ':' + m + ':' + s + ' 経過';
+
+        if (elapsed >= 60 && !warningShown) {
+          warningShown = true;
+          warningEl.classList.add('active');
+        }
+      }, 1000);
+    })();
+
+    // ============================================
+    // FEATURE 4: DUMMY SYSTEM GLITCH
+    // ============================================
+    (function() {
+      var container = document.getElementById('mainContent');
+      var dummyText = document.getElementById('dummySystemText');
+
+      function triggerGlitch() {
+        container.classList.add('glitch-effect');
+        dummyText.classList.add('active');
+
+        setTimeout(function() {
+          container.classList.remove('glitch-effect');
+          dummyText.classList.remove('active');
+        }, 300);
+
+        // Schedule next glitch: 30-90 seconds
+        var nextDelay = (30 + Math.random() * 60) * 1000;
+        setTimeout(triggerGlitch, nextDelay);
+      }
+
+      // First glitch after 30-90 seconds
+      var initialDelay = (30 + Math.random() * 60) * 1000;
+      setTimeout(triggerGlitch, initialDelay);
+    })();
+
+    // ============================================
+    // FEATURE 5: COUNTDOWN TIMER
+    // ============================================
+    (function() {
+      var countdownEl = document.getElementById('countdownTimer');
+
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+      function updateCountdown() {
+        var now = new Date();
+        var midnight = new Date(now);
+        midnight.setHours(24, 0, 0, 0);
+        var diff = Math.floor((midnight - now) / 1000);
+
+        var h = pad(Math.floor(diff / 3600));
+        var m = pad(Math.floor((diff % 3600) / 60));
+        var s = pad(diff % 60);
+        countdownEl.textContent = '人類補完計画 発動まで ' + h + ':' + m + ':' + s;
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    })();
   </script>
 
 </body>

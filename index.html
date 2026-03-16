@@ -1189,7 +1189,7 @@
 
     <!-- Profile -->
     <div class="profile">
-      <div class="profile-image-wrapper">
+      <div class="profile-image-wrapper" onclick="openProfile()" role="button" tabindex="0">
         <div class="at-field"></div>
         <img src="profile.jpg" alt="Toy" class="profile-image">
       </div>
@@ -1321,28 +1321,30 @@
     var modal = document.getElementById('profileModal');
     var modalClose = document.getElementById('modalClose');
 
-    document.querySelector('.profile-image-wrapper').addEventListener('click', function() {
+    function openProfile() {
       modal.classList.add('active');
-      // Animate skill bars
       setTimeout(function() {
         document.querySelectorAll('.skill-fill').forEach(function(fill) {
           fill.style.width = fill.getAttribute('data-width');
         });
       }, 100);
-    });
+    }
 
-    modalClose.addEventListener('click', function() {
+    function closeProfile() {
       modal.classList.remove('active');
-      // Reset skill bars
       document.querySelectorAll('.skill-fill').forEach(function(fill) {
         fill.style.width = '0%';
       });
+    }
+
+    modalClose.addEventListener('click', closeProfile);
+    modalClose.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      closeProfile();
     });
 
     modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        modalClose.click();
-      }
+      if (e.target === modal) closeProfile();
     });
 
     // Ripple effect on link tap

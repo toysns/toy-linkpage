@@ -738,16 +738,410 @@
     .skip-btn:active { color: var(--eva-text); border-color: var(--eva-text); }
     .skip-btn.hidden { display: none; }
 
+    /* ============================================
+       PROFILE MODAL
+    ============================================ */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(5, 5, 8, 0.92);
+      z-index: 10001;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      padding: 20px;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 380px;
+      background: linear-gradient(180deg, rgba(10, 10, 15, 0.98), rgba(26, 26, 46, 0.95));
+      border: 1px solid var(--eva-red);
+      position: relative;
+      clip-path: polygon(
+        0 0, calc(100% - 16px) 0, 100% 16px,
+        100% 100%, 16px 100%, 0 calc(100% - 16px)
+      );
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-backdrop.active .modal {
+      transform: scale(1) translateY(0);
+    }
+
+    /* Modal top accent bar */
+    .modal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange), var(--eva-yellow));
+    }
+
+    .modal-header {
+      padding: 20px 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--eva-red);
+      letter-spacing: 3px;
+    }
+
+    .modal-close {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: rgba(224, 224, 224, 0.4);
+      background: none;
+      border: 1px solid rgba(224, 224, 224, 0.15);
+      padding: 4px 12px;
+      cursor: pointer;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:active {
+      color: var(--eva-text);
+      border-color: var(--eva-red);
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-stripe {
+      height: 3px;
+      background: repeating-linear-gradient(
+        -45deg, var(--eva-yellow), var(--eva-yellow) 6px,
+        transparent 6px, transparent 12px
+      );
+      opacity: 0.4;
+      margin: 14px 0;
+    }
+
+    .modal-section-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      color: var(--eva-orange);
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    .modal-name {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2px;
+    }
+
+    .modal-name-sub {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: rgba(224, 224, 224, 0.5);
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .modal-role {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--eva-green);
+      letter-spacing: 2px;
+    }
+
+    /* Stats grid */
+    .modal-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 10px 12px;
+      clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+    }
+
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 8px;
+      color: rgba(224, 224, 224, 0.35);
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--eva-text);
+      letter-spacing: 1px;
+    }
+
+    .stat-value.highlight { color: var(--eva-yellow); }
+    .stat-value.green { color: var(--eva-green); }
+    .stat-value.red { color: var(--eva-red); }
+
+    /* Timeline */
+    .timeline {
+      margin-top: 4px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 14px;
+      width: 1px;
+      height: calc(100% + 4px);
+      background: rgba(255, 26, 26, 0.2);
+    }
+
+    .timeline-item:last-child::before { display: none; }
+
+    .timeline-dot {
+      width: 11px;
+      height: 11px;
+      min-width: 11px;
+      border: 2px solid var(--eva-red);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      margin-top: 2px;
+    }
+
+    .timeline-content {}
+
+    .timeline-year {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      color: var(--eva-orange);
+      letter-spacing: 2px;
+    }
+
+    .timeline-text {
+      font-size: 12px;
+      color: rgba(224, 224, 224, 0.7);
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+
+    /* Skill bars */
+    .skill-bars { margin-top: 4px; }
+
+    .skill-item {
+      margin-bottom: 10px;
+    }
+
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .skill-name {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: rgba(224, 224, 224, 0.6);
+      letter-spacing: 1px;
+    }
+
+    .skill-pct {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--eva-green);
+      letter-spacing: 1px;
+    }
+
+    .skill-track {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      clip-path: polygon(0 0, calc(100% - 2px) 0, 100% 100%, 2px 100%);
+    }
+
+    .skill-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 1s ease-out 0.4s;
+    }
+
+    .skill-fill.red { background: linear-gradient(90deg, var(--eva-red), var(--eva-orange)); }
+    .skill-fill.green { background: linear-gradient(90deg, var(--eva-green), var(--eva-yellow)); }
+    .skill-fill.purple { background: linear-gradient(90deg, var(--eva-purple), var(--eva-red)); }
+
+    /* Tap hint on profile image */
+    .profile-image-wrapper {
+      cursor: pointer;
+    }
+
+    .tap-hint {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      color: rgba(224, 224, 224, 0.25);
+      letter-spacing: 2px;
+      margin-top: -12px;
+      margin-bottom: 16px;
+      animation: tap-fade 3s ease-in-out infinite;
+    }
+
+    @keyframes tap-fade {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 0.6; }
+    }
+
     /* Mobile */
     @media (max-width: 480px) {
       .container { padding: 16px; }
       .hex-decoration { display: none; }
       .boot-terminal { width: 260px; font-size: 10px; }
       .boot-line.big { font-size: 24px; }
+      .modal { max-height: 85vh; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Profile Modal -->
+  <div class="modal-backdrop" id="profileModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-header-label">/// PERSONNEL FILE</span>
+        <button class="modal-close" id="modalClose">CLOSE ×</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="modal-section-title">/// OPERATOR ID</div>
+        <div class="modal-name">樋田 洋斗</div>
+        <div class="modal-name-sub">TOIDA HIROTO /// "TOY"</div>
+        <div class="modal-role">SNS STRATEGIST / CONTENT DIRECTOR</div>
+
+        <div class="modal-stripe"></div>
+
+        <div class="modal-section-title">/// STATUS</div>
+        <div class="modal-stats">
+          <div class="stat-item">
+            <div class="stat-label">AFFILIATION</div>
+            <div class="stat-value highlight">SAKIYOMI</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">POSITION</div>
+            <div class="stat-value">SNS運用のプロ</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">SYNC RATE</div>
+            <div class="stat-value green">98.2%</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">THREAT LEVEL</div>
+            <div class="stat-value red">S-CLASS</div>
+          </div>
+        </div>
+
+        <div class="modal-stripe"></div>
+
+        <div class="modal-section-title">/// OPERATION HISTORY</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">PHASE 01</div>
+              <div class="timeline-text">SAKIYOMI参画。SNS運用の最前線へ</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">PHASE 02</div>
+              <div class="timeline-text">公式YouTube / セミナー / コンサル事業を統括</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">PHASE 03</div>
+              <div class="timeline-text">TikTok「ToyのSNS愛は止められない」開設。個人でもSNSの本質を発信開始</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">CURRENT</div>
+              <div class="timeline-text">SNS戦略立案 × コンテンツ制作 × 個別コンサルで多方面に展開中</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-stripe"></div>
+
+        <div class="modal-section-title">/// ABILITY PARAMETERS</div>
+        <div class="skill-bars">
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">SNS STRATEGY</span>
+              <span class="skill-pct">96%</span>
+            </div>
+            <div class="skill-track">
+              <div class="skill-fill red" data-width="96%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">CONTENT CREATION</span>
+              <span class="skill-pct">92%</span>
+            </div>
+            <div class="skill-track">
+              <div class="skill-fill green" data-width="92%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">CONSULTING</span>
+              <span class="skill-pct">94%</span>
+            </div>
+            <div class="skill-track">
+              <div class="skill-fill purple" data-width="94%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">SNS PASSION</span>
+              <span class="skill-pct">∞</span>
+            </div>
+            <div class="skill-track">
+              <div class="skill-fill red" data-width="100%"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <!-- Boot Sequence Overlay -->
   <div class="boot-overlay" id="bootOverlay">
@@ -799,6 +1193,7 @@
         <div class="at-field"></div>
         <img src="profile.jpg" alt="Toy" class="profile-image">
       </div>
+      <div class="tap-hint">▽ TAP TO VIEW PROFILE</div>
       <div class="classification">CLASSIFIED /// PERSONAL</div>
       <div class="profile-name" id="profileName">TOY</div>
       <div class="profile-handle">@TOY_NO_SNS_AI</div>
@@ -921,6 +1316,34 @@
     function skipBoot() {
       revealContent();
     }
+
+    // Profile modal
+    var modal = document.getElementById('profileModal');
+    var modalClose = document.getElementById('modalClose');
+
+    document.querySelector('.profile-image-wrapper').addEventListener('click', function() {
+      modal.classList.add('active');
+      // Animate skill bars
+      setTimeout(function() {
+        document.querySelectorAll('.skill-fill').forEach(function(fill) {
+          fill.style.width = fill.getAttribute('data-width');
+        });
+      }, 100);
+    });
+
+    modalClose.addEventListener('click', function() {
+      modal.classList.remove('active');
+      // Reset skill bars
+      document.querySelectorAll('.skill-fill').forEach(function(fill) {
+        fill.style.width = '0%';
+      });
+    });
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modalClose.click();
+      }
+    });
 
     // Ripple effect on link tap
     document.querySelectorAll('.link-item').forEach(function(item) {

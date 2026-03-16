@@ -157,23 +157,6 @@
         100% 85%, 85% 100%, 15% 100%, 0% 85%
       );
       background: var(--eva-gray);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .profile-image-placeholder {
-      width: 120px;
-      height: 120px;
-      background: linear-gradient(135deg, var(--eva-gray), var(--eva-purple));
-      clip-path: polygon(
-        0% 15%, 15% 0%, 85% 0%, 100% 15%,
-        100% 85%, 85% 100%, 15% 100%, 0% 85%
-      );
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 48px;
     }
 
     .profile-name {
@@ -241,49 +224,31 @@
     .links {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
+    /* ===== SHARED BUTTON BASE ===== */
     .link-item {
       position: relative;
       display: block;
       text-decoration: none;
       color: var(--eva-text);
-      background: rgba(26, 26, 46, 0.8);
-      border: 1px solid rgba(255, 26, 26, 0.3);
-      padding: 16px 20px;
       transition: all 0.3s ease;
-      clip-path: polygon(
-        0 0, calc(100% - 12px) 0, 100% 12px,
-        100% 100%, 12px 100%, 0 calc(100% - 12px)
-      );
       cursor: pointer;
-    }
-
-    .link-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 3px;
-      height: 100%;
-      background: var(--eva-red);
-      transition: all 0.3s ease;
-    }
-
-    .link-item:hover {
-      background: rgba(255, 26, 26, 0.1);
-      border-color: var(--eva-red);
-      transform: translateX(4px);
-    }
-
-    .link-item:hover::before {
-      width: 5px;
-      background: var(--eva-orange);
+      overflow: hidden;
     }
 
     .link-item:active {
-      transform: translateX(4px) scale(0.98);
+      transform: scale(0.97);
+    }
+
+    .link-number {
+      position: absolute;
+      top: 8px;
+      right: 14px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      opacity: 0.4;
     }
 
     .link-label {
@@ -310,19 +275,197 @@
       letter-spacing: 1px;
     }
 
-    .link-number {
-      position: absolute;
-      top: 8px;
-      right: 16px;
+    .link-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      margin-top: 6px;
+      padding-left: 34px;
+      letter-spacing: 1px;
+    }
+
+    .link-status {
       font-family: 'Share Tech Mono', monospace;
       font-size: 9px;
-      color: var(--eva-red);
-      opacity: 0.5;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    /* ===== PRIMARY CTA: OPEN CHAT ===== */
+    .link-primary {
+      background: linear-gradient(135deg, rgba(255, 26, 26, 0.12), rgba(255, 102, 0, 0.08));
+      border: 1px solid var(--eva-red);
+      padding: 20px 20px 18px;
+      clip-path: polygon(
+        0 0, calc(100% - 14px) 0, 100% 14px,
+        100% 100%, 14px 100%, 0 calc(100% - 14px)
+      );
+      animation: primary-glow 2.5s ease-in-out infinite;
+    }
+
+    .link-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--eva-red), var(--eva-orange));
+    }
+
+    .link-primary .link-number { color: var(--eva-orange); opacity: 0.6; }
+    .link-primary .link-status { color: var(--eva-green); }
+    .link-primary .link-label { font-size: 15px; }
+
+    .link-primary .link-meta {
+      color: var(--eva-yellow);
+      opacity: 0.8;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      margin-top: 10px;
+      padding-left: 34px;
+      padding-right: 14px;
+    }
+
+    .progress-track {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      position: relative;
+      clip-path: polygon(0 0, calc(100% - 3px) 0, 100% 100%, 3px 100%);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--eva-green), var(--eva-yellow));
+      transition: width 1.5s ease-out;
+    }
+
+    .progress-fill.danger {
+      background: linear-gradient(90deg, var(--eva-orange), var(--eva-red));
+    }
+
+    .progress-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      color: rgba(224, 224, 224, 0.4);
+      margin-top: 4px;
+      text-align: right;
+      letter-spacing: 1px;
+    }
+
+    @keyframes primary-glow {
+      0%, 100% { box-shadow: 0 0 15px rgba(255, 26, 26, 0.15), inset 0 0 15px rgba(255, 26, 26, 0.03); }
+      50% { box-shadow: 0 0 25px rgba(255, 26, 26, 0.3), inset 0 0 25px rgba(255, 26, 26, 0.06); }
+    }
+
+    /* ===== SECONDARY: CONSULTATION ===== */
+    .link-special {
+      background: linear-gradient(135deg, rgba(107, 29, 123, 0.15), rgba(26, 26, 46, 0.8));
+      border: 1px solid rgba(107, 29, 123, 0.5);
+      padding: 18px 20px 16px;
+      clip-path: polygon(
+        0 0, calc(100% - 12px) 0, 100% 12px,
+        100% 100%, 12px 100%, 0 calc(100% - 12px)
+      );
+    }
+
+    .link-special::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--eva-purple);
+    }
+
+    .link-special::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0, 255, 65, 0.04) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .link-special:active::after {
+      opacity: 1;
+    }
+
+    .link-special .link-number { color: var(--eva-purple); opacity: 0.6; }
+    .link-special .link-status { color: var(--eva-orange); }
+
+    .link-special .link-meta {
+      color: var(--eva-green);
+      opacity: 0.6;
+    }
+
+    /* ===== TERTIARY: YOUTUBE ===== */
+    .link-tertiary {
+      background: rgba(26, 26, 46, 0.6);
+      border: 1px solid rgba(255, 26, 26, 0.2);
+      padding: 14px 20px;
+      clip-path: polygon(
+        0 0, calc(100% - 10px) 0, 100% 10px,
+        100% 100%, 10px 100%, 0 calc(100% - 10px)
+      );
+    }
+
+    .link-tertiary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--eva-red);
+      opacity: 0.6;
+    }
+
+    .link-tertiary .link-number { color: var(--eva-red); opacity: 0.35; }
+
+    .link-tertiary .link-meta {
+      color: rgba(224, 224, 224, 0.35);
+    }
+
+    /* ===== MINIMAL: TIKTOK ===== */
+    .link-minimal {
+      background: rgba(26, 26, 46, 0.3);
+      border: 1px solid rgba(224, 224, 224, 0.1);
+      padding: 12px 20px;
+      clip-path: polygon(
+        0 0, calc(100% - 8px) 0, 100% 8px,
+        100% 100%, 8px 100%, 0 calc(100% - 8px)
+      );
+    }
+
+    .link-minimal .link-number { color: rgba(224, 224, 224, 0.25); }
+    .link-minimal .link-label { font-size: 13px; color: rgba(224, 224, 224, 0.6); }
+    .link-minimal .link-desc { color: rgba(224, 224, 224, 0.25); }
+
+    /* ===== CLOSING COPY ===== */
+    .closing {
+      text-align: center;
+      margin-top: 28px;
+      margin-bottom: 8px;
+    }
+
+    .closing-text {
+      font-size: 12px;
+      color: rgba(224, 224, 224, 0.3);
+      line-height: 1.8;
+      font-style: italic;
     }
 
     /* Footer */
     .footer {
-      margin-top: 32px;
+      margin-top: 20px;
       text-align: center;
     }
 
@@ -377,7 +520,7 @@
       50% { transform: translateY(-20px) rotate(30deg); opacity: 0.6; }
     }
 
-    /* Glitch effect on hover for name */
+    /* Glitch effect */
     .profile-name:hover {
       animation: glitch 0.3s ease;
     }
@@ -391,7 +534,7 @@
       100% { transform: translate(0); }
     }
 
-    /* AT Field effect - subtle border animation */
+    /* AT Field effect */
     .at-field {
       position: absolute;
       top: 50%;
@@ -453,42 +596,64 @@
     </div>
 
     <!-- Links section -->
-    <div class="divider">LINK ACCESS</div>
+    <div class="divider">SELECT TARGET</div>
 
     <div class="links">
 
-      <a href="https://www.tiktok.com/@toysns?lang=ja-JP" class="link-item" target="_blank" rel="noopener">
+      <!-- PRIMARY CTA: Open Chat -->
+      <a href="https://line.me/R/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ" class="link-item link-primary">
         <span class="link-number">01</span>
+        <div class="link-status">/// STATUS: OPEN</div>
         <div class="link-label">
-          <span class="icon">▶</span>TikTok
+          <span class="icon">◈</span>作戦会議室に入室する
         </div>
-        <div class="link-desc">// MAIN ACCOUNT</div>
+        <div class="link-desc">// LINE OPEN CHAT - FREE</div>
+        <div class="link-meta">Toyに直接質問できる場所</div>
+        <div class="progress-bar">
+          <div class="progress-track">
+            <div class="progress-fill danger" id="progressFill"></div>
+          </div>
+          <div class="progress-text">MEMBERS: GROWING /// 参加無料</div>
+        </div>
       </a>
 
-      <a href="https://line.me/R/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ" class="link-item">
+      <!-- SPECIAL: Consultation -->
+      <a href="redirect.html?url=https%3A%2F%2Fbit.ly%2Fsakiyomi010" class="link-item link-special">
         <span class="link-number">02</span>
+        <div class="link-status">/// STATUS: LIMITED</div>
         <div class="link-label">
-          <span class="icon">◈</span>オープンチャット
+          <span class="icon">◇</span>個別指令を受け取る
         </div>
-        <div class="link-desc">// OPEN CHAT</div>
+        <div class="link-desc">// 1-ON-1 CONSULTATION</div>
+        <div class="link-meta">あなた専用のSNS作戦を立案</div>
       </a>
 
-      <a href="redirect.html?url=https%3A%2F%2Fbit.ly%2Fsakiyomi010" class="link-item">
+      <!-- TERTIARY: YouTube -->
+      <a href="https://www.youtube.com/@sns_sakiyomi" class="link-item link-tertiary" target="_blank" rel="noopener">
         <span class="link-number">03</span>
         <div class="link-label">
-          <span class="icon">◇</span>個別相談
+          <span class="icon">▷</span>機密映像を閲覧する
         </div>
-        <div class="link-desc">// PRIVATE CONSULTATION</div>
+        <div class="link-desc">// SAKIYOMI YOUTUBE</div>
+        <div class="link-meta">SNS運用のプロが裏側を公開中</div>
       </a>
 
-      <a href="https://www.youtube.com/@sns_sakiyomi" class="link-item" target="_blank" rel="noopener">
+      <!-- MINIMAL: TikTok -->
+      <a href="https://www.tiktok.com/@toysns?lang=ja-JP" class="link-item link-minimal" target="_blank" rel="noopener">
         <span class="link-number">04</span>
         <div class="link-label">
-          <span class="icon">▷</span>SAKIYOMI YouTube
+          <span class="icon">▶</span>TikTok @toysns
         </div>
-        <div class="link-desc">// VIDEO CONTENT</div>
+        <div class="link-desc">// FOLLOW MAIN ACCOUNT</div>
       </a>
 
+    </div>
+
+    <!-- Closing -->
+    <div class="closing">
+      <div class="closing-text">
+        逃げちゃダメだ、逃げちゃダメだ、逃げちゃダメだ。
+      </div>
     </div>
 
     <!-- Footer -->
@@ -498,6 +663,16 @@
     </div>
 
   </div>
+
+  <script>
+    // Animate progress bar on load
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        var fill = document.getElementById('progressFill');
+        if (fill) fill.style.width = '72%';
+      }, 300);
+    });
+  </script>
 
 </body>
 </html>

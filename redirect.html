@@ -76,6 +76,33 @@
       color: rgba(255, 204, 0, 0.8);
       font-weight: 700;
     }
+    .step-guide {
+      text-align: left;
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(255, 204, 0, 0.05);
+      border: 1px solid rgba(255, 204, 0, 0.2);
+      clip-path: polygon(
+        0 0, calc(100% - 8px) 0, 100% 8px,
+        100% 100%, 8px 100%, 0 calc(100% - 8px)
+      );
+    }
+    .step-guide .step-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: #ffcc00;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .step-guide ol {
+      padding-left: 20px;
+      font-size: 13px;
+      color: rgba(224,224,224,0.7);
+      line-height: 2;
+    }
+    .step-guide ol strong {
+      color: #ffcc00;
+    }
     .copied {
       font-family: 'Share Tech Mono', monospace;
       font-size: 11px;
@@ -95,6 +122,11 @@
       margin-bottom: 24px;
       opacity: 0.5;
     }
+    .arrow-icon {
+      display: inline-block;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
   </style>
 </head>
 <body>
@@ -110,18 +142,22 @@
     <!-- Phase 2: Redirect failed, show options -->
     <div id="phase-fallback" class="hidden">
       <div class="status">/// OPEN IN BROWSER</div>
+      <div class="arrow-icon">↗</div>
       <p class="message">
-        アプリ内ブラウザでは<br>開けないリンクです
+        右上の <strong style="color: #ffcc00;">「…」</strong> をタップして<br>
+        <strong style="color: #ffcc00;">「ブラウザで開く」</strong> を選んでね！
       </p>
 
-      <a id="openBtn" class="btn" href="#">リンクを開く</a>
-      <button id="copyBtn" class="btn btn-copy">URLをコピー</button>
+      <button id="copyBtn" class="btn btn-copy">URLをコピーする</button>
       <div id="copiedMsg" class="copied">/// COPIED TO CLIPBOARD</div>
 
-      <div class="help-text">
-        開けない場合は<strong>URLをコピー</strong>して<br>
-        SafariまたはChromeで開いてください<br><br>
-        または右上の <strong>「…」→「ブラウザで開く」</strong>
+      <div class="step-guide">
+        <div class="step-title">/// HOW TO OPEN</div>
+        <ol>
+          <li>右上の <strong>「…」</strong> をタップ</li>
+          <li><strong>「ブラウザで開く」</strong> を選択</li>
+          <li>Safariで自動的に開きます</li>
+        </ol>
       </div>
     </div>
 
@@ -132,66 +168,54 @@
     (function() {
       var params = new URLSearchParams(window.location.search);
       var url = params.get('url');
+      var type = params.get('type');
       if (!url) return;
 
-      var openBtn = document.getElementById('openBtn');
       var copyBtn = document.getElementById('copyBtn');
       var copiedMsg = document.getElementById('copiedMsg');
-      openBtn.href = url;
 
-      // Detect in-app browser
-      var ua = navigator.userAgent.toLowerCase();
-      var isAndroid = ua.indexOf('android') > -1;
-      var isInApp = ua.indexOf('tiktok') > -1 || ua.indexOf('bytedance') > -1 ||
-                    ua.indexOf('instagram') > -1 || ua.indexOf('fbav') > -1 ||
-                    ua.indexOf('line/') > -1;
-
-      // Android: try intent to open in Chrome
-      if (isInApp && isAndroid) {
-        var intentUrl = 'intent://' + url.replace(/^https?:\/\//, '') +
-          '#Intent;scheme=https;package=com.android.chrome;end';
-        openBtn.href = intentUrl;
-        window.location.href = intentUrl;
-      }
-
-      // Try LINE app scheme for line.me URLs
-      var lineSchemeUrl = null;
-      if (url.indexOf('line.me/ti/g2/') > -1) {
-        // OpenChat: extract path and use line:// scheme
-        lineSchemeUrl = url.replace('https://line.me', 'line://');
-      } else if (url.indexOf('line.me/R/') > -1) {
-        lineSchemeUrl = url.replace('https://line.me', 'line://');
-      }
-
-      // iOS / other: try LINE scheme first, then fallback to URL
-      if (!isAndroid) {
-        if (lineSchemeUrl) {
-          // Try line:// scheme to open LINE app directly
-          window.location.href = lineSchemeUrl;
-          // If that didn't work, try the https URL after a short delay
-          setTimeout(function() { window.location.href = url; }, 500);
-        } else {
-          window.location.href = url;
-        }
-      }
-
-      // If still here after 2s, show fallback UI
-      setTimeout(function() {
+      // For openchat type, skip auto-redirect and show guide immediately
+      if (type === 'openchat') {
         document.getElementById('phase-loading').classList.add('hidden');
         document.getElementById('phase-fallback').classList.remove('hidden');
-      }, 2000);
+      } else {
+        // Detect in-app browser
+        var ua = navigator.userAgent.toLowerCase();
+        var isAndroid = ua.indexOf('android') > -1;
+        var isInApp = ua.indexOf('tiktok') > -1 || ua.indexOf('bytedance') > -1 ||
+                      ua.indexOf('instagram') > -1 || ua.indexOf('fbav') > -1 ||
+                      ua.indexOf('line/') > -1;
 
-      // Copy URL button
+        // Android: try intent to open in Chrome
+        if (isInApp && isAndroid) {
+          var intentUrl = 'intent://' + url.replace(/^https?:\/\//, '') +
+            '#Intent;scheme=https;package=com.android.chrome;end';
+          window.location.href = intentUrl;
+        }
+
+        // iOS / other: try direct navigation
+        if (!isAndroid) {
+          window.location.href = url;
+        }
+
+        // If still here after 2s, show fallback UI
+        setTimeout(function() {
+          document.getElementById('phase-loading').classList.add('hidden');
+          document.getElementById('phase-fallback').classList.remove('hidden');
+        }, 2000);
+      }
+
+      // Copy URL button - copy the bit.ly short URL for openchat
+      var copyUrl = (type === 'openchat') ? 'https://bit.ly/toysns-001' : url;
       copyBtn.addEventListener('click', function() {
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(function() {
+          navigator.clipboard.writeText(copyUrl).then(function() {
             copiedMsg.classList.add('show');
             setTimeout(function() { copiedMsg.classList.remove('show'); }, 2000);
           });
         } else {
-          // Fallback for older browsers
           var textarea = document.createElement('textarea');
-          textarea.value = url;
+          textarea.value = copyUrl;
           textarea.style.position = 'fixed';
           textarea.style.opacity = '0';
           document.body.appendChild(textarea);

@@ -25,8 +25,8 @@
       color: #00ff41;
       letter-spacing: 2px;
       margin-bottom: 24px;
-      animation: blink 1.5s infinite;
     }
+    .status.blink { animation: blink 1.5s infinite; }
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
@@ -35,16 +35,17 @@
       font-size: 14px;
       color: rgba(224,224,224,0.7);
       line-height: 1.8;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
-    .open-btn {
-      display: inline-block;
+    .btn {
+      display: block;
       text-decoration: none;
       color: #e0e0e0;
       background: rgba(255, 26, 26, 0.15);
       border: 1px solid #ff1a1a;
       padding: 16px 40px;
-      font-size: 16px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 15px;
       font-weight: 700;
       letter-spacing: 2px;
       cursor: pointer;
@@ -53,19 +54,78 @@
         0 0, calc(100% - 10px) 0, 100% 10px,
         100% 100%, 10px 100%, 0 calc(100% - 10px)
       );
+      margin-bottom: 12px;
     }
-    .open-btn:hover {
+    .btn:active {
       background: rgba(255, 26, 26, 0.3);
+    }
+    .btn-copy {
+      background: rgba(0, 255, 65, 0.08);
+      border-color: #00ff41;
+    }
+    .btn-copy:active {
+      background: rgba(0, 255, 65, 0.2);
+    }
+    .help-text {
+      font-size: 12px;
+      color: rgba(224,224,224,0.4);
+      line-height: 1.8;
+      margin-top: 20px;
+    }
+    .help-text strong {
+      color: rgba(255, 204, 0, 0.8);
+      font-weight: 700;
+    }
+    .copied {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: #00ff41;
+      letter-spacing: 2px;
+      margin-top: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .copied.show { opacity: 1; }
+    .hidden { display: none; }
+    .warning-stripe {
+      height: 4px;
+      background: repeating-linear-gradient(
+        -45deg, #ffcc00, #ffcc00 8px, #050508 8px, #050508 16px
+      );
+      margin-bottom: 24px;
+      opacity: 0.5;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="status">/// REDIRECTING...</div>
-    <p class="message">
-      自動で移動しない場合は<br>下のボタンをタップしてください
-    </p>
-    <a id="openBtn" class="open-btn" href="#">OPEN LINK</a>
+    <div class="warning-stripe"></div>
+
+    <!-- Phase 1: Trying redirect -->
+    <div id="phase-loading">
+      <div class="status blink">/// REDIRECTING...</div>
+      <p class="message">移動中...</p>
+    </div>
+
+    <!-- Phase 2: Redirect failed, show options -->
+    <div id="phase-fallback" class="hidden">
+      <div class="status">/// OPEN IN BROWSER</div>
+      <p class="message">
+        アプリ内ブラウザでは<br>開けないリンクです
+      </p>
+
+      <a id="openBtn" class="btn" href="#">リンクを開く</a>
+      <button id="copyBtn" class="btn btn-copy">URLをコピー</button>
+      <div id="copiedMsg" class="copied">/// COPIED TO CLIPBOARD</div>
+
+      <div class="help-text">
+        開けない場合は<strong>URLをコピー</strong>して<br>
+        SafariまたはChromeで開いてください<br><br>
+        または右上の <strong>「…」→「ブラウザで開く」</strong>
+      </div>
+    </div>
+
+    <div class="warning-stripe" style="margin-top: 24px; margin-bottom: 0;"></div>
   </div>
 
   <script>
@@ -74,34 +134,58 @@
       var url = params.get('url');
       if (!url) return;
 
-      var btn = document.getElementById('openBtn');
-      btn.href = url;
+      var openBtn = document.getElementById('openBtn');
+      var copyBtn = document.getElementById('copyBtn');
+      var copiedMsg = document.getElementById('copiedMsg');
+      openBtn.href = url;
 
-      // Method 1: intent URL for Android (opens system browser)
+      // Detect in-app browser
       var ua = navigator.userAgent.toLowerCase();
       var isAndroid = ua.indexOf('android') > -1;
-      var isTikTok = ua.indexOf('tiktok') > -1 || ua.indexOf('bytedance') > -1;
-      var isLine = ua.indexOf('line') > -1;
-      var isInApp = isTikTok || isLine || ua.indexOf('instagram') > -1 || ua.indexOf('fbav') > -1;
+      var isInApp = ua.indexOf('tiktok') > -1 || ua.indexOf('bytedance') > -1 ||
+                    ua.indexOf('instagram') > -1 || ua.indexOf('fbav') > -1 ||
+                    ua.indexOf('line/') > -1;
 
+      // Android: try intent to open in Chrome
       if (isInApp && isAndroid) {
-        // Android: use intent to open in Chrome
         var intentUrl = 'intent://' + url.replace(/^https?:\/\//, '') +
           '#Intent;scheme=https;package=com.android.chrome;end';
-        btn.href = intentUrl;
+        openBtn.href = intentUrl;
         window.location.href = intentUrl;
-        return;
       }
 
-      // Method 2: For iOS in-app browsers, try direct navigation
-      // then fall back to the button
-      window.location.href = url;
+      // iOS / other: try direct navigation first
+      if (!isAndroid) {
+        window.location.href = url;
+      }
 
-      // Method 3: If still here after 2s, the redirect didn't work
-      // The user can tap the button manually
+      // If still here after 1.5s, show fallback UI
       setTimeout(function() {
-        document.querySelector('.status').textContent = '/// TAP BUTTON BELOW';
-      }, 2000);
+        document.getElementById('phase-loading').classList.add('hidden');
+        document.getElementById('phase-fallback').classList.remove('hidden');
+      }, 1500);
+
+      // Copy URL button
+      copyBtn.addEventListener('click', function() {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(function() {
+            copiedMsg.classList.add('show');
+            setTimeout(function() { copiedMsg.classList.remove('show'); }, 2000);
+          });
+        } else {
+          // Fallback for older browsers
+          var textarea = document.createElement('textarea');
+          textarea.value = url;
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          copiedMsg.classList.add('show');
+          setTimeout(function() { copiedMsg.classList.remove('show'); }, 2000);
+        }
+      });
     })();
   </script>
 </body>

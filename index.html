@@ -19,11 +19,7 @@
       --eva-yellow: #ffcc00;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       background: var(--eva-darker);
@@ -36,14 +32,91 @@
       overflow-x: hidden;
     }
 
-    /* Background hex grid */
+    /* ============================================
+       BOOT SEQUENCE OVERLAY
+    ============================================ */
+    .boot-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--eva-darker);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease;
+    }
+
+    .boot-overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .boot-terminal {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--eva-green);
+      letter-spacing: 2px;
+      text-align: left;
+      width: 300px;
+      min-height: 180px;
+    }
+
+    .boot-line {
+      opacity: 0;
+      transform: translateY(4px);
+      margin-bottom: 6px;
+      white-space: nowrap;
+    }
+
+    .boot-line.show {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.3s ease;
+    }
+
+    .boot-line.red { color: var(--eva-red); }
+    .boot-line.yellow { color: var(--eva-yellow); }
+    .boot-line.orange { color: var(--eva-orange); }
+    .boot-line.big {
+      font-size: 28px;
+      font-weight: 900;
+      font-family: 'Noto Sans JP', sans-serif;
+      letter-spacing: 8px;
+      text-align: center;
+      margin: 20px 0 10px;
+      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .boot-line.center {
+      text-align: center;
+    }
+
+    .boot-warning-stripe {
+      width: 300px;
+      height: 4px;
+      background: repeating-linear-gradient(
+        -45deg, var(--eva-yellow), var(--eva-yellow) 8px,
+        var(--eva-darker) 8px, var(--eva-darker) 16px
+      );
+      opacity: 0;
+      margin: 12px 0;
+    }
+
+    .boot-warning-stripe.show { opacity: 0.7; transition: opacity 0.3s ease; }
+
+    /* ============================================
+       BACKGROUND EFFECTS
+    ============================================ */
     body::before {
       content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background:
         radial-gradient(ellipse at 20% 50%, rgba(107, 29, 123, 0.15) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 20%, rgba(255, 26, 26, 0.08) 0%, transparent 50%),
@@ -52,43 +125,123 @@
       z-index: 0;
     }
 
-    /* Scan line effect */
+    /* Scan lines */
     body::after {
       content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, 0.08) 2px,
-        rgba(0, 0, 0, 0.08) 4px
+        0deg, transparent, transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px, rgba(0, 0, 0, 0.08) 4px
       );
       pointer-events: none;
       z-index: 999;
     }
 
+    /* Moving scan beam */
+    .scan-beam {
+      position: fixed;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(
+        180deg, transparent 0%,
+        rgba(0, 255, 65, 0.03) 40%,
+        rgba(0, 255, 65, 0.06) 50%,
+        rgba(0, 255, 65, 0.03) 60%,
+        transparent 100%
+      );
+      animation: scan-move 6s linear infinite;
+      pointer-events: none;
+      z-index: 998;
+    }
+
+    @keyframes scan-move {
+      0% { top: -200px; }
+      100% { top: 100vh; }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--eva-red);
+      border-radius: 50%;
+      animation: particle-rise linear infinite;
+      opacity: 0;
+    }
+
+    .particle:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 25%; animation-duration: 12s; animation-delay: -2s; background: var(--eva-orange); }
+    .particle:nth-child(3) { left: 40%; animation-duration: 10s; animation-delay: -4s; background: var(--eva-purple); width: 3px; height: 3px; }
+    .particle:nth-child(4) { left: 55%; animation-duration: 9s; animation-delay: -1s; }
+    .particle:nth-child(5) { left: 70%; animation-duration: 11s; animation-delay: -6s; background: var(--eva-green); }
+    .particle:nth-child(6) { left: 85%; animation-duration: 7s; animation-delay: -3s; background: var(--eva-orange); }
+    .particle:nth-child(7) { left: 15%; animation-duration: 13s; animation-delay: -8s; background: var(--eva-yellow); width: 1px; height: 1px; }
+    .particle:nth-child(8) { left: 92%; animation-duration: 10s; animation-delay: -5s; }
+
+    @keyframes particle-rise {
+      0% { bottom: -10px; opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { bottom: 100vh; opacity: 0; }
+    }
+
+    /* ============================================
+       MAIN CONTENT
+    ============================================ */
     .container {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       width: 100%;
       max-width: 420px;
       padding: 20px;
       margin: 20px auto;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
-    /* Top warning stripe */
+    .container.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered reveal for children */
+    .container.revealed .reveal-item {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reveal-item:nth-child(1) { transition-delay: 0.1s; }
+    .reveal-item:nth-child(2) { transition-delay: 0.2s; }
+    .reveal-item:nth-child(3) { transition-delay: 0.3s; }
+    .reveal-item:nth-child(4) { transition-delay: 0.4s; }
+
+    /* Warning stripe */
     .warning-stripe {
       height: 6px;
       background: repeating-linear-gradient(
         -45deg,
-        var(--eva-yellow),
-        var(--eva-yellow) 10px,
-        var(--eva-dark) 10px,
-        var(--eva-dark) 20px
+        var(--eva-yellow), var(--eva-yellow) 10px,
+        var(--eva-dark) 10px, var(--eva-dark) 20px
       );
       margin-bottom: 20px;
       opacity: 0.7;
@@ -105,16 +258,16 @@
       opacity: 0.7;
     }
 
-    .system-bar span {
-      animation: blink 1.5s infinite;
-    }
+    .system-bar span { animation: blink 1.5s infinite; }
 
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
 
-    /* Profile section */
+    /* ============================================
+       PROFILE SECTION
+    ============================================ */
     .profile {
       text-align: center;
       margin-bottom: 32px;
@@ -131,10 +284,7 @@
     .profile-image-wrapper::before {
       content: '';
       position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
+      top: -4px; left: -4px; right: -4px; bottom: -4px;
       border: 2px solid var(--eva-red);
       clip-path: polygon(
         0% 15%, 15% 0%, 85% 0%, 100% 15%,
@@ -159,15 +309,74 @@
       background: var(--eva-gray);
     }
 
+    /* AT Field hex */
+    .at-field {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 160px; height: 160px;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(255, 102, 0, 0.2);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: at-field-pulse 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes at-field-pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+    }
+
     .profile-name {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 900;
-      letter-spacing: 4px;
+      letter-spacing: 6px;
       margin-bottom: 4px;
       background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      position: relative;
+    }
+
+    /* Glitch effect on name */
+    .profile-name::before,
+    .profile-name::after {
+      content: 'TOY';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+    }
+
+    .profile-name.glitch::before {
+      animation: glitch-top 0.4s ease;
+      clip-path: inset(0 0 60% 0);
+    }
+
+    .profile-name.glitch::after {
+      animation: glitch-bottom 0.4s ease;
+      clip-path: inset(60% 0 0 0);
+    }
+
+    @keyframes glitch-top {
+      0% { opacity: 0; }
+      20% { opacity: 0.8; transform: translateX(-3px); }
+      40% { opacity: 0.8; transform: translateX(3px); }
+      60% { opacity: 0.8; transform: translateX(-1px); }
+      80% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes glitch-bottom {
+      0% { opacity: 0; }
+      20% { opacity: 0.8; transform: translateX(3px); }
+      40% { opacity: 0.8; transform: translateX(-3px); }
+      60% { opacity: 0.8; transform: translateX(2px); }
+      80% { opacity: 0; }
+      100% { opacity: 0; }
     }
 
     .profile-handle {
@@ -179,14 +388,6 @@
       opacity: 0.8;
     }
 
-    .profile-bio {
-      font-size: 13px;
-      color: rgba(224, 224, 224, 0.7);
-      line-height: 1.6;
-      padding: 0 10px;
-    }
-
-    /* NERV-style classification tag */
     .classification {
       display: inline-block;
       font-family: 'Share Tech Mono', monospace;
@@ -199,7 +400,16 @@
       opacity: 0.8;
     }
 
-    /* Section divider */
+    .profile-bio {
+      font-size: 13px;
+      color: rgba(224, 224, 224, 0.7);
+      line-height: 1.6;
+      padding: 0 10px;
+    }
+
+    /* ============================================
+       SECTION DIVIDER
+    ============================================ */
     .divider {
       display: flex;
       align-items: center;
@@ -220,14 +430,15 @@
       background: linear-gradient(90deg, transparent, var(--eva-orange), transparent);
     }
 
-    /* Link buttons */
+    /* ============================================
+       LINK BUTTONS
+    ============================================ */
     .links {
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
 
-    /* ===== SHARED BUTTON BASE ===== */
     .link-item {
       position: relative;
       display: block;
@@ -238,14 +449,30 @@
       overflow: hidden;
     }
 
-    .link-item:active {
-      transform: scale(0.97);
+    .link-item:active { transform: scale(0.97); }
+
+    /* Tap ripple effect */
+    .link-item::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .link-item.ripple::after {
+      width: 600px; height: 600px;
+      opacity: 0;
     }
 
     .link-number {
       position: absolute;
-      top: 8px;
-      right: 14px;
+      top: 8px; right: 14px;
       font-family: 'Share Tech Mono', monospace;
       font-size: 9px;
       opacity: 0.4;
@@ -305,29 +532,45 @@
     .link-primary::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
       background: linear-gradient(180deg, var(--eva-red), var(--eva-orange));
+    }
+
+    /* Animated corner brackets */
+    .link-primary .corner-tl,
+    .link-primary .corner-br {
+      position: absolute;
+      width: 16px; height: 16px;
+      pointer-events: none;
+    }
+
+    .link-primary .corner-tl {
+      top: 6px; left: 6px;
+      border-top: 2px solid var(--eva-yellow);
+      border-left: 2px solid var(--eva-yellow);
+      animation: corner-blink 2s ease-in-out infinite;
+    }
+
+    .link-primary .corner-br {
+      bottom: 6px; right: 6px;
+      border-bottom: 2px solid var(--eva-yellow);
+      border-right: 2px solid var(--eva-yellow);
+      animation: corner-blink 2s ease-in-out infinite 1s;
+    }
+
+    @keyframes corner-blink {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
     }
 
     .link-primary .link-number { color: var(--eva-orange); opacity: 0.6; }
     .link-primary .link-status { color: var(--eva-green); }
     .link-primary .link-label { font-size: 15px; }
-
-    .link-primary .link-meta {
-      color: var(--eva-yellow);
-      opacity: 0.8;
-    }
+    .link-primary .link-meta { color: var(--eva-yellow); opacity: 0.8; }
 
     /* Progress bar */
-    .progress-bar {
-      margin-top: 10px;
-      padding-left: 34px;
-      padding-right: 14px;
-    }
-
+    .progress-bar { margin-top: 10px; padding-left: 34px; padding-right: 14px; }
     .progress-track {
       height: 4px;
       background: rgba(255, 255, 255, 0.08);
@@ -374,37 +617,14 @@
     .link-special::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 3px;
-      height: 100%;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
       background: var(--eva-purple);
-    }
-
-    .link-special::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, rgba(0, 255, 65, 0.04) 0%, transparent 100%);
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
-    }
-
-    .link-special:active::after {
-      opacity: 1;
     }
 
     .link-special .link-number { color: var(--eva-purple); opacity: 0.6; }
     .link-special .link-status { color: var(--eva-orange); }
-
-    .link-special .link-meta {
-      color: var(--eva-green);
-      opacity: 0.6;
-    }
+    .link-special .link-meta { color: var(--eva-green); opacity: 0.6; }
 
     /* ===== TERTIARY: YOUTUBE ===== */
     .link-tertiary {
@@ -420,19 +640,14 @@
     .link-tertiary::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 3px;
-      height: 100%;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
       background: var(--eva-red);
       opacity: 0.6;
     }
 
     .link-tertiary .link-number { color: var(--eva-red); opacity: 0.35; }
-
-    .link-tertiary .link-meta {
-      color: rgba(224, 224, 224, 0.35);
-    }
+    .link-tertiary .link-meta { color: rgba(224, 224, 224, 0.35); }
 
     /* ===== MINIMAL: TIKTOK ===== */
     .link-minimal {
@@ -449,7 +664,9 @@
     .link-minimal .link-label { font-size: 13px; color: rgba(224, 224, 224, 0.6); }
     .link-minimal .link-desc { color: rgba(224, 224, 224, 0.25); }
 
-    /* ===== CLOSING COPY ===== */
+    /* ============================================
+       CLOSING & FOOTER
+    ============================================ */
     .closing {
       text-align: center;
       margin-top: 28px;
@@ -463,16 +680,12 @@
       font-style: italic;
     }
 
-    /* Footer */
     .footer {
       margin-top: 20px;
       text-align: center;
     }
 
-    .footer .warning-stripe {
-      margin-bottom: 12px;
-      margin-top: 0;
-    }
+    .footer .warning-stripe { margin-bottom: 12px; margin-top: 0; }
 
     .footer-text {
       font-family: 'Share Tech Mono', monospace;
@@ -481,11 +694,12 @@
       letter-spacing: 2px;
     }
 
-    /* Hex decorations */
+    /* ============================================
+       HEX DECORATIONS
+    ============================================ */
     .hex-decoration {
       position: fixed;
-      width: 60px;
-      height: 60px;
+      width: 60px; height: 60px;
       border: 1px solid rgba(255, 26, 26, 0.1);
       clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
       animation: hex-float 8s ease-in-out infinite;
@@ -493,90 +707,88 @@
       z-index: 0;
     }
 
-    .hex-decoration:nth-child(1) {
-      top: 10%;
-      left: 5%;
-      animation-delay: 0s;
-    }
-
-    .hex-decoration:nth-child(2) {
-      top: 30%;
-      right: 3%;
-      width: 40px;
-      height: 40px;
-      animation-delay: -3s;
-    }
-
-    .hex-decoration:nth-child(3) {
-      bottom: 20%;
-      left: 8%;
-      width: 50px;
-      height: 50px;
-      animation-delay: -5s;
-    }
+    .hex-decoration:nth-child(1) { top: 10%; left: 5%; }
+    .hex-decoration:nth-child(2) { top: 30%; right: 3%; width: 40px; height: 40px; animation-delay: -3s; }
+    .hex-decoration:nth-child(3) { bottom: 20%; left: 8%; width: 50px; height: 50px; animation-delay: -5s; }
 
     @keyframes hex-float {
       0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
       50% { transform: translateY(-20px) rotate(30deg); opacity: 0.6; }
     }
 
-    /* Glitch effect */
-    .profile-name:hover {
-      animation: glitch 0.3s ease;
+    /* ============================================
+       SKIP BUTTON
+    ============================================ */
+    .skip-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: rgba(224, 224, 224, 0.3);
+      background: none;
+      border: 1px solid rgba(224, 224, 224, 0.15);
+      padding: 6px 16px;
+      cursor: pointer;
+      z-index: 10000;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
     }
 
-    @keyframes glitch {
-      0% { transform: translate(0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(2px, -2px); }
-      60% { transform: translate(-1px, -1px); }
-      80% { transform: translate(1px, 1px); }
-      100% { transform: translate(0); }
-    }
+    .skip-btn:active { color: var(--eva-text); border-color: var(--eva-text); }
+    .skip-btn.hidden { display: none; }
 
-    /* AT Field effect */
-    .at-field {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 160px;
-      height: 160px;
-      transform: translate(-50%, -50%);
-      border: 1px solid rgba(255, 102, 0, 0.2);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      animation: at-field-pulse 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes at-field-pulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
-      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
-    }
-
-    /* Mobile adjustments */
+    /* Mobile */
     @media (max-width: 480px) {
-      .container {
-        padding: 16px;
-      }
-      .hex-decoration {
-        display: none;
-      }
+      .container { padding: 16px; }
+      .hex-decoration { display: none; }
+      .boot-terminal { width: 260px; font-size: 10px; }
+      .boot-line.big { font-size: 24px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background hex decorations -->
+  <!-- Boot Sequence Overlay -->
+  <div class="boot-overlay" id="bootOverlay">
+    <div class="boot-terminal" id="bootTerminal">
+      <div class="boot-line" data-delay="0">SYSTEM BOOT SEQUENCE</div>
+      <div class="boot-line" data-delay="200">///////////////////////////</div>
+      <div class="boot-line" data-delay="500">> INITIALIZING MAGI SYSTEM...</div>
+      <div class="boot-line" data-delay="900">> CASPER___ <span style="color:#00ff41">OK</span></div>
+      <div class="boot-line" data-delay="1100">> BALTHASAR <span style="color:#00ff41">OK</span></div>
+      <div class="boot-line" data-delay="1300">> MELCHIOR_ <span style="color:#00ff41">OK</span></div>
+      <div class="boot-warning-stripe" data-delay="1600"></div>
+      <div class="boot-line red" data-delay="1800">[WARNING] A.T.FIELD DETECTED</div>
+      <div class="boot-line yellow" data-delay="2100">> PATTERN: BLUE</div>
+      <div class="boot-line" data-delay="2400">> LOADING OPERATOR PROFILE...</div>
+      <div class="boot-line big center" data-delay="2800">TOY</div>
+      <div class="boot-line center orange" data-delay="3100">SNS愛は止められない</div>
+      <div class="boot-warning-stripe" data-delay="3400"></div>
+      <div class="boot-line center" data-delay="3600" style="color: var(--eva-red); font-size: 9px;">/// ACCESS GRANTED ///</div>
+    </div>
+  </div>
+
+  <!-- Skip button -->
+  <button class="skip-btn" id="skipBtn" onclick="skipBoot()">SKIP ▶</button>
+
+  <!-- Background -->
+  <div class="scan-beam"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
   <div class="hex-decoration"></div>
   <div class="hex-decoration"></div>
   <div class="hex-decoration"></div>
 
-  <div class="container">
+  <!-- Main Content -->
+  <div class="container" id="mainContent">
 
-    <!-- Warning stripe top -->
     <div class="warning-stripe"></div>
 
-    <!-- System status -->
     <div class="system-bar">
       SYSTEM STATUS: <span>ACTIVE</span> /// MAGI-01
     </div>
@@ -588,20 +800,20 @@
         <img src="profile.jpg" alt="Toy" class="profile-image">
       </div>
       <div class="classification">CLASSIFIED /// PERSONAL</div>
-      <div class="profile-name">TOY</div>
+      <div class="profile-name" id="profileName">TOY</div>
       <div class="profile-handle">@TOY_NO_SNS_AI</div>
-      <div class="profile-bio">
-        SNS愛は止められない。
-      </div>
+      <div class="profile-bio">SNS愛は止められない。</div>
     </div>
 
-    <!-- Links section -->
+    <!-- Links -->
     <div class="divider">SELECT TARGET</div>
 
     <div class="links">
 
-      <!-- PRIMARY CTA: Open Chat -->
-      <a href="https://line.me/R/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ" class="link-item link-primary">
+      <!-- PRIMARY: Open Chat -->
+      <a href="https://line.me/R/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ" class="link-item link-primary reveal-item">
+        <div class="corner-tl"></div>
+        <div class="corner-br"></div>
         <span class="link-number">01</span>
         <div class="link-status">/// STATUS: OPEN</div>
         <div class="link-label">
@@ -618,7 +830,7 @@
       </a>
 
       <!-- SPECIAL: Consultation -->
-      <a href="redirect.html?url=https%3A%2F%2Fbit.ly%2Fsakiyomi010" class="link-item link-special">
+      <a href="redirect.html?url=https%3A%2F%2Fbit.ly%2Fsakiyomi010" class="link-item link-special reveal-item">
         <span class="link-number">02</span>
         <div class="link-status">/// STATUS: LIMITED</div>
         <div class="link-label">
@@ -629,7 +841,7 @@
       </a>
 
       <!-- TERTIARY: YouTube -->
-      <a href="https://www.youtube.com/@sns_sakiyomi" class="link-item link-tertiary" target="_blank" rel="noopener">
+      <a href="https://www.youtube.com/@sns_sakiyomi" class="link-item link-tertiary reveal-item" target="_blank" rel="noopener">
         <span class="link-number">03</span>
         <div class="link-label">
           <span class="icon">▷</span>機密映像を閲覧する
@@ -639,7 +851,7 @@
       </a>
 
       <!-- MINIMAL: TikTok -->
-      <a href="https://www.tiktok.com/@toysns?lang=ja-JP" class="link-item link-minimal" target="_blank" rel="noopener">
+      <a href="https://www.tiktok.com/@toysns?lang=ja-JP" class="link-item link-minimal reveal-item" target="_blank" rel="noopener">
         <span class="link-number">04</span>
         <div class="link-label">
           <span class="icon">▶</span>TikTok @toysns
@@ -665,13 +877,73 @@
   </div>
 
   <script>
-    // Animate progress bar on load
-    window.addEventListener('DOMContentLoaded', function() {
+    var bootComplete = false;
+
+    function startBoot() {
+      var lines = document.querySelectorAll('.boot-line, .boot-warning-stripe');
+      var maxDelay = 0;
+
+      lines.forEach(function(line) {
+        var delay = parseInt(line.getAttribute('data-delay')) || 0;
+        if (delay > maxDelay) maxDelay = delay;
+        setTimeout(function() {
+          if (!bootComplete) line.classList.add('show');
+        }, delay);
+      });
+
+      // After boot sequence, reveal main content
+      setTimeout(function() {
+        if (!bootComplete) revealContent();
+      }, maxDelay + 1200);
+    }
+
+    function revealContent() {
+      bootComplete = true;
+      document.getElementById('bootOverlay').classList.add('fade-out');
+      document.getElementById('skipBtn').classList.add('hidden');
+      var main = document.getElementById('mainContent');
+      main.classList.add('revealed');
+
+      // Animate progress bar
+      setTimeout(function() {
+        var fill = document.getElementById('progressFill');
+        if (fill) fill.style.width = '72%';
+      }, 600);
+
+      // Periodic glitch on profile name
+      setInterval(function() {
+        var name = document.getElementById('profileName');
+        name.classList.add('glitch');
+        setTimeout(function() { name.classList.remove('glitch'); }, 500);
+      }, 5000);
+    }
+
+    function skipBoot() {
+      revealContent();
+    }
+
+    // Ripple effect on link tap
+    document.querySelectorAll('.link-item').forEach(function(item) {
+      item.addEventListener('touchstart', function() {
+        this.classList.remove('ripple');
+        void this.offsetWidth;
+        this.classList.add('ripple');
+      });
+    });
+
+    // Check if visited recently (skip boot on revisit within session)
+    if (sessionStorage.getItem('bootSeen')) {
+      document.getElementById('bootOverlay').style.display = 'none';
+      document.getElementById('skipBtn').classList.add('hidden');
+      document.getElementById('mainContent').classList.add('revealed');
       setTimeout(function() {
         var fill = document.getElementById('progressFill');
         if (fill) fill.style.width = '72%';
       }, 300);
-    });
+    } else {
+      startBoot();
+      sessionStorage.setItem('bootSeen', '1');
+    }
   </script>
 
 </body>

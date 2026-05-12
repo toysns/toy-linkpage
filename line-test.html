@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE遷移テスト | Toy</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: #060609;
+      color: #f4f4f5;
+      font-family: 'Noto Sans JP', sans-serif;
+      padding: 24px 16px 40px;
+    }
+    main {
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 24px;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+    .lead {
+      color: rgba(244, 244, 245, 0.72);
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+    .test-list {
+      display: grid;
+      gap: 12px;
+    }
+    .test-link,
+    .test-button {
+      display: block;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-left: 4px solid #ff6600;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.045);
+      color: #fff;
+      text-decoration: none;
+      text-align: left;
+      padding: 15px 16px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .test-link strong,
+    .test-button strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+    .test-link span,
+    .test-button span {
+      display: block;
+      color: rgba(244, 244, 245, 0.58);
+      font-size: 12px;
+      line-height: 1.6;
+      word-break: break-all;
+    }
+    .note {
+      margin-top: 18px;
+      border: 1px solid rgba(255, 204, 0, 0.28);
+      border-radius: 8px;
+      padding: 14px;
+      color: rgba(244, 244, 245, 0.72);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .result {
+      margin-top: 14px;
+      color: #00ff41;
+      font-size: 12px;
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>LINE遷移テスト</h1>
+    <p class="lead">
+      TikTok内ブラウザで、どの方式ならLINEアプリへ飛べるか確認するページです。
+      1つずつ押して、LINEが開く番号を見つけてください。
+    </p>
+
+    <div class="test-list">
+      <a class="test-link" href="https://line.me/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default">
+        <strong>1. 本番候補: LINE招待URL</strong>
+        <span>https://line.me/ti/g2/... ?utm_source=invitation</span>
+      </a>
+
+      <a class="test-link" href="https://line.me/R/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ">
+        <strong>2. 元のLINE公式URL</strong>
+        <span>https://line.me/R/ti/g2/...</span>
+      </a>
+
+      <a class="test-link" href="https://bit.ly/toysns-001">
+        <strong>3. bit.ly短縮URL</strong>
+        <span>https://bit.ly/toysns-001</span>
+      </a>
+
+      <a class="test-link" href="line://ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ">
+        <strong>4. LINEアプリURL scheme</strong>
+        <span>line://ti/g2/...</span>
+      </a>
+
+      <button class="test-button" type="button" data-open="line://ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ" data-fallback="https://line.me/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ">
+        <strong>5. JSでLINEアプリURLを発火</strong>
+        <span>line:// をタップ直後に実行し、失敗時だけ公式URLへ戻します</span>
+      </button>
+
+      <a class="test-link" href="redirect.html?to=openchat">
+        <strong>6. 現在の保険ページ</strong>
+        <span>redirect.html?to=openchat</span>
+      </a>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="note">
+      LINEが開いた番号があれば、その方式を本番リンクに反映します。
+      全部ダメな場合は、TikTok側が外部アプリ起動を止めている可能性が高いです。
+    </div>
+  </main>
+
+  <script>
+    document.querySelectorAll('[data-open]').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var directUrl = this.getAttribute('data-open');
+        var fallbackUrl = this.getAttribute('data-fallback');
+        var result = document.getElementById('result');
+        var leftPage = false;
+
+        function markLeft() { leftPage = true; }
+        function onVisibilityChange() {
+          if (document.hidden) {
+            leftPage = true;
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+          }
+        }
+
+        window.addEventListener('pagehide', markLeft, { once: true });
+        window.addEventListener('blur', markLeft, { once: true });
+        document.addEventListener('visibilitychange', onVisibilityChange);
+
+        result.textContent = 'LINEアプリURLを試しています...';
+        window.location.href = directUrl;
+
+        setTimeout(function() {
+          if (!leftPage) {
+            result.textContent = 'LINEが開かないため、公式URLへ切り替えます...';
+            window.location.href = fallbackUrl;
+          }
+        }, 1100);
+      });
+    });
+  </script>
+</body>
+</html>

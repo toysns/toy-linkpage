@@ -56,6 +56,13 @@
       );
       margin-bottom: 12px;
     }
+    .btn-open {
+      background: rgba(255, 102, 0, 0.14);
+      border-color: #ff6600;
+    }
+    .btn-open:active {
+      background: rgba(255, 102, 0, 0.26);
+    }
     .btn:active {
       background: rgba(255, 26, 26, 0.3);
     }
@@ -144,10 +151,12 @@
       <div class="status">/// OPEN IN BROWSER</div>
       <div class="arrow-icon">↗</div>
       <p class="message">
+        自動でLINEが開かない場合は、下のボタンをもう一度タップしてください。<br><br>
         右上の <strong style="color: #ffcc00;">「…」</strong> をタップして<br>
         <strong style="color: #ffcc00;">「ブラウザで開く」</strong> を選んでね！
       </p>
 
+      <a id="openBtn" class="btn btn-open" href="#" rel="noopener">LINEで開く</a>
       <button id="copyBtn" class="btn btn-copy">URLをコピーする</button>
       <div id="copiedMsg" class="copied">/// COPIED TO CLIPBOARD</div>
 
@@ -169,44 +178,63 @@
       var params = new URLSearchParams(window.location.search);
       var url = params.get('url');
       var type = params.get('type');
+      var copy = params.get('copy');
+      var debug = params.get('debug') === '1';
       if (!url) return;
 
+      var openBtn = document.getElementById('openBtn');
       var copyBtn = document.getElementById('copyBtn');
       var copiedMsg = document.getElementById('copiedMsg');
+      var fallbackShown = false;
 
-      // For openchat type, skip auto-redirect and show guide immediately
-      if (type === 'openchat') {
+      function showFallback() {
+        if (fallbackShown) return;
+        fallbackShown = true;
         document.getElementById('phase-loading').classList.add('hidden');
         document.getElementById('phase-fallback').classList.remove('hidden');
-      } else {
-        // Detect in-app browser
-        var ua = navigator.userAgent.toLowerCase();
-        var isAndroid = ua.indexOf('android') > -1;
-        var isInApp = ua.indexOf('tiktok') > -1 || ua.indexOf('bytedance') > -1 ||
-                      ua.indexOf('instagram') > -1 || ua.indexOf('fbav') > -1 ||
-                      ua.indexOf('line/') > -1;
-
-        // Android: try intent to open in Chrome
-        if (isInApp && isAndroid) {
-          var intentUrl = 'intent://' + url.replace(/^https?:\/\//, '') +
-            '#Intent;scheme=https;package=com.android.chrome;end';
-          window.location.href = intentUrl;
-        }
-
-        // iOS / other: try direct navigation
-        if (!isAndroid) {
-          window.location.href = url;
-        }
-
-        // If still here after 2s, show fallback UI
-        setTimeout(function() {
-          document.getElementById('phase-loading').classList.add('hidden');
-          document.getElementById('phase-fallback').classList.remove('hidden');
-        }, 2000);
       }
 
-      // Copy URL button - copy the bit.ly short URL for openchat
-      var copyUrl = (type === 'openchat') ? 'https://bit.ly/toysns-001' : url;
+      function openTarget() {
+        window.location.href = url;
+      }
+
+      openBtn.setAttribute('href', url);
+      openBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openTarget();
+      });
+
+      // Detect in-app browser
+      var ua = navigator.userAgent.toLowerCase();
+      var isAndroid = ua.indexOf('android') > -1;
+      var isInApp = ua.indexOf('tiktok') > -1 || ua.indexOf('bytedance') > -1 ||
+                    ua.indexOf('instagram') > -1 || ua.indexOf('fbav') > -1 ||
+                    ua.indexOf('line/') > -1;
+
+      if (debug) {
+        showFallback();
+      } else if (isInApp) {
+        // TikTok/Instagram webviews can trap LINE universal links. Keep users on
+        // a recovery screen instead of sending them to a dead-end web page.
+        showFallback();
+
+        // Android can often escape to Chrome via intent. If it fails, fallback stays visible.
+        if (isAndroid) {
+          setTimeout(function() {
+            var intentUrl = 'intent://' + url.replace(/^https?:\/\//, '') +
+              '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' +
+              encodeURIComponent(url) + ';end';
+            window.location.href = intentUrl;
+          }, 300);
+        }
+      } else {
+        // Normal browser: direct handoff is the shortest route.
+        openTarget();
+        setTimeout(showFallback, 1700);
+      }
+
+      // Prefer short URLs for manual copy, but keep the final URL as fallback.
+      var copyUrl = copy || ((type === 'openchat') ? 'https://bit.ly/toysns-001' : url);
       copyBtn.addEventListener('click', function() {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(copyUrl).then(function() {

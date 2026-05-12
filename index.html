@@ -118,9 +118,8 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       background:
-        radial-gradient(ellipse at 20% 50%, rgba(107, 29, 123, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 20%, rgba(255, 26, 26, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 80%, rgba(255, 102, 0, 0.06) 0%, transparent 50%);
+        radial-gradient(ellipse at 50% 0%, rgba(255, 102, 0, 0.08) 0%, transparent 48%),
+        radial-gradient(ellipse at 50% 95%, rgba(0, 255, 65, 0.04) 0%, transparent 42%);
       pointer-events: none;
       z-index: 0;
     }
@@ -129,6 +128,7 @@
 
     /* Moving scan beam */
     .scan-beam {
+      display: none;
       position: fixed;
       top: -100%;
       left: 0;
@@ -153,6 +153,7 @@
 
     /* Floating particles */
     .particles {
+      display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
@@ -193,9 +194,9 @@
       position: relative;
       z-index: 2;
       width: 100%;
-      max-width: 420px;
-      padding: 20px;
-      margin: 20px auto;
+      max-width: 460px;
+      padding: 18px;
+      margin: 14px auto;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.8s ease, transform 0.8s ease;
@@ -225,18 +226,12 @@
 
     /* Warning stripe */
     .warning-stripe {
-      height: 6px;
-      background: repeating-linear-gradient(
-        -45deg,
-        var(--eva-yellow), var(--eva-yellow) 10px,
-        var(--eva-dark) 10px, var(--eva-dark) 20px
-      );
-      margin-bottom: 20px;
-      opacity: 0.7;
+      display: none;
     }
 
     /* System status bar */
     .system-bar {
+      display: none;
       font-family: 'Share Tech Mono', monospace;
       font-size: 10px;
       color: var(--eva-green);
@@ -256,10 +251,49 @@
     /* ============================================
        PROFILE SECTION
     ============================================ */
-    .profile {
-      text-align: center;
-      margin-bottom: 32px;
+    .hero-panel {
       position: relative;
+      padding: 19px 18px 18px;
+      margin-bottom: 18px;
+      background:
+        linear-gradient(145deg, rgba(30, 18, 25, 0.92), rgba(16, 16, 25, 0.96)),
+        radial-gradient(circle at 8% 0%, rgba(255, 102, 0, 0.12), transparent 34%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(180deg, var(--eva-red), var(--eva-orange));
+    }
+
+    .hero-panel::after {
+      content: '';
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      width: 48px;
+      height: 1px;
+      background: rgba(255, 102, 0, 0.34);
+    }
+
+    .profile {
+      text-align: left;
+      margin-bottom: 0;
+      position: relative;
+    }
+
+    .hero-profile {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 14px;
     }
 
     .profile-image-wrapper {
@@ -273,12 +307,10 @@
       content: '';
       position: absolute;
       top: -4px; left: -4px; right: -4px; bottom: -4px;
-      border: 2px solid var(--eva-red);
-      clip-path: polygon(
-        0% 15%, 15% 0%, 85% 0%, 100% 15%,
-        100% 85%, 85% 100%, 15% 100%, 0% 85%
-      );
-      animation: border-pulse 3s ease-in-out infinite;
+      border: 1px solid rgba(255, 102, 0, 0.65);
+      border-radius: 14px;
+      clip-path: none;
+      animation: none;
     }
 
     @keyframes border-pulse {
@@ -290,15 +322,34 @@
       width: 120px;
       height: 120px;
       object-fit: cover;
-      clip-path: polygon(
-        0% 15%, 15% 0%, 85% 0%, 100% 15%,
-        100% 85%, 85% 100%, 15% 100%, 0% 85%
-      );
+      border-radius: 12px;
+      clip-path: none;
       background: var(--eva-gray);
+    }
+
+    .hero-profile .profile-image-wrapper {
+      width: 86px;
+      height: 86px;
+      margin: 0;
+    }
+
+    .hero-profile .profile-image-wrapper::before {
+      top: -3px; left: -3px; right: -3px; bottom: -3px;
+    }
+
+    .hero-profile .profile-image {
+      width: 86px;
+      height: 86px;
+    }
+
+    .hero-profile .at-field {
+      width: 118px;
+      height: 118px;
     }
 
     /* AT Field hex */
     .at-field {
+      display: none;
       position: absolute;
       top: 50%; left: 50%;
       width: 160px; height: 160px;
@@ -315,10 +366,10 @@
     }
 
     .profile-name {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 900;
       letter-spacing: 6px;
-      margin-bottom: 4px;
+      margin: 0 0 4px;
       background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -329,7 +380,7 @@
     /* Glitch effect on name */
     .profile-name::before,
     .profile-name::after {
-      content: 'TOY';
+      content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
@@ -337,6 +388,10 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       opacity: 0;
+    }
+
+    .profile-name.glitch {
+      animation: name-glitch 0.4s ease;
     }
 
     .profile-name.glitch::before {
@@ -367,11 +422,19 @@
       100% { opacity: 0; }
     }
 
+    @keyframes name-glitch {
+      0%, 100% { transform: translateX(0); text-shadow: none; }
+      18% { transform: translateX(-2px); text-shadow: 2px 0 var(--eva-green), -2px 0 var(--eva-red); }
+      36% { transform: translateX(2px); text-shadow: -2px 0 var(--eva-green), 2px 0 var(--eva-red); }
+      54% { transform: translateX(-1px); text-shadow: 1px 0 var(--eva-yellow), -1px 0 var(--eva-purple); }
+      72% { transform: translateX(1px); text-shadow: none; }
+    }
+
     .profile-handle {
       font-family: 'Share Tech Mono', monospace;
       font-size: 11px;
-      color: var(--eva-green);
-      letter-spacing: 3px;
+      color: rgba(0, 255, 65, 0.75);
+      letter-spacing: 2px;
       margin-bottom: 12px;
       opacity: 0.8;
     }
@@ -380,19 +443,96 @@
       display: inline-block;
       font-family: 'Share Tech Mono', monospace;
       font-size: 9px;
-      letter-spacing: 3px;
-      color: var(--eva-red);
-      border: 1px solid var(--eva-red);
-      padding: 3px 12px;
+      letter-spacing: 2px;
+      color: rgba(255, 102, 0, 0.9);
+      border: 1px solid rgba(255, 102, 0, 0.32);
+      border-radius: 999px;
+      padding: 4px 10px;
       margin-bottom: 16px;
-      opacity: 0.8;
+      opacity: 1;
+    }
+
+    .hero-profile .classification {
+      margin-bottom: 8px;
     }
 
     .profile-bio {
       font-size: 13px;
       color: rgba(224, 224, 224, 0.7);
       line-height: 1.6;
-      padding: 0 10px;
+      padding: 0;
+    }
+
+    .hero-lead {
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.62;
+      color: #fff;
+      letter-spacing: 0;
+      margin: 10px 0 12px;
+    }
+
+    .hero-subcopy {
+      font-size: 12px;
+      line-height: 1.75;
+      color: rgba(224, 224, 224, 0.74);
+      margin-bottom: 14px;
+    }
+
+    .proof-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 14px 0 0;
+    }
+
+    .proof-item {
+      min-height: 48px;
+      padding: 10px 9px 9px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+    }
+
+    .proof-label {
+      display: block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 8px;
+      color: rgba(0, 255, 65, 0.62);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .proof-value {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .route-hint {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0 18px;
+    }
+
+    .route-hint-item {
+      padding: 10px 11px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 8px;
+      font-size: 11px;
+      line-height: 1.55;
+      color: rgba(224, 224, 224, 0.68);
+    }
+
+    .route-hint-item strong {
+      display: block;
+      color: rgba(255, 204, 0, 0.92);
+      font-size: 12px;
+      margin-bottom: 3px;
     }
 
     /* ============================================
@@ -402,12 +542,12 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 24px 0 16px;
+      margin: 18px 0 12px;
       font-family: 'Share Tech Mono', monospace;
       font-size: 10px;
-      color: var(--eva-orange);
-      letter-spacing: 3px;
-      opacity: 0.6;
+      color: rgba(255, 102, 0, 0.68);
+      letter-spacing: 2px;
+      opacity: 1;
     }
 
     .divider::before,
@@ -415,7 +555,7 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: linear-gradient(90deg, transparent, var(--eva-orange), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 102, 0, 0.3), transparent);
     }
 
     /* ============================================
@@ -424,7 +564,7 @@
     .links {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 11px;
     }
 
     .link-item {
@@ -435,6 +575,7 @@
       transition: all 0.3s ease;
       cursor: pointer;
       overflow: hidden;
+      border-radius: 8px;
     }
 
     .link-item:active { transform: scale(0.97); }
@@ -467,12 +608,13 @@
     }
 
     .link-label {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0;
       display: flex;
       align-items: center;
       gap: 10px;
+      line-height: 1.42;
     }
 
     .link-label .icon {
@@ -482,55 +624,51 @@
     }
 
     .link-desc {
-      font-family: 'Share Tech Mono', monospace;
+      font-family: 'Noto Sans JP', sans-serif;
       font-size: 10px;
-      color: rgba(224, 224, 224, 0.4);
-      margin-top: 4px;
+      color: rgba(224, 224, 224, 0.5);
+      margin-top: 5px;
       padding-left: 34px;
-      letter-spacing: 1px;
+      letter-spacing: 0;
     }
 
     .link-meta {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      margin-top: 6px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 11px;
+      line-height: 1.55;
+      margin-top: 7px;
       padding-left: 34px;
-      letter-spacing: 1px;
+      letter-spacing: 0;
     }
 
     .link-status {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 2px;
+      font-size: 8px;
+      letter-spacing: 1.5px;
       margin-bottom: 8px;
     }
 
     /* ===== PRIMARY CTA: OPEN CHAT ===== */
     .link-primary {
-      background: linear-gradient(135deg, rgba(255, 26, 26, 0.12), rgba(255, 102, 0, 0.08));
-      border: 1px solid var(--eva-red);
-      padding: 20px 20px 18px;
-      clip-path: polygon(
-        0 0, calc(100% - 14px) 0, 100% 14px,
-        100% 100%, 14px 100%, 0 calc(100% - 14px)
-      );
-      animation: primary-glow 2.5s ease-in-out infinite;
+      background: linear-gradient(135deg, rgba(255, 102, 0, 0.14), rgba(255, 255, 255, 0.045));
+      border: 1px solid rgba(255, 102, 0, 0.5);
+      padding: 19px 20px 18px;
+      clip-path: none;
+      animation: none;
     }
 
     .link-primary::before {
       content: '';
       position: absolute;
       top: 0; left: 0;
-      width: 4px; height: 100%;
+      width: 3px; height: 100%;
       background: linear-gradient(180deg, var(--eva-red), var(--eva-orange));
     }
 
     /* Animated corner brackets */
     .link-primary .corner-tl,
     .link-primary .corner-br {
-      position: absolute;
-      width: 16px; height: 16px;
-      pointer-events: none;
+      display: none;
     }
 
     .link-primary .corner-tl {
@@ -553,12 +691,12 @@
     }
 
     .link-primary .link-number { color: var(--eva-orange); opacity: 0.6; }
-    .link-primary .link-status { color: var(--eva-green); }
-    .link-primary .link-label { font-size: 15px; }
-    .link-primary .link-meta { color: var(--eva-yellow); opacity: 0.8; }
+    .link-primary .link-status { color: rgba(0, 255, 65, 0.78); }
+    .link-primary .link-label { font-size: 17px; color: #fff; }
+    .link-primary .link-meta { color: rgba(255, 224, 92, 0.92); opacity: 1; }
 
     /* Progress bar */
-    .progress-bar { margin-top: 10px; padding-left: 34px; padding-right: 14px; }
+    .progress-bar { display: none; }
     .progress-track {
       height: 4px;
       background: rgba(255, 255, 255, 0.08);
@@ -593,13 +731,10 @@
 
     /* ===== SECONDARY: CONSULTATION ===== */
     .link-special {
-      background: linear-gradient(135deg, rgba(107, 29, 123, 0.15), rgba(26, 26, 46, 0.8));
-      border: 1px solid rgba(107, 29, 123, 0.5);
-      padding: 18px 20px 16px;
-      clip-path: polygon(
-        0 0, calc(100% - 12px) 0, 100% 12px,
-        100% 100%, 12px 100%, 0 calc(100% - 12px)
-      );
+      background: linear-gradient(135deg, rgba(107, 29, 123, 0.12), rgba(255, 255, 255, 0.035));
+      border: 1px solid rgba(180, 92, 210, 0.32);
+      padding: 18px 20px 17px;
+      clip-path: none;
     }
 
     .link-special::before {
@@ -611,18 +746,16 @@
     }
 
     .link-special .link-number { color: var(--eva-purple); opacity: 0.6; }
-    .link-special .link-status { color: var(--eva-orange); }
-    .link-special .link-meta { color: var(--eva-green); opacity: 0.6; }
+    .link-special .link-status { color: rgba(255, 102, 0, 0.78); }
+    .link-special .link-label { font-size: 16px; }
+    .link-special .link-meta { color: rgba(0, 255, 65, 0.78); opacity: 1; }
 
     /* ===== TERTIARY: YOUTUBE ===== */
     .link-tertiary {
-      background: rgba(26, 26, 46, 0.6);
-      border: 1px solid rgba(255, 26, 26, 0.2);
-      padding: 14px 20px;
-      clip-path: polygon(
-        0 0, calc(100% - 10px) 0, 100% 10px,
-        100% 100%, 10px 100%, 0 calc(100% - 10px)
-      );
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 18px;
+      clip-path: none;
     }
 
     .link-tertiary::before {
@@ -639,13 +772,10 @@
 
     /* ===== MINIMAL: TIKTOK ===== */
     .link-minimal {
-      background: rgba(26, 26, 46, 0.3);
-      border: 1px solid rgba(224, 224, 224, 0.1);
-      padding: 12px 20px;
-      clip-path: polygon(
-        0 0, calc(100% - 8px) 0, 100% 8px,
-        100% 100%, 8px 100%, 0 calc(100% - 8px)
-      );
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(224, 224, 224, 0.08);
+      padding: 11px 18px;
+      clip-path: none;
     }
 
     .link-minimal .link-number { color: rgba(224, 224, 224, 0.25); }
@@ -656,6 +786,7 @@
        CLOSING & FOOTER
     ============================================ */
     .closing {
+      display: none;
       text-align: center;
       margin-top: 28px;
       margin-bottom: 8px;
@@ -669,7 +800,7 @@
     }
 
     .footer {
-      margin-top: 20px;
+      margin-top: 16px;
       text-align: center;
     }
 
@@ -679,13 +810,14 @@
       font-family: 'Share Tech Mono', monospace;
       font-size: 9px;
       color: rgba(224, 224, 224, 0.3);
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
     }
 
     /* ============================================
        HEX DECORATIONS
     ============================================ */
     .hex-decoration {
+      display: none;
       position: fixed;
       width: 60px; height: 60px;
       border: 1px solid rgba(255, 26, 26, 0.1);
@@ -1189,6 +1321,7 @@
        COUNTDOWN TIMER
     ============================================ */
     .countdown-timer {
+      display: none;
       font-family: 'Share Tech Mono', monospace;
       font-size: 10px;
       color: var(--eva-red);
@@ -1199,7 +1332,86 @@
 
     /* Mobile */
     @media (max-width: 480px) {
-      .container { padding: 16px; }
+      .container {
+        padding: 14px;
+        margin: 8px auto;
+      }
+      .hero-panel {
+        padding: 16px 15px 15px;
+        margin-bottom: 14px;
+      }
+      .hero-profile {
+        grid-template-columns: 78px 1fr;
+        gap: 13px;
+        margin-bottom: 12px;
+      }
+      .hero-profile .profile-image-wrapper,
+      .hero-profile .profile-image {
+        width: 72px;
+        height: 72px;
+      }
+      .hero-profile .at-field {
+        width: 104px;
+        height: 104px;
+      }
+      .classification {
+        font-size: 8px;
+        letter-spacing: 2px;
+        padding: 3px 9px;
+      }
+      .profile-name {
+        font-size: 28px;
+        letter-spacing: 5px;
+      }
+      .profile-handle {
+        font-size: 10px;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+      }
+      .profile-bio {
+        font-size: 12px;
+      }
+      .hero-lead {
+        font-size: 15px;
+        line-height: 1.58;
+      }
+      .hero-subcopy {
+        font-size: 11px;
+        line-height: 1.65;
+      }
+      .proof-strip {
+        gap: 5px;
+      }
+      .proof-item {
+        min-height: 44px;
+        padding: 8px 6px;
+      }
+      .proof-label {
+        font-size: 7px;
+      }
+      .proof-value {
+        font-size: 10px;
+      }
+      .route-hint {
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      .route-hint-item {
+        padding: 9px 8px;
+        font-size: 10px;
+      }
+      .route-hint-item strong {
+        font-size: 11px;
+      }
+      .link-primary .link-label {
+        font-size: 15px;
+      }
+      .link-special .link-label {
+        font-size: 15px;
+      }
+      .link-meta {
+        font-size: 10px;
+      }
       .hex-decoration { display: none; }
       .boot-terminal { width: 260px; font-size: 10px; }
       .boot-line.big { font-size: 24px; }
@@ -1349,19 +1561,19 @@
   <div class="boot-overlay" id="bootOverlay">
     <div class="boot-terminal" id="bootTerminal">
       <div class="boot-line" data-delay="0">SYSTEM BOOT SEQUENCE</div>
-      <div class="boot-line" data-delay="200">///////////////////////////</div>
-      <div class="boot-line" data-delay="500">> INITIALIZING MAGI SYSTEM...</div>
-      <div class="boot-line" data-delay="900">> CASPER___ <span style="color:#00ff41">OK</span></div>
-      <div class="boot-line" data-delay="1100">> BALTHASAR <span style="color:#00ff41">OK</span></div>
-      <div class="boot-line" data-delay="1300">> MELCHIOR_ <span style="color:#00ff41">OK</span></div>
-      <div class="boot-warning-stripe" data-delay="1600"></div>
-      <div class="boot-line red" data-delay="1800">[WARNING] A.T.FIELD DETECTED</div>
-      <div class="boot-line yellow" data-delay="2100">> PATTERN: BLUE</div>
-      <div class="boot-line" data-delay="2400">> LOADING OPERATOR PROFILE...</div>
-      <div class="boot-line big center" data-delay="2800">TOY</div>
-      <div class="boot-line center orange" data-delay="3100">SNS愛は止められない</div>
-      <div class="boot-warning-stripe" data-delay="3400"></div>
-      <div class="boot-line center" data-delay="3600" style="color: var(--eva-red); font-size: 9px;">/// ACCESS GRANTED ///</div>
+      <div class="boot-line" data-delay="120">///////////////////////////</div>
+      <div class="boot-line" data-delay="260">> INITIALIZING MAGI SYSTEM...</div>
+      <div class="boot-line" data-delay="420">> CASPER___ <span style="color:#00ff41">OK</span></div>
+      <div class="boot-line" data-delay="540">> BALTHASAR <span style="color:#00ff41">OK</span></div>
+      <div class="boot-line" data-delay="660">> MELCHIOR_ <span style="color:#00ff41">OK</span></div>
+      <div class="boot-warning-stripe" data-delay="820"></div>
+      <div class="boot-line red" data-delay="960">[WARNING] A.T.FIELD DETECTED</div>
+      <div class="boot-line yellow" data-delay="1120">> PATTERN: BLUE</div>
+      <div class="boot-line" data-delay="1280">> LOADING OPERATOR PROFILE...</div>
+      <div class="boot-line big center" data-delay="1480">TOY</div>
+      <div class="boot-line center orange" data-delay="1640">SNS愛は止められない</div>
+      <div class="boot-warning-stripe" data-delay="1780"></div>
+      <div class="boot-line center" data-delay="1900" style="color: var(--eva-red); font-size: 9px;">/// ACCESS GRANTED ///</div>
     </div>
   </div>
 
@@ -1369,7 +1581,7 @@
   <button class="skip-btn" id="skipBtn" onclick="skipBoot()">SKIP ▶</button>
 
   <!-- Scan lines (as div, not ::after, for TikTok WebView tap compatibility) -->
-  <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:0;"></div>
+  <div style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:0;"></div>
 
   <!-- Background -->
   <div class="scan-beam"></div>
@@ -1394,59 +1606,93 @@
       SYSTEM STATUS: <span>ACTIVE</span> /// MAGI-01
     </div>
 
-    <!-- Profile -->
-    <div class="profile">
-      <div class="profile-image-wrapper" onclick="openProfile()" role="button" tabindex="0">
-        <div class="at-field"></div>
-        <img src="profile.jpg" alt="Toy" class="profile-image">
+    <!-- Profile / Value Proposition -->
+    <section class="hero-panel reveal-item" aria-label="Toy profile and SNS consultation routes">
+      <div class="profile">
+        <div class="hero-profile">
+          <div class="profile-image-wrapper" onclick="openProfile()" role="button" tabindex="0" aria-label="Toyのプロフィールを見る">
+            <div class="at-field"></div>
+            <img src="profile.jpg" alt="Toy" class="profile-image">
+          </div>
+          <div>
+            <div class="classification">CLASSIFIED /// PERSONAL</div>
+            <h1 class="profile-name" id="profileName">TOY</h1>
+            <div class="profile-handle">@TOY_NO_SNS_AI</div>
+            <div class="profile-bio">SNS愛は止められない。</div>
+          </div>
+        </div>
+
+        <p class="hero-lead">SNSを伸ばしたいけど、何から直せばいいかわからない人へ。</p>
+        <p class="hero-subcopy">SAKIYOMIでSNS運用・YouTube・セミナー・個別相談を担当。SNSの悩みを、次に動ける作戦に変えます。</p>
+
+        <div class="proof-strip" aria-label="Toyの活動領域">
+          <div class="proof-item">
+            <span class="proof-label">AFFILIATION</span>
+            <span class="proof-value">SAKIYOMI</span>
+          </div>
+          <div class="proof-item">
+            <span class="proof-label">FIELD</span>
+            <span class="proof-value">SNS運用 / YouTube</span>
+          </div>
+          <div class="proof-item">
+            <span class="proof-label">MISSION</span>
+            <span class="proof-value">個別相談 / 戦略設計</span>
+          </div>
+        </div>
       </div>
-      <div class="tap-hint">▽ TAP TO VIEW PROFILE</div>
-      <div class="classification">CLASSIFIED /// PERSONAL</div>
-      <div class="profile-name" id="profileName">TOY</div>
-      <div class="profile-handle">@TOY_NO_SNS_AI</div>
-      <div class="profile-bio">SNS愛は止められない。</div>
+    </section>
+
+    <div class="route-hint reveal-item" aria-label="おすすめ導線">
+      <div class="route-hint-item">
+        <strong>まず情報収集したい</strong>
+        無料オープンチャットへ
+      </div>
+      <div class="route-hint-item">
+        <strong>自分のSNSを相談したい</strong>
+        個別相談LINEへ
+      </div>
     </div>
 
     <!-- Links -->
-    <div class="divider">SELECT TARGET</div>
+    <div class="divider">MISSION SELECT</div>
 
     <div class="links">
 
       <!-- PRIMARY: Open Chat -->
-      <a href="https://line.me/R/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ" class="link-item link-primary reveal-item">
+      <a href="redirect.html?type=openchat&url=https%3A%2F%2Fline.me%2FR%2Fti%2Fg2%2FoYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ&copy=https%3A%2F%2Fbit.ly%2Ftoysns-001" class="link-item link-primary reveal-item">
         <div class="corner-tl"></div>
         <div class="corner-br"></div>
         <span class="link-number">01</span>
-        <div class="link-status">/// STATUS: OPEN</div>
+        <div class="link-status">/// MISSION 01: FREE COMMUNITY</div>
         <div class="link-label">
-          <span class="icon">◈</span>作戦会議室に入室する
+          <span class="icon">◈</span>無料オープンチャットに参加する
         </div>
-        <div class="link-desc">// LINE OPEN CHAT - FREE</div>
-        <div class="link-meta">Toyとフランクにやりとりできる場所</div>
+        <div class="link-desc">// まず情報収集したい人向け</div>
+        <div class="link-meta">SNS運用の質問・最新Tips・Toyとの雑談相談はこちら</div>
         <div class="progress-bar">
           <div class="progress-track">
             <div class="progress-fill danger" id="progressFill"></div>
           </div>
-          <div class="progress-text">MEMBERS: GROWING /// 参加無料</div>
+          <div class="progress-text">FREE ENTRY /// LINE OPEN CHAT</div>
         </div>
       </a>
 
       <!-- SPECIAL: Consultation -->
-      <a href="redirect.html?url=https%3A%2F%2Fbit.ly%2Fsakiyomi010" class="link-item link-special reveal-item">
+      <a href="redirect.html?type=consultation&url=https%3A%2F%2Fbit.ly%2Fsakiyomi010&copy=https%3A%2F%2Fbit.ly%2Fsakiyomi010" class="link-item link-special reveal-item">
         <span class="link-number">02</span>
-        <div class="link-status">/// STATUS: LIMITED</div>
+        <div class="link-status">/// MISSION 02: 1-ON-1 CONSULTATION</div>
         <div class="link-label">
-          <span class="icon">◇</span>あなた専用のSNS作戦を立案する
+          <span class="icon">◇</span>LINEで個別相談する
         </div>
-        <div class="link-desc">// 1-ON-1 CONSULTATION</div>
-        <div class="link-meta">LINEで個別にSNS運用の相談ができます</div>
+        <div class="link-desc">// 自分のアカウントを本気で改善したい人向け</div>
+        <div class="link-meta">課題整理から伸ばし方まで、あなた専用のSNS作戦を相談できます</div>
       </a>
 
       <!-- TERTIARY: YouTube -->
       <a href="https://www.youtube.com/@sns_sakiyomi" class="link-item link-tertiary reveal-item" target="_blank" rel="noopener">
         <span class="link-number">03</span>
         <div class="link-label">
-          <span class="icon">▷</span>機密映像を閲覧する
+          <span class="icon">▷</span>YouTubeでSNS運用を見る
         </div>
         <div class="link-desc">// SAKIYOMI YOUTUBE</div>
         <div class="link-meta">SNS運用のプロが裏側を公開中</div>
@@ -1498,7 +1744,7 @@
       // After boot sequence, reveal main content
       setTimeout(function() {
         if (!bootComplete) revealContent();
-      }, maxDelay + 1200);
+      }, maxDelay + 650);
     }
 
     function revealContent() {
@@ -1511,7 +1757,7 @@
       // Animate progress bar
       setTimeout(function() {
         var fill = document.getElementById('progressFill');
-        if (fill) fill.style.width = '72%';
+        if (fill) fill.style.width = '88%';
       }, 600);
 
       // Periodic glitch on profile name
@@ -1572,7 +1818,7 @@
       document.getElementById('mainContent').classList.add('revealed');
       setTimeout(function() {
         var fill = document.getElementById('progressFill');
-        if (fill) fill.style.width = '72%';
+        if (fill) fill.style.width = '88%';
       }, 300);
     } else {
       startBoot();
@@ -1602,14 +1848,14 @@
         document.getElementById('magiProgress').classList.remove('show');
         document.getElementById('magiProgressFill').style.width = '0%';
 
-        setTimeout(function() { document.getElementById('magiCasper').classList.add('show'); }, 150);
-        setTimeout(function() { document.getElementById('magiBalthasar').classList.add('show'); }, 400);
-        setTimeout(function() { document.getElementById('magiMelchior').classList.add('show'); }, 650);
+        setTimeout(function() { document.getElementById('magiCasper').classList.add('show'); }, 80);
+        setTimeout(function() { document.getElementById('magiBalthasar').classList.add('show'); }, 220);
+        setTimeout(function() { document.getElementById('magiMelchior').classList.add('show'); }, 360);
         setTimeout(function() {
           document.getElementById('magiApproved').classList.add('show');
           document.getElementById('magiProgress').classList.add('show');
           setTimeout(function() { document.getElementById('magiProgressFill').style.width = '100%'; }, 50);
-        }, 850);
+        }, 500);
 
         setTimeout(function() {
           overlay.classList.remove('active');
@@ -1619,7 +1865,7 @@
           } else {
             window.location.href = targetUrl;
           }
-        }, 1200);
+        }, 760);
       });
     });
 

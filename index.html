@@ -750,6 +750,28 @@
     .link-special .link-label { font-size: 16px; }
     .link-special .link-meta { color: rgba(0, 255, 65, 0.78); opacity: 1; }
 
+    /* ===== DIRECT: OPEN CHAT FALLBACK ===== */
+    .link-direct {
+      background: linear-gradient(135deg, rgba(255, 224, 92, 0.08), rgba(255, 255, 255, 0.025));
+      border: 1px solid rgba(255, 224, 92, 0.22);
+      padding: 14px 18px;
+      clip-path: none;
+    }
+
+    .link-direct::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--eva-yellow);
+      opacity: 0.7;
+    }
+
+    .link-direct .link-number { color: var(--eva-yellow); opacity: 0.45; }
+    .link-direct .link-status { color: rgba(255, 224, 92, 0.62); }
+    .link-direct .link-label { font-size: 15px; }
+    .link-direct .link-meta { color: rgba(224, 224, 224, 0.48); }
+
     /* ===== TERTIARY: YOUTUBE ===== */
     .link-tertiary {
       background: rgba(255, 255, 255, 0.035);
@@ -1645,7 +1667,7 @@
     <div class="route-hint reveal-item" aria-label="おすすめ導線">
       <div class="route-hint-item">
         <strong>まず情報収集したい</strong>
-        無料オープンチャットへ
+        公式LINEで案内を受け取る
       </div>
       <div class="route-hint-item">
         <strong>自分のSNSを相談したい</strong>
@@ -1658,22 +1680,22 @@
 
     <div class="links">
 
-      <!-- PRIMARY: Open Chat -->
-      <a href="https://line.me/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" data-native-link="true" class="link-item link-primary reveal-item">
+      <!-- PRIMARY: Official LINE gateway -->
+      <a href="https://bit.ly/sakiyomi010" data-native-link="true" class="link-item link-primary reveal-item">
         <div class="corner-tl"></div>
         <div class="corner-br"></div>
         <span class="link-number">01</span>
-        <div class="link-status">/// MISSION 01: FREE COMMUNITY</div>
+        <div class="link-status">/// MISSION 01: SAFE LINE ROUTE</div>
         <div class="link-label">
-          <span class="icon">◈</span>無料オープンチャットに参加する
+          <span class="icon">◈</span>公式LINEでオープンチャット案内を受け取る
         </div>
-        <div class="link-desc">// まず情報収集したい人向け</div>
-        <div class="link-meta">SNS運用の質問・最新Tips・Toyとの雑談相談はこちら</div>
+        <div class="link-desc">// TikTokから確実にLINEへ移動する推奨ルート</div>
+        <div class="link-meta">無料相談・OpenChat参加URLをLINE内で案内します</div>
         <div class="progress-bar">
           <div class="progress-track">
             <div class="progress-fill danger" id="progressFill"></div>
           </div>
-          <div class="progress-text">FREE ENTRY /// LINE OPEN CHAT</div>
+          <div class="progress-text">SAFE ENTRY /// OFFICIAL LINE</div>
         </div>
       </a>
 
@@ -1688,9 +1710,20 @@
         <div class="link-meta">課題整理から伸ばし方まで、あなた専用のSNS作戦を相談できます</div>
       </a>
 
+      <!-- DIRECT: Open Chat -->
+      <a href="https://line.me/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" data-native-link="true" class="link-item link-direct reveal-item">
+        <span class="link-number">03</span>
+        <div class="link-status">/// MISSION 03: DIRECT OPEN CHAT</div>
+        <div class="link-label">
+          <span class="icon">□</span>オープンチャットを直接開く
+        </div>
+        <div class="link-desc">// LINEアプリ・外部ブラウザで開く人向け</div>
+        <div class="link-meta">TikTokで止まる場合は上の公式LINEから受け取ってください</div>
+      </a>
+
       <!-- TERTIARY: YouTube -->
       <a href="https://www.youtube.com/@sns_sakiyomi" class="link-item link-tertiary reveal-item" target="_blank" rel="noopener">
-        <span class="link-number">03</span>
+        <span class="link-number">04</span>
         <div class="link-label">
           <span class="icon">▷</span>YouTubeでSNS運用を見る
         </div>
@@ -1700,7 +1733,7 @@
 
       <!-- MINIMAL: TikTok -->
       <a href="https://www.tiktok.com/@toysns?lang=ja-JP" class="link-item link-minimal reveal-item" target="_blank" rel="noopener">
-        <span class="link-number">04</span>
+        <span class="link-number">05</span>
         <div class="link-label">
           <span class="icon">▶</span>TikTok @toysns
         </div>

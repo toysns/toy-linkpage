@@ -1659,7 +1659,7 @@
     <div class="links">
 
       <!-- PRIMARY: Open Chat -->
-      <a href="redirect.html?type=openchat&url=https%3A%2F%2Fline.me%2FR%2Fti%2Fg2%2FoYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ&copy=https%3A%2F%2Fbit.ly%2Ftoysns-001" class="link-item link-primary reveal-item">
+      <a href="redirect.html?to=openchat" data-direct-url="line://ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ" data-fallback-url="redirect.html?to=openchat" class="link-item link-primary reveal-item">
         <div class="corner-tl"></div>
         <div class="corner-br"></div>
         <span class="link-number">01</span>
@@ -1678,7 +1678,7 @@
       </a>
 
       <!-- SPECIAL: Consultation -->
-      <a href="redirect.html?type=consultation&url=https%3A%2F%2Fbit.ly%2Fsakiyomi010&copy=https%3A%2F%2Fbit.ly%2Fsakiyomi010" class="link-item link-special reveal-item">
+      <a href="redirect.html?to=consultation" data-direct-url="https://bit.ly/sakiyomi010" data-fallback-url="redirect.html?to=consultation" class="link-item link-special reveal-item">
         <span class="link-number">02</span>
         <div class="link-status">/// MISSION 02: 1-ON-1 CONSULTATION</div>
         <div class="link-label">
@@ -1829,9 +1829,45 @@
     // ============================================
     var magiActive = false;
 
+    function openDirectLine(item) {
+      var directUrl = item.getAttribute('data-direct-url');
+      var fallbackUrl = item.getAttribute('data-fallback-url') || item.getAttribute('href');
+      if (!directUrl) return false;
+
+      var leftPage = false;
+      var markLeft = function() { leftPage = true; };
+      var onVisibilityChange = function() {
+        if (document.hidden) {
+          leftPage = true;
+          document.removeEventListener('visibilitychange', onVisibilityChange);
+        }
+      };
+
+      window.addEventListener('pagehide', markLeft, { once: true });
+      window.addEventListener('blur', markLeft, { once: true });
+      document.addEventListener('visibilitychange', onVisibilityChange);
+
+      window.location.href = directUrl;
+
+      setTimeout(function() {
+        if (!leftPage) {
+          window.location.href = fallbackUrl;
+        }
+      }, 1100);
+
+      return true;
+    }
+
     document.querySelectorAll('.link-item').forEach(function(item) {
       item.addEventListener('click', function(e) {
         if (magiActive) return;
+
+        if (this.getAttribute('data-direct-url')) {
+          e.preventDefault();
+          openDirectLine(this);
+          return;
+        }
+
         e.preventDefault();
         var targetUrl = this.getAttribute('href');
         var targetBlank = this.getAttribute('target') === '_blank';

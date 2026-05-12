@@ -176,9 +176,24 @@
   <script>
     (function() {
       var params = new URLSearchParams(window.location.search);
-      var url = params.get('url');
-      var type = params.get('type');
-      var copy = params.get('copy');
+      var destinations = {
+        openchat: {
+          appUrl: 'line://ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ',
+          url: 'https://line.me/R/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ',
+          copy: 'https://bit.ly/toysns-001'
+        },
+        consultation: {
+          appUrl: '',
+          url: 'https://bit.ly/sakiyomi010',
+          copy: 'https://bit.ly/sakiyomi010'
+        }
+      };
+      var to = params.get('to');
+      var destination = destinations[to] || null;
+      var url = destination ? destination.url : params.get('url');
+      var appUrl = destination ? destination.appUrl : '';
+      var type = to || params.get('type');
+      var copy = destination ? destination.copy : params.get('copy');
       var debug = params.get('debug') === '1';
       if (!url) return;
 
@@ -195,10 +210,31 @@
       }
 
       function openTarget() {
-        window.location.href = url;
+        if (!appUrl) {
+          window.location.href = url;
+          return;
+        }
+
+        var leftPage = false;
+        var markLeft = function() { leftPage = true; };
+        var onVisibilityChange = function() {
+          if (document.hidden) {
+            leftPage = true;
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+          }
+        };
+
+        window.addEventListener('pagehide', markLeft, { once: true });
+        window.addEventListener('blur', markLeft, { once: true });
+        document.addEventListener('visibilitychange', onVisibilityChange);
+
+        window.location.href = appUrl;
+        setTimeout(function() {
+          if (!leftPage) window.location.href = url;
+        }, 900);
       }
 
-      openBtn.setAttribute('href', url);
+      openBtn.setAttribute('href', appUrl || url);
       openBtn.addEventListener('click', function(e) {
         e.preventDefault();
         openTarget();

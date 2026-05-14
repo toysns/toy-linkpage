@@ -2,2023 +2,568 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="インフルエンサー約100名との対話から見えた、2026年残りの時間を後悔しないためのSNS運用と個別相談の案内。">
+  <meta property="og:title" content="Toy | SNS愛は止められない">
+  <meta property="og:description" content="2026年残りの時間を後悔しないために、SNS運用の目的・伸ばし方・売上化を整理する無料個別相談。">
+  <meta property="og:image" content="profile.jpg">
   <title>Toy | SNS愛は止められない</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700;900&display=swap');
-
     :root {
-      --eva-red: #ff1a1a;
-      --eva-orange: #ff6600;
-      --eva-purple: #6b1d7b;
-      --eva-green: #00ff41;
-      --eva-dark: #0a0a0f;
-      --eva-darker: #050508;
-      --eva-gray: #1a1a2e;
-      --eva-text: #e0e0e0;
-      --eva-yellow: #ffcc00;
+      --bg: #07080b;
+      --panel: #101116;
+      --panel-soft: #15171d;
+      --ink: #f8f6f1;
+      --muted: #a7a5a1;
+      --subtle: #6f706f;
+      --line: rgba(255, 255, 255, 0.12);
+      --accent: #37e36d;
+      --accent-ink: #051109;
+      --warm: #f1ad42;
+      --danger: #ff5a48;
+      --max: 760px;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
-      background: var(--eva-darker);
-      color: var(--eva-text);
-      font-family: 'Noto Sans JP', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow-x: hidden;
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+      letter-spacing: 0;
+      line-height: 1.8;
+      padding-bottom: calc(92px + env(safe-area-inset-bottom));
     }
 
-    /* ============================================
-       BOOT SEQUENCE OVERLAY
-    ============================================ */
-    .boot-overlay {
+    body::before {
+      content: "";
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: var(--eva-darker);
-      z-index: 9999;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(255, 90, 72, 0.08), transparent 240px),
+        linear-gradient(90deg, rgba(55, 227, 109, 0.05), transparent 48%, rgba(241, 173, 66, 0.05));
+      opacity: 0.9;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      position: relative;
+      width: min(100%, var(--max));
+      margin: 0 auto;
+      padding: 28px 18px 42px;
+    }
+
+    .hero {
+      min-height: calc(100svh - 96px);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      transition: opacity 0.8s ease;
-    }
-
-    .boot-overlay.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .boot-terminal {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--eva-green);
-      letter-spacing: 2px;
-      text-align: left;
-      width: 300px;
-      min-height: 180px;
-    }
-
-    .boot-line {
-      opacity: 0;
-      transform: translateY(4px);
-      margin-bottom: 6px;
-      white-space: nowrap;
-    }
-
-    .boot-line.show {
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.3s ease;
-    }
-
-    .boot-line.red { color: var(--eva-red); }
-    .boot-line.yellow { color: var(--eva-yellow); }
-    .boot-line.orange { color: var(--eva-orange); }
-    .boot-line.big {
-      font-size: 28px;
-      font-weight: 900;
-      font-family: 'Noto Sans JP', sans-serif;
-      letter-spacing: 8px;
-      text-align: center;
-      margin: 20px 0 10px;
-      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .boot-line.center {
-      text-align: center;
-    }
-
-    .boot-warning-stripe {
-      width: 300px;
-      height: 4px;
-      background: repeating-linear-gradient(
-        -45deg, var(--eva-yellow), var(--eva-yellow) 8px,
-        var(--eva-darker) 8px, var(--eva-darker) 16px
-      );
-      opacity: 0;
-      margin: 12px 0;
-    }
-
-    .boot-warning-stripe.show { opacity: 0.7; transition: opacity 0.3s ease; }
-
-    /* ============================================
-       BACKGROUND EFFECTS
-    ============================================ */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(255, 102, 0, 0.08) 0%, transparent 48%),
-        radial-gradient(ellipse at 50% 95%, rgba(0, 255, 65, 0.04) 0%, transparent 42%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Scan lines - using separate div instead of ::after for better tap support */
-
-    /* Moving scan beam */
-    .scan-beam {
-      display: none;
-      position: fixed;
-      top: -100%;
-      left: 0;
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(
-        180deg, transparent 0%,
-        rgba(0, 255, 65, 0.03) 40%,
-        rgba(0, 255, 65, 0.06) 50%,
-        rgba(0, 255, 65, 0.03) 60%,
-        transparent 100%
-      );
-      animation: scan-move 6s linear infinite;
-      pointer-events: none;
-      z-index: 998;
-    }
-
-    @keyframes scan-move {
-      0% { top: -200px; }
-      100% { top: 100vh; }
-    }
-
-    /* Floating particles */
-    .particles {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .particle {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: var(--eva-red);
-      border-radius: 50%;
-      animation: particle-rise linear infinite;
-      opacity: 0;
-    }
-
-    .particle:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; }
-    .particle:nth-child(2) { left: 25%; animation-duration: 12s; animation-delay: -2s; background: var(--eva-orange); }
-    .particle:nth-child(3) { left: 40%; animation-duration: 10s; animation-delay: -4s; background: var(--eva-purple); width: 3px; height: 3px; }
-    .particle:nth-child(4) { left: 55%; animation-duration: 9s; animation-delay: -1s; }
-    .particle:nth-child(5) { left: 70%; animation-duration: 11s; animation-delay: -6s; background: var(--eva-green); }
-    .particle:nth-child(6) { left: 85%; animation-duration: 7s; animation-delay: -3s; background: var(--eva-orange); }
-    .particle:nth-child(7) { left: 15%; animation-duration: 13s; animation-delay: -8s; background: var(--eva-yellow); width: 1px; height: 1px; }
-    .particle:nth-child(8) { left: 92%; animation-duration: 10s; animation-delay: -5s; }
-
-    @keyframes particle-rise {
-      0% { bottom: -10px; opacity: 0; }
-      10% { opacity: 0.6; }
-      90% { opacity: 0.6; }
-      100% { bottom: 100vh; opacity: 0; }
-    }
-
-    /* ============================================
-       MAIN CONTENT
-    ============================================ */
-    .container {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      max-width: 460px;
-      padding: 18px;
-      margin: 14px auto;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .container.revealed {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Staggered reveal for children */
-    .container.revealed .reveal-item {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-item {
-      opacity: 0;
-      transform: translateY(15px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .reveal-item:nth-child(1) { transition-delay: 0.1s; }
-    .reveal-item:nth-child(2) { transition-delay: 0.2s; }
-    .reveal-item:nth-child(3) { transition-delay: 0.3s; }
-    .reveal-item:nth-child(4) { transition-delay: 0.4s; }
-
-    /* Warning stripe */
-    .warning-stripe {
-      display: none;
-    }
-
-    /* System status bar */
-    .system-bar {
-      display: none;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: var(--eva-green);
-      text-align: right;
-      margin-bottom: 16px;
-      letter-spacing: 2px;
-      opacity: 0.7;
-    }
-
-    .system-bar span { animation: blink 1.5s infinite; }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* ============================================
-       PROFILE SECTION
-    ============================================ */
-    .hero-panel {
-      position: relative;
-      padding: 19px 18px 18px;
-      margin-bottom: 18px;
-      background:
-        linear-gradient(145deg, rgba(30, 18, 25, 0.92), rgba(16, 16, 25, 0.96)),
-        radial-gradient(circle at 8% 0%, rgba(255, 102, 0, 0.12), transparent 34%);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
-      overflow: hidden;
-    }
-
-    .hero-panel::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: linear-gradient(180deg, var(--eva-red), var(--eva-orange));
-    }
-
-    .hero-panel::after {
-      content: '';
-      position: absolute;
-      right: 18px;
-      top: 18px;
-      width: 48px;
-      height: 1px;
-      background: rgba(255, 102, 0, 0.34);
+      gap: 22px;
+      padding: 18px 0 34px;
     }
 
     .profile {
-      text-align: left;
-      margin-bottom: 0;
-      position: relative;
-    }
-
-    .hero-profile {
-      display: grid;
-      grid-template-columns: 92px 1fr;
-      gap: 16px;
+      display: flex;
       align-items: center;
-      margin-bottom: 14px;
+      gap: 14px;
     }
 
-    .profile-image-wrapper {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 20px;
-    }
-
-    .profile-image-wrapper::before {
-      content: '';
-      position: absolute;
-      top: -4px; left: -4px; right: -4px; bottom: -4px;
-      border: 1px solid rgba(255, 102, 0, 0.65);
-      border-radius: 14px;
-      clip-path: none;
-      animation: none;
-    }
-
-    @keyframes border-pulse {
-      0%, 100% { border-color: var(--eva-red); }
-      50% { border-color: var(--eva-orange); }
-    }
-
-    .profile-image {
-      width: 120px;
-      height: 120px;
+    .profile img {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
       object-fit: cover;
-      border-radius: 12px;
-      clip-path: none;
-      background: var(--eva-gray);
+      border: 1px solid rgba(255, 255, 255, 0.18);
     }
 
-    .hero-profile .profile-image-wrapper {
-      width: 86px;
-      height: 86px;
+    .profile strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .profile span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    h1,
+    h2,
+    p {
       margin: 0;
     }
 
-    .hero-profile .profile-image-wrapper::before {
-      top: -3px; left: -3px; right: -3px; bottom: -3px;
-    }
-
-    .hero-profile .profile-image {
-      width: 86px;
-      height: 86px;
-    }
-
-    .hero-profile .at-field {
-      width: 118px;
-      height: 118px;
-    }
-
-    /* AT Field hex */
-    .at-field {
-      display: none;
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 160px; height: 160px;
-      transform: translate(-50%, -50%);
-      border: 1px solid rgba(255, 102, 0, 0.2);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      animation: at-field-pulse 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes at-field-pulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
-      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
-    }
-
-    .profile-name {
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: 6px;
-      margin: 0 0 4px;
-      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-    }
-
-    /* Glitch effect on name */
-    .profile-name::before,
-    .profile-name::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      opacity: 0;
-    }
-
-    .profile-name.glitch {
-      animation: name-glitch 0.4s ease;
-    }
-
-    .profile-name.glitch::before {
-      animation: glitch-top 0.4s ease;
-      clip-path: inset(0 0 60% 0);
-    }
-
-    .profile-name.glitch::after {
-      animation: glitch-bottom 0.4s ease;
-      clip-path: inset(60% 0 0 0);
-    }
-
-    @keyframes glitch-top {
-      0% { opacity: 0; }
-      20% { opacity: 0.8; transform: translateX(-3px); }
-      40% { opacity: 0.8; transform: translateX(3px); }
-      60% { opacity: 0.8; transform: translateX(-1px); }
-      80% { opacity: 0; }
-      100% { opacity: 0; }
-    }
-
-    @keyframes glitch-bottom {
-      0% { opacity: 0; }
-      20% { opacity: 0.8; transform: translateX(3px); }
-      40% { opacity: 0.8; transform: translateX(-3px); }
-      60% { opacity: 0.8; transform: translateX(2px); }
-      80% { opacity: 0; }
-      100% { opacity: 0; }
-    }
-
-    @keyframes name-glitch {
-      0%, 100% { transform: translateX(0); text-shadow: none; }
-      18% { transform: translateX(-2px); text-shadow: 2px 0 var(--eva-green), -2px 0 var(--eva-red); }
-      36% { transform: translateX(2px); text-shadow: -2px 0 var(--eva-green), 2px 0 var(--eva-red); }
-      54% { transform: translateX(-1px); text-shadow: 1px 0 var(--eva-yellow), -1px 0 var(--eva-purple); }
-      72% { transform: translateX(1px); text-shadow: none; }
-    }
-
-    .profile-handle {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: rgba(0, 255, 65, 0.75);
-      letter-spacing: 2px;
-      margin-bottom: 12px;
-      opacity: 0.8;
-    }
-
-    .classification {
-      display: inline-block;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 2px;
-      color: rgba(255, 102, 0, 0.9);
-      border: 1px solid rgba(255, 102, 0, 0.32);
-      border-radius: 999px;
-      padding: 4px 10px;
-      margin-bottom: 16px;
-      opacity: 1;
-    }
-
-    .hero-profile .classification {
-      margin-bottom: 8px;
-    }
-
-    .profile-bio {
-      font-size: 13px;
-      color: rgba(224, 224, 224, 0.7);
-      line-height: 1.6;
-      padding: 0;
-    }
-
-    .hero-lead {
-      font-size: 17px;
-      font-weight: 800;
-      line-height: 1.62;
-      color: #fff;
+    h1 {
+      font-size: clamp(30px, 6.7vw, 50px);
+      line-height: 1.15;
       letter-spacing: 0;
-      margin: 10px 0 12px;
+      max-width: 720px;
+      text-wrap: balance;
     }
 
-    .hero-subcopy {
-      font-size: 12px;
-      line-height: 1.75;
-      color: rgba(224, 224, 224, 0.74);
-      margin-bottom: 14px;
+    .title-tail {
+      display: block;
     }
 
-    .proof-strip {
+    .nowrap {
+      white-space: nowrap;
+    }
+
+    h2 {
+      font-size: clamp(24px, 5.6vw, 36px);
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      color: rgba(248, 246, 241, 0.78);
+      font-size: clamp(16px, 4vw, 19px);
+      line-height: 1.9;
+      max-width: 670px;
+    }
+
+    .facts {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-      margin: 14px 0 0;
     }
 
-    .proof-item {
-      min-height: 48px;
-      padding: 10px 9px 9px;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
+    .fact {
+      border-top: 1px solid var(--line);
+      padding-top: 11px;
+      min-width: 0;
     }
 
-    .proof-label {
+    .fact strong {
       display: block;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 8px;
-      color: rgba(0, 255, 65, 0.62);
-      letter-spacing: 1px;
-      margin-bottom: 4px;
+      color: var(--warm);
+      font-size: 19px;
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
-    .proof-value {
+    .fact span {
       display: block;
-      font-size: 11px;
-      font-weight: 700;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      margin-top: 5px;
+    }
+
+    .cta-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      padding: 15px 18px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: var(--accent-ink);
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 800;
       line-height: 1.35;
-      color: rgba(255, 255, 255, 0.88);
+      text-align: center;
+      box-shadow: 0 12px 34px rgba(55, 227, 109, 0.18);
     }
 
-    .route-hint {
+    .button:active {
+      transform: translateY(1px);
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .section {
+      border-top: 1px solid var(--line);
+      padding: 44px 0;
+      display: grid;
+      gap: 22px;
+    }
+
+    .section p {
+      color: rgba(248, 246, 241, 0.78);
+      font-size: 16px;
+    }
+
+    .plain-list,
+    .number-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li,
+    .number-list li,
+    .quote-row {
+      border-left: 2px solid rgba(55, 227, 109, 0.8);
+      background: rgba(255, 255, 255, 0.035);
+      padding: 13px 14px;
+      border-radius: 0 8px 8px 0;
+      color: rgba(248, 246, 241, 0.86);
+    }
+
+    .plain-list li {
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .pillars {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin: 12px 0 18px;
     }
 
-    .route-hint-item {
-      padding: 10px 11px;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.09);
+    .pillar {
+      background: var(--panel);
+      border: 1px solid var(--line);
       border-radius: 8px;
-      font-size: 11px;
-      line-height: 1.55;
-      color: rgba(224, 224, 224, 0.68);
+      padding: 18px;
     }
 
-    .route-hint-item strong {
+    .pillar h3 {
+      margin: 0 0 9px;
+      color: var(--warm);
+      font-size: 20px;
+      line-height: 1.3;
+    }
+
+    .pillar p {
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .quote-row {
+      border-left-color: rgba(241, 173, 66, 0.9);
+    }
+
+    .quote-row strong {
       display: block;
-      color: rgba(255, 204, 0, 0.92);
-      font-size: 12px;
-      margin-bottom: 3px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 5px;
     }
 
-    /* ============================================
-       SECTION DIVIDER
-    ============================================ */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin: 18px 0 12px;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: rgba(255, 102, 0, 0.68);
-      letter-spacing: 2px;
-      opacity: 1;
+    .quote-row span {
+      color: var(--muted);
+      display: block;
+      font-size: 13px;
+      line-height: 1.7;
     }
 
-    .divider::before,
-    .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 102, 0, 0.3), transparent);
+    .number-list {
+      counter-reset: item;
     }
 
-    /* ============================================
-       LINK BUTTONS
-    ============================================ */
-    .links {
-      display: flex;
-      flex-direction: column;
+    .number-list li {
+      counter-increment: item;
+      border-left-color: rgba(255, 90, 72, 0.9);
+      position: relative;
+      padding-left: 48px;
+    }
+
+    .number-list li::before {
+      content: counter(item, decimal-leading-zero);
+      position: absolute;
+      left: 14px;
+      top: 13px;
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.7;
+    }
+
+    .number-list strong {
+      display: block;
+      color: var(--ink);
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+
+    .number-list span {
+      color: var(--muted);
+      display: block;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .proof {
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      display: grid;
       gap: 11px;
     }
 
-    .link-item {
-      position: relative;
-      display: block;
-      text-decoration: none;
-      color: var(--eva-text);
-      transition: all 0.3s ease;
-      cursor: pointer;
-      overflow: hidden;
-      border-radius: 8px;
+    .proof p {
+      font-size: 14px;
+      line-height: 1.75;
     }
 
-    .link-item:active { transform: scale(0.97); }
-
-    /* Tap ripple effect */
-    .link-item::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 0; height: 0;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .link-item.ripple::after {
-      width: 600px; height: 600px;
-      opacity: 0;
-    }
-
-    .link-number {
-      position: absolute;
-      top: 8px; right: 14px;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      opacity: 0.4;
-    }
-
-    .link-label {
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      line-height: 1.42;
-    }
-
-    .link-label .icon {
-      font-size: 18px;
-      width: 24px;
-      text-align: center;
-    }
-
-    .link-desc {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 10px;
-      color: rgba(224, 224, 224, 0.5);
-      margin-top: 5px;
-      padding-left: 34px;
-      letter-spacing: 0;
-    }
-
-    .link-meta {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 11px;
-      line-height: 1.55;
-      margin-top: 7px;
-      padding-left: 34px;
-      letter-spacing: 0;
-    }
-
-    .link-status {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 8px;
-      letter-spacing: 1.5px;
-      margin-bottom: 8px;
-    }
-
-    /* ===== PRIMARY CTA: OPEN CHAT ===== */
-    .link-primary {
-      background: linear-gradient(135deg, rgba(255, 102, 0, 0.14), rgba(255, 255, 255, 0.045));
-      border: 1px solid rgba(255, 102, 0, 0.5);
-      padding: 19px 20px 18px;
-      clip-path: none;
-      animation: none;
-    }
-
-    .link-primary::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: linear-gradient(180deg, var(--eva-red), var(--eva-orange));
-    }
-
-    /* Animated corner brackets */
-    .link-primary .corner-tl,
-    .link-primary .corner-br {
-      display: none;
-    }
-
-    .link-primary .corner-tl {
-      top: 6px; left: 6px;
-      border-top: 2px solid var(--eva-yellow);
-      border-left: 2px solid var(--eva-yellow);
-      animation: corner-blink 2s ease-in-out infinite;
-    }
-
-    .link-primary .corner-br {
-      bottom: 6px; right: 6px;
-      border-bottom: 2px solid var(--eva-yellow);
-      border-right: 2px solid var(--eva-yellow);
-      animation: corner-blink 2s ease-in-out infinite 1s;
-    }
-
-    @keyframes corner-blink {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
-    }
-
-    .link-primary .link-number { color: var(--eva-orange); opacity: 0.6; }
-    .link-primary .link-status { color: rgba(0, 255, 65, 0.78); }
-    .link-primary .link-label { font-size: 17px; color: #fff; }
-    .link-primary .link-meta { color: rgba(255, 224, 92, 0.92); opacity: 1; }
-
-    /* Progress bar */
-    .progress-bar { display: none; }
-    .progress-track {
-      height: 4px;
-      background: rgba(255, 255, 255, 0.08);
-      position: relative;
-      clip-path: polygon(0 0, calc(100% - 3px) 0, 100% 100%, 3px 100%);
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--eva-green), var(--eva-yellow));
-      transition: width 1.5s ease-out;
-    }
-
-    .progress-fill.danger {
-      background: linear-gradient(90deg, var(--eva-orange), var(--eva-red));
-    }
-
-    .progress-text {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      color: rgba(224, 224, 224, 0.4);
-      margin-top: 4px;
-      text-align: right;
-      letter-spacing: 1px;
-    }
-
-    @keyframes primary-glow {
-      0%, 100% { box-shadow: 0 0 15px rgba(255, 26, 26, 0.15), inset 0 0 15px rgba(255, 26, 26, 0.03); }
-      50% { box-shadow: 0 0 25px rgba(255, 26, 26, 0.3), inset 0 0 25px rgba(255, 26, 26, 0.06); }
-    }
-
-    /* ===== SECONDARY: CONSULTATION ===== */
-    .link-special {
-      background: linear-gradient(135deg, rgba(107, 29, 123, 0.12), rgba(255, 255, 255, 0.035));
-      border: 1px solid rgba(180, 92, 210, 0.32);
-      padding: 18px 20px 17px;
-      clip-path: none;
-    }
-
-    .link-special::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: var(--eva-purple);
-    }
-
-    .link-special .link-number { color: var(--eva-purple); opacity: 0.6; }
-    .link-special .link-status { color: rgba(255, 102, 0, 0.78); }
-    .link-special .link-label { font-size: 16px; }
-    .link-special .link-meta { color: rgba(0, 255, 65, 0.78); opacity: 1; }
-
-    /* ===== DIRECT: OPEN CHAT FALLBACK ===== */
-    .link-direct {
-      background: linear-gradient(135deg, rgba(255, 224, 92, 0.08), rgba(255, 255, 255, 0.025));
-      border: 1px solid rgba(255, 224, 92, 0.22);
-      padding: 14px 18px;
-      clip-path: none;
-    }
-
-    .link-direct::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: var(--eva-yellow);
-      opacity: 0.7;
-    }
-
-    .link-direct .link-number { color: var(--eva-yellow); opacity: 0.45; }
-    .link-direct .link-status { color: rgba(255, 224, 92, 0.62); }
-    .link-direct .link-label { font-size: 15px; }
-    .link-direct .link-meta { color: rgba(224, 224, 224, 0.48); }
-
-    /* ===== TERTIARY: YOUTUBE ===== */
-    .link-tertiary {
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 12px 18px;
-      clip-path: none;
-    }
-
-    .link-tertiary::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: var(--eva-red);
-      opacity: 0.6;
-    }
-
-    .link-tertiary .link-number { color: var(--eva-red); opacity: 0.35; }
-    .link-tertiary .link-meta { color: rgba(224, 224, 224, 0.35); }
-
-    /* ===== MINIMAL: TIKTOK ===== */
-    .link-minimal {
-      background: rgba(255, 255, 255, 0.025);
-      border: 1px solid rgba(224, 224, 224, 0.08);
-      padding: 11px 18px;
-      clip-path: none;
-    }
-
-    .link-minimal .link-number { color: rgba(224, 224, 224, 0.25); }
-    .link-minimal .link-label { font-size: 13px; color: rgba(224, 224, 224, 0.6); }
-    .link-minimal .link-desc { color: rgba(224, 224, 224, 0.25); }
-
-    /* ============================================
-       CLOSING & FOOTER
-    ============================================ */
-    .closing {
-      display: none;
-      text-align: center;
-      margin-top: 28px;
-      margin-bottom: 8px;
-    }
-
-    .closing-text {
-      font-size: 12px;
-      color: rgba(224, 224, 224, 0.3);
-      line-height: 1.8;
-      font-style: italic;
-    }
-
-    .footer {
-      margin-top: 16px;
-      text-align: center;
-    }
-
-    .footer .warning-stripe { margin-bottom: 12px; margin-top: 0; }
-
-    .footer-text {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      color: rgba(224, 224, 224, 0.3);
-      letter-spacing: 1.5px;
-    }
-
-    /* ============================================
-       HEX DECORATIONS
-    ============================================ */
-    .hex-decoration {
-      display: none;
-      position: fixed;
-      width: 60px; height: 60px;
-      border: 1px solid rgba(255, 26, 26, 0.1);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      animation: hex-float 8s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .hex-decoration:nth-child(1) { top: 10%; left: 5%; }
-    .hex-decoration:nth-child(2) { top: 30%; right: 3%; width: 40px; height: 40px; animation-delay: -3s; }
-    .hex-decoration:nth-child(3) { bottom: 20%; left: 8%; width: 50px; height: 50px; animation-delay: -5s; }
-
-    @keyframes hex-float {
-      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-      50% { transform: translateY(-20px) rotate(30deg); opacity: 0.6; }
-    }
-
-    /* ============================================
-       SKIP BUTTON
-    ============================================ */
-    .skip-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 20px;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: rgba(224, 224, 224, 0.3);
-      background: none;
-      border: 1px solid rgba(224, 224, 224, 0.15);
-      padding: 6px 16px;
-      cursor: pointer;
-      z-index: 10000;
-      letter-spacing: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .skip-btn:active { color: var(--eva-text); border-color: var(--eva-text); }
-    .skip-btn.hidden { display: none; }
-
-    /* ============================================
-       PROFILE MODAL
-    ============================================ */
-    .modal-backdrop {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(5, 5, 8, 0.92);
-      z-index: 10001;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-      padding: 20px;
-    }
-
-    .modal-backdrop.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal {
-      width: 100%;
-      max-width: 380px;
-      background: linear-gradient(180deg, rgba(10, 10, 15, 0.98), rgba(26, 26, 46, 0.95));
-      border: 1px solid var(--eva-red);
-      position: relative;
-      clip-path: polygon(
-        0 0, calc(100% - 16px) 0, 100% 16px,
-        100% 100%, 16px 100%, 0 calc(100% - 16px)
-      );
-      transform: scale(0.9) translateY(20px);
-      transition: transform 0.4s ease;
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-
-    .modal-backdrop.active .modal {
-      transform: scale(1) translateY(0);
-    }
-
-    /* Modal top accent bar */
-    .modal::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 3px;
-      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange), var(--eva-yellow));
-    }
-
-    .modal-header {
-      padding: 20px 20px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-header-label {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: var(--eva-red);
-      letter-spacing: 3px;
-    }
-
-    .modal-close {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: rgba(224, 224, 224, 0.4);
-      background: none;
-      border: 1px solid rgba(224, 224, 224, 0.15);
-      padding: 4px 12px;
-      cursor: pointer;
-      letter-spacing: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .modal-close:active {
-      color: var(--eva-text);
-      border-color: var(--eva-red);
-    }
-
-    .modal-body {
-      padding: 20px;
-    }
-
-    .modal-stripe {
-      height: 3px;
-      background: repeating-linear-gradient(
-        -45deg, var(--eva-yellow), var(--eva-yellow) 6px,
-        transparent 6px, transparent 12px
-      );
-      opacity: 0.4;
-      margin: 14px 0;
-    }
-
-    .modal-section-title {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      color: var(--eva-orange);
-      letter-spacing: 3px;
-      margin-bottom: 10px;
-    }
-
-    .modal-name {
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 4px;
-      background: linear-gradient(90deg, var(--eva-red), var(--eva-orange));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 2px;
-    }
-
-    .modal-name-sub {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: rgba(224, 224, 224, 0.5);
-      letter-spacing: 2px;
-      margin-bottom: 4px;
-    }
-
-    .modal-role {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: var(--eva-green);
-      letter-spacing: 2px;
-    }
-
-    /* Stats grid */
-    .modal-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .stat-item {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 10px 12px;
-      clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
-    }
-
-    .stat-label {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 8px;
-      color: rgba(224, 224, 224, 0.35);
-      letter-spacing: 2px;
-      margin-bottom: 4px;
-    }
-
-    .stat-value {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 12px;
-      color: var(--eva-text);
-      letter-spacing: 1px;
-    }
-
-    .stat-value.highlight { color: var(--eva-yellow); }
-    .stat-value.green { color: var(--eva-green); }
-    .stat-value.red { color: var(--eva-red); }
-
-    /* Timeline */
-    .timeline {
-      margin-top: 4px;
-    }
-
-    .timeline-item {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 12px;
-      position: relative;
-    }
-
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: 5px;
-      top: 14px;
-      width: 1px;
-      height: calc(100% + 4px);
-      background: rgba(255, 26, 26, 0.2);
-    }
-
-    .timeline-item:last-child::before { display: none; }
-
-    .timeline-dot {
-      width: 11px;
-      height: 11px;
-      min-width: 11px;
-      border: 2px solid var(--eva-red);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      margin-top: 2px;
-    }
-
-    .timeline-content {}
-
-    .timeline-year {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      color: var(--eva-orange);
-      letter-spacing: 2px;
-    }
-
-    .timeline-text {
-      font-size: 12px;
-      color: rgba(224, 224, 224, 0.7);
-      line-height: 1.5;
-      margin-top: 2px;
-    }
-
-    /* Skill bars */
-    .skill-bars { margin-top: 4px; }
-
-    .skill-item {
-      margin-bottom: 10px;
-    }
-
-    .skill-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 4px;
-    }
-
-    .skill-name {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: rgba(224, 224, 224, 0.6);
-      letter-spacing: 1px;
-    }
-
-    .skill-pct {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: var(--eva-green);
-      letter-spacing: 1px;
-    }
-
-    .skill-track {
-      height: 4px;
-      background: rgba(255, 255, 255, 0.06);
-      clip-path: polygon(0 0, calc(100% - 2px) 0, 100% 100%, 2px 100%);
-    }
-
-    .skill-fill {
-      height: 100%;
-      width: 0%;
-      transition: width 1s ease-out 0.4s;
-    }
-
-    .skill-fill.red { background: linear-gradient(90deg, var(--eva-red), var(--eva-orange)); }
-    .skill-fill.green { background: linear-gradient(90deg, var(--eva-green), var(--eva-yellow)); }
-    .skill-fill.purple { background: linear-gradient(90deg, var(--eva-purple), var(--eva-red)); }
-
-    /* Tap hint on profile image */
-    .profile-image-wrapper {
-      cursor: pointer;
-    }
-
-    .tap-hint {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      color: rgba(224, 224, 224, 0.25);
-      letter-spacing: 2px;
-      margin-top: -12px;
-      margin-bottom: 16px;
-      animation: tap-fade 3s ease-in-out infinite;
-    }
-
-    @keyframes tap-fade {
-      0%, 100% { opacity: 0.25; }
-      50% { opacity: 0.6; }
-    }
-
-    /* ============================================
-       MAGI VOTING OVERLAY
-    ============================================ */
-    .magi-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.92);
-      z-index: 10002;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .magi-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .magi-line {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 16px;
-      color: var(--eva-green);
-      letter-spacing: 4px;
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      margin: 6px 0;
-    }
-
-    .magi-line.show {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .magi-approved {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 20px;
-      color: var(--eva-yellow);
-      letter-spacing: 6px;
-      margin-top: 20px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .magi-approved.show {
-      opacity: 1;
-    }
-
-    .magi-progress {
-      width: 200px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.1);
-      margin-top: 12px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .magi-progress.show {
-      opacity: 1;
-    }
-
-    .magi-progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--eva-green), var(--eva-yellow));
-      transition: width 0.4s ease;
-    }
-
-    /* ============================================
-       LONG PRESS EASTER EGG
-    ============================================ */
-    .easter-egg-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #000;
-      z-index: 10002;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1s ease;
-    }
-
-    .easter-egg-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .easter-egg-text {
-      font-size: 18px;
-      color: #fff;
-      letter-spacing: 4px;
-      opacity: 0;
-      transition: opacity 1.5s ease;
-    }
-
-    .easter-egg-overlay.active .easter-egg-text {
-      opacity: 1;
-    }
-
-    .easter-egg-credit {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-      margin-top: 16px;
-      opacity: 0;
-      transition: opacity 1.5s ease 0.5s;
-    }
-
-    .easter-egg-overlay.active .easter-egg-credit {
-      opacity: 1;
-    }
-
-    /* ============================================
-       INTRUSION TIMER
-    ============================================ */
-    .intrusion-timer {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: var(--eva-red);
-      letter-spacing: 2px;
-      text-align: center;
+    .final {
       margin-top: 8px;
-      opacity: 0.6;
+      background: #f8f6f1;
+      color: #111214;
+      border-radius: 8px;
+      padding: 28px 20px;
+      display: grid;
+      gap: 16px;
     }
 
-    .intrusion-warning {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      color: var(--eva-red);
-      letter-spacing: 1px;
-      text-align: center;
-      margin-top: 4px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      animation: none;
+    .final h2 {
+      color: #111214;
     }
 
-    .intrusion-warning.active {
-      opacity: 1;
-      animation: warning-flash 0.5s ease-in-out infinite;
+    .final p {
+      color: rgba(17, 18, 20, 0.72);
+      font-size: 15px;
+      line-height: 1.8;
     }
 
-    @keyframes warning-flash {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+    .final .button {
+      background: #111214;
+      color: #f8f6f1;
+      box-shadow: none;
     }
 
-    /* ============================================
-       DUMMY SYSTEM GLITCH
-    ============================================ */
-    .dummy-system-text {
+    .limit {
+      color: var(--danger);
+      font-weight: 800;
+    }
+
+    .sticky-cta {
       position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 24px;
-      color: var(--eva-red);
-      letter-spacing: 6px;
-      z-index: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(7, 8, 11, 0.84);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
       opacity: 0;
       pointer-events: none;
-      text-shadow: 0 0 20px rgba(255, 26, 26, 0.8);
+      transform: translateY(110%);
+      transition: opacity 0.24s ease, transform 0.24s ease;
     }
 
-    .dummy-system-text.active {
+    .sticky-cta.is-visible {
       opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
     }
 
-    .container.glitch-effect {
-      transform: translate(3px, -2px);
-      filter: invert(0.08) hue-rotate(30deg);
+    .sticky-cta a {
+      width: min(100%, var(--max));
+      margin: 0 auto;
     }
 
-    /* ============================================
-       COUNTDOWN TIMER
-    ============================================ */
-    .countdown-timer {
-      display: none;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: var(--eva-red);
-      letter-spacing: 3px;
-      text-align: center;
-      margin-bottom: 10px;
+    @media (max-width: 640px) {
+      .page {
+        padding: 22px 16px 34px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 14px;
+      }
+
+      .facts,
+      .pillars {
+        grid-template-columns: 1fr;
+      }
+
+      .fact strong {
+        white-space: normal;
+      }
+
+      .section {
+        padding: 38px 0;
+      }
     }
 
-    /* Mobile */
-    @media (max-width: 480px) {
-      .container {
-        padding: 14px;
-        margin: 8px auto;
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
       }
-      .hero-panel {
-        padding: 16px 15px 15px;
-        margin-bottom: 14px;
+
+      .button:active {
+        transform: none;
       }
-      .hero-profile {
-        grid-template-columns: 78px 1fr;
-        gap: 13px;
-        margin-bottom: 12px;
-      }
-      .hero-profile .profile-image-wrapper,
-      .hero-profile .profile-image {
-        width: 72px;
-        height: 72px;
-      }
-      .hero-profile .at-field {
-        width: 104px;
-        height: 104px;
-      }
-      .classification {
-        font-size: 8px;
-        letter-spacing: 2px;
-        padding: 3px 9px;
-      }
-      .profile-name {
-        font-size: 28px;
-        letter-spacing: 5px;
-      }
-      .profile-handle {
-        font-size: 10px;
-        letter-spacing: 2px;
-        margin-bottom: 8px;
-      }
-      .profile-bio {
-        font-size: 12px;
-      }
-      .hero-lead {
-        font-size: 15px;
-        line-height: 1.58;
-      }
-      .hero-subcopy {
-        font-size: 11px;
-        line-height: 1.65;
-      }
-      .proof-strip {
-        gap: 5px;
-      }
-      .proof-item {
-        min-height: 44px;
-        padding: 8px 6px;
-      }
-      .proof-label {
-        font-size: 7px;
-      }
-      .proof-value {
-        font-size: 10px;
-      }
-      .route-hint {
-        gap: 6px;
-        margin-bottom: 14px;
-      }
-      .route-hint-item {
-        padding: 9px 8px;
-        font-size: 10px;
-      }
-      .route-hint-item strong {
-        font-size: 11px;
-      }
-      .link-primary .link-label {
-        font-size: 15px;
-      }
-      .link-special .link-label {
-        font-size: 15px;
-      }
-      .link-meta {
-        font-size: 10px;
-      }
-      .hex-decoration { display: none; }
-      .boot-terminal { width: 260px; font-size: 10px; }
-      .boot-line.big { font-size: 24px; }
-      .modal { max-height: 85vh; }
     }
   </style>
 </head>
 <body>
-
-  <!-- MAGI Voting Overlay -->
-  <div class="magi-overlay" id="magiOverlay">
-    <div class="magi-line" id="magiCasper">CASPER: 承認</div>
-    <div class="magi-line" id="magiBalthasar">BALTHASAR: 承認</div>
-    <div class="magi-line" id="magiMelchior">MELCHIOR: 承認</div>
-    <div class="magi-approved" id="magiApproved">承認完了</div>
-    <div class="magi-progress" id="magiProgress">
-      <div class="magi-progress-fill" id="magiProgressFill"></div>
-    </div>
-  </div>
-
-  <!-- Long Press Easter Egg -->
-  <div class="easter-egg-overlay" id="easterEggOverlay">
-    <div class="easter-egg-text">「僕はここにいてもいいんだ」</div>
-    <div class="easter-egg-credit">— 碇シンジ</div>
-  </div>
-
-  <!-- Dummy System Glitch Text -->
-  <div class="dummy-system-text" id="dummySystemText">DUMMY SYSTEM ACTIVATED</div>
-
-  <!-- Profile Modal -->
-  <div class="modal-backdrop" id="profileModal">
-    <div class="modal">
-      <div class="modal-header">
-        <span class="modal-header-label">/// PERSONNEL FILE</span>
-        <button class="modal-close" id="modalClose">CLOSE ×</button>
-      </div>
-      <div class="modal-body">
-
-        <div class="modal-section-title">/// OPERATOR ID</div>
-        <div class="modal-name">樋田 洋斗</div>
-        <div class="modal-name-sub">TOIDA HIROTO /// "TOY"</div>
-        <div class="modal-role">SNS STRATEGIST / CONTENT DIRECTOR</div>
-
-        <div class="modal-stripe"></div>
-
-        <div class="modal-section-title">/// STATUS</div>
-        <div class="modal-stats">
-          <div class="stat-item">
-            <div class="stat-label">AFFILIATION</div>
-            <div class="stat-value highlight">SAKIYOMI</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">POSITION</div>
-            <div class="stat-value">SNS運用のプロ</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">SYNC RATE</div>
-            <div class="stat-value green">98.2%</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">THREAT LEVEL</div>
-            <div class="stat-value red">S-CLASS</div>
-          </div>
-        </div>
-
-        <div class="modal-stripe"></div>
-
-        <div class="modal-section-title">/// OPERATION HISTORY</div>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-year">PHASE 01</div>
-              <div class="timeline-text">SAKIYOMI参画。SNS運用の最前線へ</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-year">PHASE 02</div>
-              <div class="timeline-text">公式YouTube / セミナー / コンサル事業を統括</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-year">PHASE 03</div>
-              <div class="timeline-text">TikTok「ToyのSNS愛は止められない」開設。個人でもSNSの本質を発信開始</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-year">CURRENT</div>
-              <div class="timeline-text">SNS戦略立案 × コンテンツ制作 × 個別コンサルで多方面に展開中</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-stripe"></div>
-
-        <div class="modal-section-title">/// ABILITY PARAMETERS</div>
-        <div class="skill-bars">
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">SNS STRATEGY</span>
-              <span class="skill-pct">96%</span>
-            </div>
-            <div class="skill-track">
-              <div class="skill-fill red" data-width="96%"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">CONTENT CREATION</span>
-              <span class="skill-pct">92%</span>
-            </div>
-            <div class="skill-track">
-              <div class="skill-fill green" data-width="92%"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">CONSULTING</span>
-              <span class="skill-pct">94%</span>
-            </div>
-            <div class="skill-track">
-              <div class="skill-fill purple" data-width="94%"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">SNS PASSION</span>
-              <span class="skill-pct">∞</span>
-            </div>
-            <div class="skill-track">
-              <div class="skill-fill red" data-width="100%"></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Boot Sequence Overlay -->
-  <div class="boot-overlay" id="bootOverlay">
-    <div class="boot-terminal" id="bootTerminal">
-      <div class="boot-line" data-delay="0">SYSTEM BOOT SEQUENCE</div>
-      <div class="boot-line" data-delay="120">///////////////////////////</div>
-      <div class="boot-line" data-delay="260">> INITIALIZING MAGI SYSTEM...</div>
-      <div class="boot-line" data-delay="420">> CASPER___ <span style="color:#00ff41">OK</span></div>
-      <div class="boot-line" data-delay="540">> BALTHASAR <span style="color:#00ff41">OK</span></div>
-      <div class="boot-line" data-delay="660">> MELCHIOR_ <span style="color:#00ff41">OK</span></div>
-      <div class="boot-warning-stripe" data-delay="820"></div>
-      <div class="boot-line red" data-delay="960">[WARNING] A.T.FIELD DETECTED</div>
-      <div class="boot-line yellow" data-delay="1120">> PATTERN: BLUE</div>
-      <div class="boot-line" data-delay="1280">> LOADING OPERATOR PROFILE...</div>
-      <div class="boot-line big center" data-delay="1480">TOY</div>
-      <div class="boot-line center orange" data-delay="1640">SNS愛は止められない</div>
-      <div class="boot-warning-stripe" data-delay="1780"></div>
-      <div class="boot-line center" data-delay="1900" style="color: var(--eva-red); font-size: 9px;">/// ACCESS GRANTED ///</div>
-    </div>
-  </div>
-
-  <!-- Skip button -->
-  <button class="skip-btn" id="skipBtn" onclick="skipBoot()">SKIP ▶</button>
-
-  <!-- Scan lines (as div, not ::after, for TikTok WebView tap compatibility) -->
-  <div style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:0;"></div>
-
-  <!-- Background -->
-  <div class="scan-beam"></div>
-  <div class="particles">
-    <div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div>
-  </div>
-  <div class="hex-decoration"></div>
-  <div class="hex-decoration"></div>
-  <div class="hex-decoration"></div>
-
-  <!-- Main Content -->
-  <div class="container" id="mainContent">
-
-    <div class="countdown-timer" id="countdownTimer">人類補完計画 発動まで 00:00:00</div>
-
-    <div class="warning-stripe"></div>
-
-    <div class="system-bar">
-      SYSTEM STATUS: <span>ACTIVE</span> /// MAGI-01
-    </div>
-
-    <!-- Profile / Value Proposition -->
-    <section class="hero-panel reveal-item" aria-label="Toy profile and SNS consultation routes">
+  <main class="page">
+    <header class="hero">
       <div class="profile">
-        <div class="hero-profile">
-          <div class="profile-image-wrapper" onclick="openProfile()" role="button" tabindex="0" aria-label="Toyのプロフィールを見る">
-            <div class="at-field"></div>
-            <img src="profile.jpg" alt="Toy" class="profile-image">
-          </div>
-          <div>
-            <div class="classification">CLASSIFIED /// PERSONAL</div>
-            <h1 class="profile-name" id="profileName">TOY</h1>
-            <div class="profile-handle">@TOY_NO_SNS_AI</div>
-            <div class="profile-bio">SNS愛は止められない。</div>
-          </div>
+        <img src="profile.jpg" alt="Toyのプロフィール写真">
+        <div>
+          <strong>Toy</strong>
+          <span>@toy_no_sns_ai / SAKIYOMI</span>
         </div>
+      </div>
 
-        <p class="hero-lead">SNSを伸ばしたいけど、何から直せばいいかわからない人へ。</p>
-        <p class="hero-subcopy">SAKIYOMIでSNS運用・YouTube・セミナー・個別相談を担当。SNSの悩みを、次に動ける作戦に変えます。</p>
+      <h1>インフルエンサー約<span class="nowrap">100名</span>と話してわかった、<span class="title-tail">2026年残りの<span class="nowrap">8ヶ月</span>を後悔しない方法</span></h1>
 
-        <div class="proof-strip" aria-label="Toyの活動領域">
-          <div class="proof-item">
-            <span class="proof-label">AFFILIATION</span>
-            <span class="proof-value">SAKIYOMI</span>
-          </div>
-          <div class="proof-item">
-            <span class="proof-label">FIELD</span>
-            <span class="proof-value">SNS運用 / YouTube</span>
-          </div>
-          <div class="proof-item">
-            <span class="proof-label">MISSION</span>
-            <span class="proof-value">個別相談 / 戦略設計</span>
-          </div>
+      <p class="lead">
+        2026年、あっという間に4ヶ月が終了。1〜4月で10万フォロワー以上の人とひたすら会って見えたのは、フォロワーが多い人ほど悩みが根深いということでした。
+      </p>
+
+      <div class="facts" aria-label="今回の前提">
+        <div class="fact">
+          <strong>100名弱</strong>
+          <span>10万フォロワー以上の人と対話</span>
         </div>
+        <div class="fact">
+          <strong>2要素</strong>
+          <span>伸びる人は役に立ち、憧れられる</span>
+        </div>
+        <div class="fact">
+          <strong>10名限定</strong>
+          <span>無料コーチングセッションを案内</span>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a class="button" href="https://bit.ly/sakiyomi010">LINEで無料コーチング相談を受ける</a>
+        <p class="note">SNS運用の目的、伸ばし方、売上化までを一緒に整理します。</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <h2>フォロワーが多い人ほど、悩みは深かった。</h2>
+      <ul class="plain-list">
+        <li>マネタイズ方法がわからない。</li>
+        <li>リールは見られるけど、ストーリーズはほとんど見られない。</li>
+        <li>なんのためにSNSをやっているかわからない。</li>
+        <li>今のやり方では疲弊する。</li>
+      </ul>
+      <p>SNSの最前線を生きる人たちでさえ、苦しんでいる。だからこそ、ただ投稿を増やす前に、運用の前提を整理する必要があります。</p>
+    </section>
+
+    <section class="section">
+      <h2>SNS運用で成果を出す人は、2つを外していない。</h2>
+      <div class="pillars">
+        <div class="pillar">
+          <h3>役に立つ</h3>
+          <p>困りごとを解決できること。再生回数が取れ、フォロワーが増えるアカウントには、ユーザー起点の便益があります。</p>
+        </div>
+        <div class="pillar">
+          <h3>憧れられる</h3>
+          <p>目的やゴールが明確で、更新され続けていること。人を動かし、持続可能なSNS運用にするための要素です。</p>
+        </div>
+      </div>
+      <div class="quote-row">
+        <strong>伸びる動画ほど、悩みに即して作られている。</strong>
+        <span>100万再生を超える投稿も、リアルな悩みを聞き、解決策を調べ抜くところから生まれていました。</span>
       </div>
     </section>
 
-    <div class="route-hint reveal-item" aria-label="おすすめ導線">
-      <div class="route-hint-item">
-        <strong>まず情報収集したい</strong>
-        公式LINEで案内を受け取る
+    <section class="section">
+      <h2>伸びない理由は、ユーザー起点になりきれていないから。</h2>
+      <p>アカウントを伸ばすには、ただ良いことを言うだけでは足りません。ユーザーの悩み、既存の解決策、その解決策で生まれる課題まで整理して、初めて便益性と独自性が生まれます。</p>
+      <ul class="number-list">
+        <li>
+          <strong>ユーザーが抱えている悩みを特定する</strong>
+          <span>誰の、どんな困りごとを解くのかを曖昧にしない。</span>
+        </li>
+        <li>
+          <strong>既存の解決策を特定する</strong>
+          <span>競合が何を言っているか、何がすでに満たされているかを見る。</span>
+        </li>
+        <li>
+          <strong>その解決策で生まれる想定課題を特定する</strong>
+          <span>ここまで見えて初めて、自分が出すべき独自性が決まる。</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>売上にならない理由は、目的やゴールが曖昧だから。</h2>
+      <p>役に立っているだけでは、ただの良い人で止まります。必要なのは、あなたが何者で、どこに向かいたくて、そのために何をしているのか。物語としての辻褄です。</p>
+      <p>この要素がないと、人を動かすことも、持続的にアカウントを運用することも難しくなります。</p>
+    </section>
+
+    <section class="section">
+      <h2>本当に詰まっているのは、自分の中にある3つの敵。</h2>
+      <ul class="number-list">
+        <li>
+          <strong>社会的な自分</strong>
+          <span>役に立ちたい相手を、社会的な正解として選んでしまう。</span>
+        </li>
+        <li>
+          <strong>冷笑的な自分</strong>
+          <span>理想やゴールを立てても、そんなの無理だよねとブレーキをかける。</span>
+        </li>
+        <li>
+          <strong>効率的な自分</strong>
+          <span>役に立つことと理想のゴールを、両立させるアイデアまで考えきれない。</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>だから、自分の外側から問いを投げてもらう時間が必要です。</h2>
+      <p>自分だけで考えると、どうしても妥協したり、後回しにしたり、今の延長で答えを出してしまいます。外側から問いを受け続けることでしか突破できない壁があります。</p>
+      <div class="proof">
+        <p>SAKIYOMIでは2024年12月からコーチングを社内に導入。メンバーがコーチング資格を取得し、個人と組織の両方で活用しています。</p>
+        <p>僕自身も2024年末にコーチングを受け、アカウントを2つ立ち上げ。片方は2ヶ月で1万フォロワー、もう片方は50投稿で1万フォロワーを達成しました。</p>
       </div>
-      <div class="route-hint-item">
-        <strong>自分のSNSを相談したい</strong>
-        個別相談LINEへ
-      </div>
-    </div>
+    </section>
 
-    <!-- Links -->
-    <div class="divider">MISSION SELECT</div>
+    <section class="final" id="consultation">
+      <h2>2026年の残りを、今の延長で終わらせない。</h2>
+      <p>
+        SNS運用のその先を目指している人に向けて、無料コーチングセッションを案内します。
+        すでに別セミナー経由で申し込みが増えているため、今回は<span class="limit">10名限定</span>です。
+      </p>
+      <a class="button" href="https://bit.ly/sakiyomi010">LINEで個別相談に申し込む</a>
+    </section>
+  </main>
 
-    <div class="links">
-
-      <!-- PRIMARY: Official LINE gateway -->
-      <a href="https://bit.ly/sakiyomi010" data-native-link="true" class="link-item link-primary reveal-item">
-        <div class="corner-tl"></div>
-        <div class="corner-br"></div>
-        <span class="link-number">01</span>
-        <div class="link-status">/// MISSION 01: SAFE LINE ROUTE</div>
-        <div class="link-label">
-          <span class="icon">◈</span>公式LINEでオープンチャット案内を受け取る
-        </div>
-        <div class="link-desc">// TikTokから確実にLINEへ移動する推奨ルート</div>
-        <div class="link-meta">無料相談・OpenChat参加URLをLINE内で案内します</div>
-        <div class="progress-bar">
-          <div class="progress-track">
-            <div class="progress-fill danger" id="progressFill"></div>
-          </div>
-          <div class="progress-text">SAFE ENTRY /// OFFICIAL LINE</div>
-        </div>
-      </a>
-
-      <!-- SPECIAL: Consultation -->
-      <a href="https://bit.ly/sakiyomi010" data-native-link="true" class="link-item link-special reveal-item">
-        <span class="link-number">02</span>
-        <div class="link-status">/// MISSION 02: 1-ON-1 CONSULTATION</div>
-        <div class="link-label">
-          <span class="icon">◇</span>LINEで個別相談する
-        </div>
-        <div class="link-desc">// 自分のアカウントを本気で改善したい人向け</div>
-        <div class="link-meta">課題整理から伸ばし方まで、あなた専用のSNS作戦を相談できます</div>
-      </a>
-
-      <!-- DIRECT: Open Chat -->
-      <a href="https://line.me/ti/g2/oYp56yKMawDb8OxqIkeenXXBFpPAnjOw94-lwQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" data-native-link="true" class="link-item link-direct reveal-item">
-        <span class="link-number">03</span>
-        <div class="link-status">/// MISSION 03: DIRECT OPEN CHAT</div>
-        <div class="link-label">
-          <span class="icon">□</span>オープンチャットを直接開く
-        </div>
-        <div class="link-desc">// LINEアプリ・外部ブラウザで開く人向け</div>
-        <div class="link-meta">TikTokで止まる場合は上の公式LINEから受け取ってください</div>
-      </a>
-
-      <!-- TERTIARY: YouTube -->
-      <a href="https://www.youtube.com/@sns_sakiyomi" class="link-item link-tertiary reveal-item" target="_blank" rel="noopener">
-        <span class="link-number">04</span>
-        <div class="link-label">
-          <span class="icon">▷</span>YouTubeでSNS運用を見る
-        </div>
-        <div class="link-desc">// SAKIYOMI YOUTUBE</div>
-        <div class="link-meta">SNS運用のプロが裏側を公開中</div>
-      </a>
-
-      <!-- MINIMAL: TikTok -->
-      <a href="https://www.tiktok.com/@toysns?lang=ja-JP" class="link-item link-minimal reveal-item" target="_blank" rel="noopener">
-        <span class="link-number">05</span>
-        <div class="link-label">
-          <span class="icon">▶</span>TikTok @toysns
-        </div>
-        <div class="link-desc">// FOLLOW MAIN ACCOUNT</div>
-      </a>
-
-    </div>
-
-    <!-- Closing -->
-    <div class="closing">
-      <div class="closing-text">
-        逃げちゃダメだ、逃げちゃダメだ、逃げちゃダメだ。
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-      <div class="warning-stripe"></div>
-      <div class="footer-text">NERV TOKYO-3 /// ALL RIGHTS RESERVED</div>
-      <div class="intrusion-timer" id="intrusionTimer">侵入から 00:00:00 経過</div>
-      <div class="intrusion-warning" id="intrusionWarning">/// WARNING: NERV本部がアクセスを検知しました</div>
-    </div>
-
+  <div class="sticky-cta" id="stickyCta" aria-label="固定CTA">
+    <a class="button" href="https://bit.ly/sakiyomi010">LINEで個別相談に申し込む</a>
   </div>
 
   <script>
-    var bootComplete = false;
-
-    function startBoot() {
-      var lines = document.querySelectorAll('.boot-line, .boot-warning-stripe');
-      var maxDelay = 0;
-
-      lines.forEach(function(line) {
-        var delay = parseInt(line.getAttribute('data-delay')) || 0;
-        if (delay > maxDelay) maxDelay = delay;
-        setTimeout(function() {
-          if (!bootComplete) line.classList.add('show');
-        }, delay);
-      });
-
-      // After boot sequence, reveal main content
-      setTimeout(function() {
-        if (!bootComplete) revealContent();
-      }, maxDelay + 650);
-    }
-
-    function revealContent() {
-      bootComplete = true;
-      document.getElementById('bootOverlay').classList.add('fade-out');
-      document.getElementById('skipBtn').classList.add('hidden');
-      var main = document.getElementById('mainContent');
-      main.classList.add('revealed');
-
-      // Animate progress bar
-      setTimeout(function() {
-        var fill = document.getElementById('progressFill');
-        if (fill) fill.style.width = '88%';
-      }, 600);
-
-      // Periodic glitch on profile name
-      setInterval(function() {
-        var name = document.getElementById('profileName');
-        name.classList.add('glitch');
-        setTimeout(function() { name.classList.remove('glitch'); }, 500);
-      }, 5000);
-    }
-
-    function skipBoot() {
-      revealContent();
-    }
-
-    // Profile modal
-    var modal = document.getElementById('profileModal');
-    var modalClose = document.getElementById('modalClose');
-
-    function openProfile() {
-      modal.classList.add('active');
-      setTimeout(function() {
-        document.querySelectorAll('.skill-fill').forEach(function(fill) {
-          fill.style.width = fill.getAttribute('data-width');
-        });
-      }, 100);
-    }
-
-    function closeProfile() {
-      modal.classList.remove('active');
-      document.querySelectorAll('.skill-fill').forEach(function(fill) {
-        fill.style.width = '0%';
-      });
-    }
-
-    modalClose.addEventListener('click', closeProfile);
-    modalClose.addEventListener('touchend', function(e) {
-      e.preventDefault();
-      closeProfile();
-    });
-
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) closeProfile();
-    });
-
-    // Ripple effect on link tap
-    document.querySelectorAll('.link-item').forEach(function(item) {
-      item.addEventListener('touchstart', function() {
-        this.classList.remove('ripple');
-        void this.offsetWidth;
-        this.classList.add('ripple');
-      });
-    });
-
-    // Check if visited recently (skip boot on revisit within session)
-    if (sessionStorage.getItem('bootSeen')) {
-      document.getElementById('bootOverlay').style.display = 'none';
-      document.getElementById('skipBtn').classList.add('hidden');
-      document.getElementById('mainContent').classList.add('revealed');
-      setTimeout(function() {
-        var fill = document.getElementById('progressFill');
-        if (fill) fill.style.width = '88%';
-      }, 300);
-    } else {
-      startBoot();
-      sessionStorage.setItem('bootSeen', '1');
-    }
-    // ============================================
-    // FEATURE 1: MAGI VOTING OVERLAY
-    // ============================================
-    var magiActive = false;
-
-    document.querySelectorAll('.link-item').forEach(function(item) {
-      item.addEventListener('click', function(e) {
-        if (magiActive) return;
-
-        if (this.getAttribute('data-native-link') === 'true') {
-          return;
-        }
-
-        e.preventDefault();
-        var targetUrl = this.getAttribute('href');
-        var targetBlank = this.getAttribute('target') === '_blank';
-        magiActive = true;
-
-        var overlay = document.getElementById('magiOverlay');
-        overlay.classList.add('active');
-
-        // Reset
-        document.getElementById('magiCasper').classList.remove('show');
-        document.getElementById('magiBalthasar').classList.remove('show');
-        document.getElementById('magiMelchior').classList.remove('show');
-        document.getElementById('magiApproved').classList.remove('show');
-        document.getElementById('magiProgress').classList.remove('show');
-        document.getElementById('magiProgressFill').style.width = '0%';
-
-        setTimeout(function() { document.getElementById('magiCasper').classList.add('show'); }, 80);
-        setTimeout(function() { document.getElementById('magiBalthasar').classList.add('show'); }, 220);
-        setTimeout(function() { document.getElementById('magiMelchior').classList.add('show'); }, 360);
-        setTimeout(function() {
-          document.getElementById('magiApproved').classList.add('show');
-          document.getElementById('magiProgress').classList.add('show');
-          setTimeout(function() { document.getElementById('magiProgressFill').style.width = '100%'; }, 50);
-        }, 500);
-
-        setTimeout(function() {
-          overlay.classList.remove('active');
-          magiActive = false;
-          if (targetBlank) {
-            window.open(targetUrl, '_blank');
-          } else {
-            window.location.href = targetUrl;
-          }
-        }, 760);
-      });
-    });
-
-    // ============================================
-    // FEATURE 2: LONG PRESS EASTER EGG
-    // ============================================
     (function() {
-      var profileWrapper = document.querySelector('.profile-image-wrapper');
-      var pressTimer = null;
-      var easterEggActive = false;
-
-      function startPress(e) {
-        if (easterEggActive) return;
-        pressTimer = setTimeout(function() {
-          easterEggActive = true;
-          var overlay = document.getElementById('easterEggOverlay');
-          overlay.classList.add('active');
-
-          setTimeout(function() {
-            overlay.classList.remove('active');
-            setTimeout(function() { easterEggActive = false; }, 1000);
-          }, 3000);
-        }, 2000);
-      }
-
-      function cancelPress() {
-        if (pressTimer) {
-          clearTimeout(pressTimer);
-          pressTimer = null;
+      var stickyCta = document.getElementById('stickyCta');
+      function updateStickyCta() {
+        if (window.scrollY > 520) {
+          stickyCta.classList.add('is-visible');
+        } else {
+          stickyCta.classList.remove('is-visible');
         }
       }
-
-      profileWrapper.addEventListener('touchstart', startPress);
-      profileWrapper.addEventListener('touchend', cancelPress);
-      profileWrapper.addEventListener('touchmove', cancelPress);
-      profileWrapper.addEventListener('mousedown', startPress);
-      profileWrapper.addEventListener('mouseup', cancelPress);
-      profileWrapper.addEventListener('mouseleave', cancelPress);
-    })();
-
-    // ============================================
-    // FEATURE 3: INTRUSION TIMER
-    // ============================================
-    (function() {
-      var startTime = Date.now();
-      var timerEl = document.getElementById('intrusionTimer');
-      var warningEl = document.getElementById('intrusionWarning');
-      var warningShown = false;
-
-      function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-      setInterval(function() {
-        var elapsed = Math.floor((Date.now() - startTime) / 1000);
-        var h = pad(Math.floor(elapsed / 3600));
-        var m = pad(Math.floor((elapsed % 3600) / 60));
-        var s = pad(elapsed % 60);
-        timerEl.textContent = '侵入から ' + h + ':' + m + ':' + s + ' 経過';
-
-        if (elapsed >= 60 && !warningShown) {
-          warningShown = true;
-          warningEl.classList.add('active');
-        }
-      }, 1000);
-    })();
-
-    // ============================================
-    // FEATURE 4: DUMMY SYSTEM GLITCH
-    // ============================================
-    (function() {
-      var container = document.getElementById('mainContent');
-      var dummyText = document.getElementById('dummySystemText');
-
-      function triggerGlitch() {
-        container.classList.add('glitch-effect');
-        dummyText.classList.add('active');
-
-        setTimeout(function() {
-          container.classList.remove('glitch-effect');
-          dummyText.classList.remove('active');
-        }, 300);
-
-        // Schedule next glitch: 30-90 seconds
-        var nextDelay = (30 + Math.random() * 60) * 1000;
-        setTimeout(triggerGlitch, nextDelay);
-      }
-
-      // First glitch after 30-90 seconds
-      var initialDelay = (30 + Math.random() * 60) * 1000;
-      setTimeout(triggerGlitch, initialDelay);
-    })();
-
-    // ============================================
-    // FEATURE 5: COUNTDOWN TIMER
-    // ============================================
-    (function() {
-      var countdownEl = document.getElementById('countdownTimer');
-
-      function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-      function updateCountdown() {
-        var now = new Date();
-        var midnight = new Date(now);
-        midnight.setHours(24, 0, 0, 0);
-        var diff = Math.floor((midnight - now) / 1000);
-
-        var h = pad(Math.floor(diff / 3600));
-        var m = pad(Math.floor((diff % 3600) / 60));
-        var s = pad(diff % 60);
-        countdownEl.textContent = '人類補完計画 発動まで ' + h + ':' + m + ':' + s;
-      }
-
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
+      updateStickyCta();
+      window.addEventListener('scroll', updateStickyCta, { passive: true });
     })();
   </script>
-
 </body>
 </html>

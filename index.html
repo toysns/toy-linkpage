@@ -3,25 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="インフルエンサー約100名との対話から見えた、2026年残りの時間を後悔しないためのSNS運用と個別相談の案内。">
+  <meta name="description" content="インフルエンサー約100名との対話から見えた、2026年残りの8ヶ月を後悔しないためのSNS運用と個別相談の案内。">
   <meta property="og:title" content="Toy | SNS愛は止められない">
-  <meta property="og:description" content="2026年残りの時間を後悔しないために、SNS運用の目的・伸ばし方・売上化を整理する無料個別相談。">
+  <meta property="og:description" content="SNS運用の目的・伸ばし方・売上化を整理する10名限定の無料コーチングセッション。">
   <meta property="og:image" content="profile.jpg">
   <title>Toy | SNS愛は止められない</title>
   <style>
     :root {
-      --bg: #07080b;
-      --panel: #101116;
-      --panel-soft: #15171d;
-      --ink: #f8f6f1;
-      --muted: #a7a5a1;
-      --subtle: #6f706f;
-      --line: rgba(255, 255, 255, 0.12);
-      --accent: #37e36d;
-      --accent-ink: #051109;
-      --warm: #f1ad42;
-      --danger: #ff5a48;
-      --max: 760px;
+      --bg: #030303;
+      --ink: #fbfaf4;
+      --muted: #b8b6ad;
+      --soft: #7e7b72;
+      --line: rgba(251, 250, 244, 0.16);
+      --panel: #10100f;
+      --panel-2: #151513;
+      --green: #22c55e;
+      --green-dark: #063617;
+      --gold: #d7ad55;
+      --max: 430px;
     }
 
     * {
@@ -39,18 +38,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
       letter-spacing: 0;
       line-height: 1.8;
-      padding-bottom: calc(92px + env(safe-area-inset-bottom));
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(180deg, rgba(255, 90, 72, 0.08), transparent 240px),
-        linear-gradient(90deg, rgba(55, 227, 109, 0.05), transparent 48%, rgba(241, 173, 66, 0.05));
-      opacity: 0.9;
+      padding-bottom: calc(86px + env(safe-area-inset-bottom));
     }
 
     a {
@@ -58,302 +46,348 @@
     }
 
     .page {
-      position: relative;
       width: min(100%, var(--max));
       margin: 0 auto;
-      padding: 28px 18px 42px;
-    }
-
-    .hero {
-      min-height: calc(100svh - 96px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 22px;
-      padding: 18px 0 34px;
+      padding: 26px 18px 42px;
     }
 
     .profile {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 13px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
     }
 
     .profile img {
-      width: 58px;
-      height: 58px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       object-fit: cover;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(251, 250, 244, 0.22);
+    }
+
+    .profile strong,
+    .profile span {
+      display: block;
     }
 
     .profile strong {
-      display: block;
       font-size: 18px;
       line-height: 1.2;
     }
 
     .profile span {
-      display: block;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
+      line-height: 1.5;
       margin-top: 2px;
     }
 
     h1,
     h2,
+    h3,
     p {
       margin: 0;
     }
 
-    h1 {
-      font-size: clamp(30px, 6.7vw, 50px);
-      line-height: 1.15;
+    h1,
+    h2 {
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
+      font-weight: 800;
       letter-spacing: 0;
-      max-width: 720px;
+    }
+
+    h1 {
+      font-size: clamp(30px, 7vw, 36px);
+      line-height: 1.22;
+      margin-top: 24px;
       text-wrap: balance;
     }
 
-    .title-tail {
+    h1 .line {
       display: block;
-    }
-
-    .nowrap {
-      white-space: nowrap;
     }
 
     h2 {
-      font-size: clamp(24px, 5.6vw, 36px);
-      line-height: 1.25;
+      font-size: clamp(26px, 7vw, 34px);
+      line-height: 1.35;
+      text-wrap: balance;
+    }
+
+    h3 {
+      font-size: 17px;
+      line-height: 1.45;
       letter-spacing: 0;
     }
 
+    .hero {
+      min-height: calc(100svh - 82px);
+      display: flex;
+      flex-direction: column;
+    }
+
     .lead {
-      color: rgba(248, 246, 241, 0.78);
-      font-size: clamp(16px, 4vw, 19px);
-      line-height: 1.9;
-      max-width: 670px;
+      color: rgba(251, 250, 244, 0.78);
+      font-size: 15px;
+      line-height: 1.95;
+      margin-top: 19px;
     }
 
-    .facts {
+    .pain-card {
+      background: linear-gradient(180deg, var(--panel-2), var(--panel));
+      border: 1px solid rgba(251, 250, 244, 0.08);
+      border-radius: 8px;
+      padding: 18px;
+      margin-top: 24px;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+    }
+
+    .pain-card p {
+      color: rgba(251, 250, 244, 0.76);
+      font-size: 14px;
+      line-height: 1.75;
+      margin-bottom: 13px;
+    }
+
+    .check-list,
+    .simple-list,
+    .enemy-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
 
-    .fact {
+    .check-list li {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      align-items: start;
+      color: rgba(251, 250, 244, 0.88);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .check-list li::before {
+      content: "";
+      width: 15px;
+      height: 15px;
+      margin-top: 5px;
+      border-radius: 3px;
+      background: var(--ink);
+      box-shadow: inset 0 0 0 4px var(--green);
+    }
+
+    .axis {
       border-top: 1px solid var(--line);
-      padding-top: 11px;
-      min-width: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 22px 0;
+      margin-top: 22px;
     }
 
-    .fact strong {
+    .axis-title {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .axis-equation {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: start;
+      gap: 12px;
+    }
+
+    .axis-item strong {
       display: block;
-      color: var(--warm);
-      font-size: 19px;
-      line-height: 1.2;
-      white-space: nowrap;
+      color: var(--gold);
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+      font-size: 24px;
+      line-height: 1.25;
     }
 
-    .fact span {
+    .axis-item span {
       display: block;
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.55;
-      margin-top: 5px;
+      line-height: 1.7;
+      margin-top: 8px;
     }
 
-    .cta-row {
+    .axis-cross {
+      color: rgba(251, 250, 244, 0.5);
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .cta-wrap {
       display: grid;
       gap: 10px;
+      margin-top: 22px;
     }
 
     .button {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 58px;
-      padding: 15px 18px;
+      gap: 9px;
+      min-height: 60px;
+      padding: 16px 18px;
       border-radius: 8px;
-      background: var(--accent);
-      color: var(--accent-ink);
+      background: linear-gradient(180deg, #2fdb70, #16a34a);
+      color: #ffffff;
       text-decoration: none;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 800;
       line-height: 1.35;
       text-align: center;
-      box-shadow: 0 12px 34px rgba(55, 227, 109, 0.18);
+      box-shadow: 0 16px 42px rgba(34, 197, 94, 0.24);
+    }
+
+    .button::before {
+      content: "LINE";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      color: #16a34a;
+      font-size: 9px;
+      font-weight: 900;
+      flex: 0 0 auto;
     }
 
     .button:active {
       transform: translateY(1px);
     }
 
-    .note {
+    .cta-note {
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       line-height: 1.7;
+      text-align: center;
     }
 
     .section {
       border-top: 1px solid var(--line);
       padding: 44px 0;
       display: grid;
-      gap: 22px;
+      gap: 20px;
     }
 
     .section p {
-      color: rgba(248, 246, 241, 0.78);
-      font-size: 16px;
-    }
-
-    .plain-list,
-    .number-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: 10px;
-    }
-
-    .plain-list li,
-    .number-list li,
-    .quote-row {
-      border-left: 2px solid rgba(55, 227, 109, 0.8);
-      background: rgba(255, 255, 255, 0.035);
-      padding: 13px 14px;
-      border-radius: 0 8px 8px 0;
-      color: rgba(248, 246, 241, 0.86);
-    }
-
-    .plain-list li {
+      color: rgba(251, 250, 244, 0.78);
       font-size: 15px;
-      line-height: 1.65;
+      line-height: 1.95;
     }
 
-    .pillars {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .pillar {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-    }
-
-    .pillar h3 {
-      margin: 0 0 9px;
-      color: var(--warm);
-      font-size: 20px;
-      line-height: 1.3;
-    }
-
-    .pillar p {
+    .simple-list li {
+      border-left: 2px solid var(--green);
+      background: rgba(251, 250, 244, 0.035);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 13px;
+      color: rgba(251, 250, 244, 0.86);
       font-size: 14px;
       line-height: 1.75;
     }
 
-    .quote-row {
-      border-left-color: rgba(241, 173, 66, 0.9);
+    .quote {
+      border-left: 2px solid var(--gold);
+      padding-left: 16px;
+      color: rgba(251, 250, 244, 0.84);
+      font-size: 15px;
+      line-height: 1.9;
     }
 
-    .quote-row strong {
-      display: block;
+    .quote strong {
       color: var(--ink);
-      font-size: 15px;
-      line-height: 1.5;
+      display: block;
       margin-bottom: 5px;
     }
 
-    .quote-row span {
-      color: var(--muted);
-      display: block;
-      font-size: 13px;
-      line-height: 1.7;
+    .enemy-list {
+      counter-reset: enemy;
     }
 
-    .number-list {
-      counter-reset: item;
+    .enemy-list li {
+      counter-increment: enemy;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 11px;
+      border-top: 1px solid rgba(251, 250, 244, 0.12);
+      padding-top: 15px;
     }
 
-    .number-list li {
-      counter-increment: item;
-      border-left-color: rgba(255, 90, 72, 0.9);
-      position: relative;
-      padding-left: 48px;
-    }
-
-    .number-list li::before {
-      content: counter(item, decimal-leading-zero);
-      position: absolute;
-      left: 14px;
-      top: 13px;
-      color: var(--danger);
-      font-size: 13px;
+    .enemy-list li::before {
+      content: counter(enemy, decimal-leading-zero);
+      color: var(--gold);
+      font-size: 14px;
       font-weight: 800;
-      line-height: 1.7;
+      line-height: 1.5;
     }
 
-    .number-list strong {
+    .enemy-list strong {
       display: block;
       color: var(--ink);
+      font-size: 16px;
       line-height: 1.5;
       margin-bottom: 4px;
     }
 
-    .number-list span {
+    .enemy-list span {
       color: var(--muted);
       display: block;
-      font-size: 14px;
-      line-height: 1.65;
-    }
-
-    .proof {
-      background: var(--panel-soft);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      display: grid;
-      gap: 11px;
-    }
-
-    .proof p {
       font-size: 14px;
       line-height: 1.75;
     }
 
-    .final {
-      margin-top: 8px;
-      background: #f8f6f1;
-      color: #111214;
+    .proof {
+      background: var(--panel);
+      border: 1px solid rgba(251, 250, 244, 0.1);
       border-radius: 8px;
-      padding: 28px 20px;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .proof p {
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .final {
+      background: var(--ink);
+      color: #0b0b0a;
+      border-radius: 8px;
+      padding: 26px 20px;
       display: grid;
       gap: 16px;
+      margin-top: 4px;
     }
 
     .final h2 {
-      color: #111214;
+      color: #0b0b0a;
     }
 
     .final p {
-      color: rgba(17, 18, 20, 0.72);
+      color: rgba(11, 11, 10, 0.74);
       font-size: 15px;
-      line-height: 1.8;
+      line-height: 1.85;
     }
 
     .final .button {
-      background: #111214;
-      color: #f8f6f1;
       box-shadow: none;
     }
 
     .limit {
-      color: var(--danger);
-      font-weight: 800;
+      color: #dc2626;
+      font-weight: 900;
     }
 
     .sticky-cta {
@@ -363,8 +397,8 @@
       bottom: 0;
       z-index: 10;
       padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-      background: rgba(7, 8, 11, 0.84);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(3, 3, 3, 0.82);
+      border-top: 1px solid rgba(251, 250, 244, 0.12);
       backdrop-filter: blur(16px);
       opacity: 0;
       pointer-events: none;
@@ -378,32 +412,15 @@
       transform: translateY(0);
     }
 
-    .sticky-cta a {
+    .sticky-cta .button {
       width: min(100%, var(--max));
       margin: 0 auto;
+      min-height: 54px;
     }
 
-    @media (max-width: 640px) {
+    @media (min-width: 720px) {
       .page {
-        padding: 22px 16px 34px;
-      }
-
-      .hero {
-        min-height: auto;
-        padding-top: 14px;
-      }
-
-      .facts,
-      .pillars {
-        grid-template-columns: 1fr;
-      }
-
-      .fact strong {
-        white-space: normal;
-      }
-
-      .section {
-        padding: 38px 0;
+        padding-top: 46px;
       }
     }
 
@@ -415,6 +432,10 @@
       .button:active {
         transform: none;
       }
+
+      .sticky-cta {
+        transition: none;
+      }
     }
   </style>
 </head>
@@ -425,105 +446,95 @@
         <img src="profile.jpg" alt="Toyのプロフィール写真">
         <div>
           <strong>Toy</strong>
-          <span>@toy_no_sns_ai / SAKIYOMI</span>
+          <span>@toy_no_sns_ai<br>SAKIYOMI</span>
         </div>
       </div>
 
-      <h1>インフルエンサー約<span class="nowrap">100名</span>と話してわかった、<span class="title-tail">2026年残りの<span class="nowrap">8ヶ月</span>を後悔しない方法</span></h1>
+      <h1>
+        <span class="line">インフルエンサー</span>
+        <span class="line">約100名と話して</span>
+        <span class="line">わかった、</span>
+        <span class="line">2026年残りの8ヶ月を</span>
+        <span class="line">後悔しない方法</span>
+      </h1>
 
       <p class="lead">
-        2026年、あっという間に4ヶ月が終了。1〜4月で10万フォロワー以上の人とひたすら会って見えたのは、フォロワーが多い人ほど悩みが根深いということでした。
+        2026年、あっという間に4ヶ月が終了。1〜4月で10万フォロワー以上の人と、ひたすら会いまくって見えたこと。
       </p>
 
-      <div class="facts" aria-label="今回の前提">
-        <div class="fact">
-          <strong>100名弱</strong>
-          <span>10万フォロワー以上の人と対話</span>
-        </div>
-        <div class="fact">
-          <strong>2要素</strong>
-          <span>伸びる人は役に立ち、憧れられる</span>
-        </div>
-        <div class="fact">
-          <strong>10名限定</strong>
-          <span>無料コーチングセッションを案内</span>
+      <div class="cta-wrap hero-cta">
+        <a class="button" href="https://bit.ly/sakiyomi010">LINEで個別相談に申し込む</a>
+        <p class="cta-note">10名限定・無料コーチングセッション</p>
+      </div>
+
+      <div class="pain-card">
+        <p>フォロワーが多い人ほど、悩みは根深い。</p>
+        <ul class="check-list">
+          <li>マネタイズ方法がわからない</li>
+          <li>リールは見られるけど、ストーリーズは見られない</li>
+          <li>なんのためにSNSをやっているかわからない</li>
+          <li>今のやり方では疲弊する</li>
+        </ul>
+      </div>
+
+      <div class="axis">
+        <p class="axis-title">成果を出す人は、これを満たしている。</p>
+        <div class="axis-equation">
+          <div class="axis-item">
+            <strong>役に立つ</strong>
+            <span>困りごとを解決できる。再生数とフォロワーが増えるアカウントの土台。</span>
+          </div>
+          <div class="axis-cross">×</div>
+          <div class="axis-item">
+            <strong>憧れられる</strong>
+            <span>目的やゴールが明確で、更新され続けている。人を動かし、続く力になる。</span>
+          </div>
         </div>
       </div>
 
-      <div class="cta-row">
-        <a class="button" href="https://bit.ly/sakiyomi010">LINEで無料コーチング相談を受ける</a>
-        <p class="note">SNS運用の目的、伸ばし方、売上化までを一緒に整理します。</p>
-      </div>
     </header>
-
-    <section class="section">
-      <h2>フォロワーが多い人ほど、悩みは深かった。</h2>
-      <ul class="plain-list">
-        <li>マネタイズ方法がわからない。</li>
-        <li>リールは見られるけど、ストーリーズはほとんど見られない。</li>
-        <li>なんのためにSNSをやっているかわからない。</li>
-        <li>今のやり方では疲弊する。</li>
-      </ul>
-      <p>SNSの最前線を生きる人たちでさえ、苦しんでいる。だからこそ、ただ投稿を増やす前に、運用の前提を整理する必要があります。</p>
-    </section>
-
-    <section class="section">
-      <h2>SNS運用で成果を出す人は、2つを外していない。</h2>
-      <div class="pillars">
-        <div class="pillar">
-          <h3>役に立つ</h3>
-          <p>困りごとを解決できること。再生回数が取れ、フォロワーが増えるアカウントには、ユーザー起点の便益があります。</p>
-        </div>
-        <div class="pillar">
-          <h3>憧れられる</h3>
-          <p>目的やゴールが明確で、更新され続けていること。人を動かし、持続可能なSNS運用にするための要素です。</p>
-        </div>
-      </div>
-      <div class="quote-row">
-        <strong>伸びる動画ほど、悩みに即して作られている。</strong>
-        <span>100万再生を超える投稿も、リアルな悩みを聞き、解決策を調べ抜くところから生まれていました。</span>
-      </div>
-    </section>
 
     <section class="section">
       <h2>伸びない理由は、ユーザー起点になりきれていないから。</h2>
       <p>アカウントを伸ばすには、ただ良いことを言うだけでは足りません。ユーザーの悩み、既存の解決策、その解決策で生まれる課題まで整理して、初めて便益性と独自性が生まれます。</p>
-      <ul class="number-list">
-        <li>
-          <strong>ユーザーが抱えている悩みを特定する</strong>
-          <span>誰の、どんな困りごとを解くのかを曖昧にしない。</span>
-        </li>
-        <li>
-          <strong>既存の解決策を特定する</strong>
-          <span>競合が何を言っているか、何がすでに満たされているかを見る。</span>
-        </li>
-        <li>
-          <strong>その解決策で生まれる想定課題を特定する</strong>
-          <span>ここまで見えて初めて、自分が出すべき独自性が決まる。</span>
-        </li>
+      <ul class="simple-list">
+        <li>ユーザーが抱えている悩みを特定する</li>
+        <li>既存の解決策を特定する</li>
+        <li>その解決策で生まれる想定課題を特定する</li>
       </ul>
+      <p class="quote"><strong>伸びる動画ほど、悩みに即して作られている。</strong>100万再生を超える投稿も、リアルな悩みを聞き、解決策を調べ抜くところから生まれていました。</p>
     </section>
 
     <section class="section">
       <h2>売上にならない理由は、目的やゴールが曖昧だから。</h2>
       <p>役に立っているだけでは、ただの良い人で止まります。必要なのは、あなたが何者で、どこに向かいたくて、そのために何をしているのか。物語としての辻褄です。</p>
       <p>この要素がないと、人を動かすことも、持続的にアカウントを運用することも難しくなります。</p>
+      <div class="cta-wrap">
+        <a class="button" href="https://bit.ly/sakiyomi010">LINEで個別相談に申し込む</a>
+        <p class="cta-note">目的・伸ばし方・売上化まで一緒に整理します</p>
+      </div>
     </section>
 
     <section class="section">
       <h2>本当に詰まっているのは、自分の中にある3つの敵。</h2>
-      <ul class="number-list">
+      <ul class="enemy-list">
         <li>
-          <strong>社会的な自分</strong>
-          <span>役に立ちたい相手を、社会的な正解として選んでしまう。</span>
+          <div>
+            <strong>社会的な自分</strong>
+            <span>役に立ちたい相手を、社会的な正解として選んでしまう。</span>
+          </div>
         </li>
         <li>
-          <strong>冷笑的な自分</strong>
-          <span>理想やゴールを立てても、そんなの無理だよねとブレーキをかける。</span>
+          <div>
+            <strong>冷笑的な自分</strong>
+            <span>理想やゴールを立てても、そんなの無理だよねとブレーキをかける。</span>
+          </div>
         </li>
         <li>
-          <strong>効率的な自分</strong>
-          <span>役に立つことと理想のゴールを、両立させるアイデアまで考えきれない。</span>
+          <div>
+            <strong>効率的な自分</strong>
+            <span>役に立つことと理想のゴールを、両立させるアイデアまで考えきれない。</span>
+          </div>
         </li>
       </ul>
     </section>
@@ -544,6 +555,7 @@
         すでに別セミナー経由で申し込みが増えているため、今回は<span class="limit">10名限定</span>です。
       </p>
       <a class="button" href="https://bit.ly/sakiyomi010">LINEで個別相談に申し込む</a>
+      <p class="cta-note">無料コーチングセッション</p>
     </section>
   </main>
 
@@ -555,7 +567,7 @@
     (function() {
       var stickyCta = document.getElementById('stickyCta');
       function updateStickyCta() {
-        if (window.scrollY > 520) {
+        if (window.scrollY > 620) {
           stickyCta.classList.add('is-visible');
         } else {
           stickyCta.classList.remove('is-visible');

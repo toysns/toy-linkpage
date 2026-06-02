@@ -269,8 +269,8 @@
         setTimeout(showFallback, 1700);
       }
 
-      // Prefer short URLs for manual copy, but keep the final URL as fallback.
-      var copyUrl = copy || ((type === 'openchat') ? 'https://bit.ly/toysns-001' : url);
+      // Keep copied links aligned with the final direct destination.
+      var copyUrl = copy || url;
       copyBtn.addEventListener('click', function() {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(copyUrl).then(function() {

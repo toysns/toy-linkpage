@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="SNSを意味のあるものにするために、目的・届ける相手・売上導線を整理する無料個別相談の案内。">
-  <meta property="og:title" content="Toy | SNS愛は止められない">
-  <meta property="og:description" content="SNSを意味のあるものにするために、目的・届ける相手・売上導線を一緒に整理する無料相談。">
+  <meta name="description" content="TikTokで見た分析を、自分のアカウントでも受けたい方へ。投稿しているのに伸びない原因と改善策を、個別相談で整理します。">
+  <meta property="og:title" content="SAKIYOMI | LINEで個別相談">
+  <meta property="og:description" content="あなたのアカウントをプロ目線で整理。公式LINEから個別相談を申し込めます。">
   <meta property="og:image" content="profile.jpg">
-  <title>Toy | SNS愛は止められない</title>
+  <title>SAKIYOMI | LINEで個別相談</title>
   <style>
     :root {
-      --bg: #030303;
-      --ink: #fbfaf4;
-      --muted: #b8b6ad;
-      --soft: #7e7b72;
-      --line: rgba(251, 250, 244, 0.16);
-      --panel: #10100f;
-      --panel-2: #151513;
-      --green: #22c55e;
-      --green-dark: #063617;
-      --gold: #d7ad55;
+      --ink: #fffaf1;
+      --muted: rgba(255, 250, 241, 0.78);
+      --weak: rgba(255, 250, 241, 0.56);
+      --dark: #1d1c1a;
+      --charcoal: #2d2c29;
+      --line: rgba(255, 198, 119, 0.42);
+      --gold: #f2ad54;
+      --gold-2: #ffd08a;
+      --paper: #fff8eb;
+      --green: #06c755;
       --max: 430px;
     }
 
@@ -27,82 +27,209 @@
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
+    html,
+    body {
+      min-height: 100%;
     }
 
     body {
       margin: 0;
-      background: var(--bg);
+      background: #080807;
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+      line-height: 1.55;
       letter-spacing: 0;
-      line-height: 1.8;
-      padding-bottom: calc(86px + env(safe-area-inset-bottom));
     }
 
     a {
       color: inherit;
     }
 
-    .page {
-      width: min(100%, var(--max));
-      margin: 0 auto;
-      padding: 26px 18px 42px;
+    .stage {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(242, 173, 84, 0.18), transparent 34%),
+        linear-gradient(180deg, #11110f, #050505);
     }
 
-    .profile {
+    .poster {
+      position: relative;
+      isolation: isolate;
+      display: block;
+      width: min(100%, var(--max));
+      min-height: 100svh;
+      overflow: hidden;
+      color: var(--ink);
+      text-decoration: none;
+      padding: 30px 18px calc(22px + env(safe-area-inset-bottom));
+      background:
+        linear-gradient(116deg, rgba(255, 195, 114, 0) 0 57%, rgba(255, 187, 102, 0.84) 57% 100%),
+        radial-gradient(circle at 82% 17%, rgba(255, 198, 119, 0.48), transparent 22%),
+        linear-gradient(160deg, #343330 0%, #22211f 48%, #121210 100%);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 28px 80px rgba(0, 0, 0, 0.55);
+    }
+
+    .poster::before,
+    .poster::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .poster::before {
+      inset: 0;
+      background-image:
+        linear-gradient(115deg, transparent 0 58%, rgba(17, 17, 16, 0.76) 58% 59%, transparent 59%),
+        repeating-linear-gradient(167deg, rgba(255, 196, 116, 0.34) 0 2px, transparent 2px 12px);
+      opacity: 0.28;
+      mix-blend-mode: screen;
+      mask-image: linear-gradient(118deg, transparent 0 47%, #000 54% 100%);
+    }
+
+    .poster::after {
+      left: -18%;
+      right: -18%;
+      bottom: 0;
+      height: 36%;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.54) 44%, rgba(0, 0, 0, 0.9));
+    }
+
+    .top {
+      position: relative;
+      z-index: 2;
       display: flex;
       align-items: center;
-      gap: 13px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--line);
+      justify-content: center;
+      min-height: 46px;
     }
 
-    .profile img {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1px solid rgba(251, 250, 244, 0.22);
-    }
-
-    .profile strong,
-    .profile span {
-      display: block;
-    }
-
-    .profile strong {
-      font-size: 18px;
-      line-height: 1.2;
-    }
-
-    .profile span {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
-      margin-top: 2px;
-    }
-
-    h1,
-    h2,
-    h3,
-    p {
-      margin: 0;
-    }
-
-    h1,
-    h2 {
-      font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
+    .brand {
+      font-size: 30px;
       font-weight: 800;
-      letter-spacing: 0;
+      line-height: 1;
+      letter-spacing: 0.22em;
+      text-indent: 0.22em;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.24);
+    }
+
+    .brand span {
+      color: var(--gold);
+    }
+
+    .menu {
+      position: absolute;
+      top: -4px;
+      right: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(28, 28, 26, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+    }
+
+    .menu i,
+    .menu::before,
+    .menu::after {
+      content: "";
+      position: absolute;
+      left: 15px;
+      width: 18px;
+      height: 2px;
+      background: rgba(255, 250, 241, 0.9);
+      border-radius: 999px;
+    }
+
+    .menu::before {
+      top: 16px;
+    }
+
+    .menu i {
+      top: 23px;
+    }
+
+    .menu::after {
+      top: 30px;
+    }
+
+    .bubble {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 13px;
+      align-items: center;
+      width: min(100%, 365px);
+      margin-top: 22px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 203, 132, 0.66);
+      border-radius: 8px;
+      background: rgba(29, 29, 27, 0.74);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 16px 38px rgba(0, 0, 0, 0.32);
+    }
+
+    .bubble::after {
+      content: "";
+      position: absolute;
+      left: 72%;
+      bottom: -15px;
+      width: 21px;
+      height: 15px;
+      background: rgba(29, 29, 27, 0.74);
+      border-right: 1px solid rgba(255, 203, 132, 0.66);
+      border-bottom: 1px solid rgba(255, 203, 132, 0.66);
+      transform: skewX(-28deg);
+    }
+
+    .tiktok {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      background: #060606;
+      font-size: 30px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: -2px 0 #25f4ee, 2px 2px #fe2c55;
+    }
+
+    .bubble p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.65;
+      letter-spacing: 0.02em;
+    }
+
+    .bubble strong {
+      color: var(--gold-2);
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 342px;
+      margin-top: 24px;
+      padding-top: 6px;
     }
 
     h1 {
-      font-size: clamp(36px, 9.2vw, 46px);
-      line-height: 1.12;
-      margin-top: 24px;
-      text-wrap: balance;
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      max-width: 360px;
+      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "YuGothic", sans-serif;
+      font-size: clamp(40px, 12.6vw, 56px);
+      font-weight: 1000;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      text-shadow: 0 4px 0 rgba(0, 0, 0, 0.36), 0 14px 28px rgba(0, 0, 0, 0.28);
+      transform: rotate(-2deg);
     }
 
     h1 .line {
@@ -110,467 +237,480 @@
       white-space: nowrap;
     }
 
-    h2 {
-      font-size: clamp(26px, 7vw, 34px);
-      line-height: 1.35;
-      text-wrap: balance;
+    h1 .small {
+      font-size: 0.74em;
     }
 
-    h3 {
-      font-size: 17px;
-      line-height: 1.45;
-      letter-spacing: 0;
+    h1 .large {
+      font-size: 1.18em;
     }
 
-    .hero {
-      min-height: calc(100svh - 82px);
-      display: flex;
-      flex-direction: column;
+    h1 .gold {
+      color: var(--gold);
+      text-shadow: 0 4px 0 rgba(67, 41, 14, 0.62), 0 14px 26px rgba(0, 0, 0, 0.34);
     }
 
-    .lead {
-      color: rgba(251, 250, 244, 0.78);
-      font-size: 15px;
-      line-height: 1.82;
+    .person {
+      position: absolute;
+      z-index: 1;
+      top: -22px;
+      right: -56px;
+      width: 250px;
+      min-height: 314px;
+      pointer-events: none;
+    }
+
+    .portrait {
+      position: absolute;
+      top: 0;
+      right: 16px;
+      width: 168px;
+      height: 216px;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 250, 241, 0.24);
+      background: #171716;
+      box-shadow: 0 22px 42px rgba(0, 0, 0, 0.42);
+      transform: rotate(8deg);
+    }
+
+    .portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.04) contrast(1.04);
+      transform: scale(1.12);
+    }
+
+    .mic {
+      position: absolute;
+      top: 118px;
+      right: 58px;
+      width: 136px;
+      height: 44px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #0a0a0a, #2b2b29 58%, #0b0b0a);
+      border: 2px solid rgba(255, 250, 241, 0.08);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      transform: rotate(13deg);
+    }
+
+    .mic::before {
+      content: "";
+      position: absolute;
+      inset: 8px 28px 8px 12px;
+      border-radius: 999px;
+      background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.22) 0 2px, transparent 2px 7px);
+      opacity: 0.45;
+    }
+
+    .mic::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      top: 14px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--gold-2);
+      box-shadow: 0 0 0 5px rgba(242, 173, 84, 0.16);
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      margin: 24px 0 0;
+      width: min(100%, 330px);
+      color: rgba(255, 250, 241, 0.92);
+      font-size: 19px;
+      font-weight: 800;
+      line-height: 1.7;
+      text-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero-copy span {
+      color: var(--gold);
+      font-size: 1.13em;
+    }
+
+    .benefits {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
       margin-top: 18px;
     }
 
-    .lead-line {
-      display: block;
-    }
-
-    .pain-card {
-      background: linear-gradient(180deg, var(--panel-2), var(--panel));
-      border: 1px solid rgba(251, 250, 244, 0.08);
+    .benefit {
+      min-height: 122px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 10px;
+      padding: 13px 8px;
+      border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 16px;
-      margin-top: 22px;
-      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
-    }
-
-    .pain-card p {
-      color: rgba(251, 250, 244, 0.76);
-      font-size: 14px;
-      line-height: 1.65;
-      margin-bottom: 13px;
-    }
-
-    .check-list,
-    .simple-list,
-    .enemy-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 10px;
-    }
-
-    .check-list li {
-      display: grid;
-      grid-template-columns: 18px 1fr;
-      gap: 10px;
-      align-items: start;
-      color: rgba(251, 250, 244, 0.88);
-      font-size: 14px;
-      line-height: 1.62;
-    }
-
-    .check-list li::before {
-      content: "";
-      width: 15px;
-      height: 15px;
-      margin-top: 5px;
-      border-radius: 3px;
-      background: var(--ink);
-      box-shadow: inset 0 0 0 4px var(--green);
-    }
-
-    .axis {
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      padding: 22px 0;
-      margin-top: 24px;
-    }
-
-    .axis-title {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-      margin-bottom: 12px;
-    }
-
-    .axis-equation {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: start;
-      gap: 12px;
-    }
-
-    .axis-item strong {
-      display: block;
-      color: var(--gold);
-      font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
-      font-size: 24px;
-      line-height: 1.25;
-    }
-
-    .axis-item span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-      margin-top: 8px;
-    }
-
-    .axis-cross {
-      color: rgba(251, 250, 244, 0.5);
-      font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
-      font-size: 24px;
-      line-height: 1.25;
-    }
-
-    .cta-wrap {
-      display: grid;
-      gap: 10px;
-      margin-top: 22px;
-    }
-
-    .button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      min-height: 60px;
-      padding: 16px 18px;
-      border-radius: 8px;
-      background: linear-gradient(180deg, #2fdb70, #16a34a);
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 800;
-      line-height: 1.35;
+      background: linear-gradient(180deg, rgba(45, 44, 41, 0.82), rgba(24, 24, 22, 0.82));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 12px 28px rgba(0, 0, 0, 0.24);
       text-align: center;
-      box-shadow: 0 16px 42px rgba(34, 197, 94, 0.24);
     }
 
-    .button::before {
-      content: "LINE";
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 24px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.92);
-      color: #16a34a;
-      font-size: 9px;
+    .benefit-icon {
+      width: 47px;
+      height: 47px;
+      display: grid;
+      place-items: center;
+      color: var(--gold-2);
+      font-size: 31px;
+      line-height: 1;
+    }
+
+    .benefit-icon.word {
+      font-size: 18px;
+      font-weight: 1000;
+    }
+
+    .benefit p {
+      margin: 0;
+      color: rgba(255, 250, 241, 0.92);
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.55;
+    }
+
+    .benefit strong {
+      color: var(--gold);
       font-weight: 900;
-      flex: 0 0 auto;
     }
 
-    .button:active {
-      transform: translateY(1px);
+    .flow {
+      position: relative;
+      z-index: 2;
+      margin: 20px 0 0 auto;
+      width: min(86%, 318px);
+      padding: 18px 15px 16px;
+      border: 5px solid #282724;
+      border-radius: 28px;
+      background: var(--paper);
+      color: #25231f;
+      box-shadow: 0 22px 44px rgba(0, 0, 0, 0.36);
+      transform: rotate(3deg);
+    }
+
+    .flow::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      width: 78px;
+      height: 18px;
+      border-radius: 999px;
+      background: #10100f;
+      transform: translateX(-50%);
+    }
+
+    .flow-title {
+      margin: 26px 0 12px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .flow-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .flow-list li {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: #fffdf7;
+      box-shadow: 0 6px 14px rgba(63, 48, 30, 0.12);
+    }
+
+    .num {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(180deg, var(--gold-2), var(--gold));
+      font-size: 16px;
+      font-weight: 1000;
+    }
+
+    .flow-list strong,
+    .flow-list span {
+      display: block;
+    }
+
+    .flow-list strong {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .flow-list span {
+      color: rgba(37, 35, 31, 0.68);
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.55;
+      margin-top: 2px;
+    }
+
+    .cta-area {
+      position: relative;
+      z-index: 3;
+      margin-top: 16px;
+      text-align: center;
     }
 
     .cta-note {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 5px 22px;
+      border-radius: 999px;
+      background: rgba(255, 250, 241, 0.92);
+      color: #22211e;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.45;
+      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.22);
+      transform: translateY(12px);
+    }
+
+    .cta {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 78px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #ffd18a, #f2a442);
+      color: #191816;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.58), 0 18px 34px rgba(0, 0, 0, 0.36);
+      text-align: left;
+    }
+
+    .line-logo {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 1000;
+    }
+
+    .cta strong {
+      display: block;
+      font-size: clamp(18px, 5.2vw, 24px);
+      font-weight: 1000;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+    }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid rgba(25, 24, 22, 0.72);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .trust {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 18px;
+      padding: 10px;
+      border: 1px solid rgba(255, 198, 119, 0.28);
+      border-radius: 8px;
+      background: rgba(25, 25, 23, 0.58);
+    }
+
+    .trust span {
+      display: grid;
+      place-items: center;
+      min-height: 28px;
+      color: rgba(255, 250, 241, 0.78);
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1.45;
       text-align: center;
     }
 
-    .section {
-      border-top: 1px solid var(--line);
-      padding: 44px 0;
-      display: grid;
-      gap: 20px;
-    }
+    @media (max-width: 374px) {
+      .poster {
+        padding-right: 14px;
+        padding-left: 14px;
+      }
 
-    .section p {
-      color: rgba(251, 250, 244, 0.78);
-      font-size: 15px;
-      line-height: 1.95;
-    }
+      .brand {
+        font-size: 25px;
+      }
 
-    .simple-list li {
-      border-left: 2px solid var(--green);
-      background: rgba(251, 250, 244, 0.035);
-      border-radius: 0 8px 8px 0;
-      padding: 12px 13px;
-      color: rgba(251, 250, 244, 0.86);
-      font-size: 14px;
-      line-height: 1.75;
-    }
+      .person {
+        right: -72px;
+        transform: scale(0.92);
+        transform-origin: top right;
+      }
 
-    .quote {
-      border-left: 2px solid var(--gold);
-      padding-left: 16px;
-      color: rgba(251, 250, 244, 0.84);
-      font-size: 15px;
-      line-height: 1.9;
-    }
+      .benefits {
+        gap: 7px;
+      }
 
-    .quote strong {
-      color: var(--ink);
-      display: block;
-      margin-bottom: 5px;
-    }
+      .benefit {
+        min-height: 112px;
+        padding: 10px 5px;
+      }
 
-    .enemy-list {
-      counter-reset: enemy;
-    }
+      .benefit p {
+        font-size: 12px;
+      }
 
-    .enemy-list li {
-      counter-increment: enemy;
-      display: grid;
-      grid-template-columns: 36px 1fr;
-      gap: 11px;
-      border-top: 1px solid rgba(251, 250, 244, 0.12);
-      padding-top: 15px;
-    }
+      .cta {
+        grid-template-columns: 50px 1fr auto;
+        padding: 12px 15px;
+      }
 
-    .enemy-list li::before {
-      content: counter(enemy, decimal-leading-zero);
-      color: var(--gold);
-      font-size: 14px;
-      font-weight: 800;
-      line-height: 1.5;
-    }
-
-    .enemy-list strong {
-      display: block;
-      color: var(--ink);
-      font-size: 16px;
-      line-height: 1.5;
-      margin-bottom: 4px;
-    }
-
-    .enemy-list span {
-      color: var(--muted);
-      display: block;
-      font-size: 14px;
-      line-height: 1.75;
-    }
-
-    .proof {
-      background: var(--panel);
-      border: 1px solid rgba(251, 250, 244, 0.1);
-      border-radius: 8px;
-      padding: 18px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .proof p {
-      font-size: 14px;
-      line-height: 1.85;
-    }
-
-    .final {
-      background: var(--ink);
-      color: #0b0b0a;
-      border-radius: 8px;
-      padding: 26px 20px;
-      display: grid;
-      gap: 16px;
-      margin-top: 4px;
-    }
-
-    .final h2 {
-      color: #0b0b0a;
-    }
-
-    .final p {
-      color: rgba(11, 11, 10, 0.74);
-      font-size: 15px;
-      line-height: 1.85;
-    }
-
-    .final .button {
-      box-shadow: none;
-    }
-
-    .sticky-cta {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 10;
-      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-      background: rgba(3, 3, 3, 0.82);
-      border-top: 1px solid rgba(251, 250, 244, 0.12);
-      backdrop-filter: blur(16px);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(110%);
-      transition: opacity 0.24s ease, transform 0.24s ease;
-    }
-
-    .sticky-cta.is-visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    .sticky-cta .button {
-      width: min(100%, var(--max));
-      margin: 0 auto;
-      min-height: 54px;
+      .line-logo {
+        width: 48px;
+        height: 48px;
+        font-size: 12px;
+      }
     }
 
     @media (min-width: 720px) {
-      .page {
-        padding-top: 46px;
+      .stage {
+        padding: 34px 0;
+      }
+
+      .poster {
+        min-height: 840px;
+        border-radius: 8px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
+      .poster,
+      .cta {
         scroll-behavior: auto;
-      }
-
-      .button:active {
-        transform: none;
-      }
-
-      .sticky-cta {
-        transition: none;
       }
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <header class="hero">
-      <div class="profile">
-        <img src="profile.jpg" alt="Toyのプロフィール写真">
-        <div>
-          <strong>Toy</strong>
-          <span>@toy_no_sns_ai<br>SAKIYOMI</span>
+  <div class="stage">
+    <a class="poster" href="https://liff.line.me/1660673314-ZLlEEeB7/landing?follow=%40678xties&amp;lp=xKyCDE&amp;liff_id=1660673314-ZLlEEeB7" aria-label="公式LINEで個別相談を申し込む">
+      <header class="top" aria-hidden="true">
+        <div class="brand">SAKIYO<span>MI</span></div>
+        <div class="menu"><i></i></div>
+      </header>
+
+      <section class="bubble">
+        <div class="tiktok" aria-hidden="true">♪</div>
+        <p><strong>TikTok</strong>で見た分析を、<br>自分のアカウントでも受けたい方へ。</p>
+      </section>
+
+      <section class="hero">
+        <h1>
+          <span class="line small">あなたのアカウント、</span>
+          <span class="line large">プロ目線で</span>
+          <span class="line"><span class="gold">整理</span>しませんか?</span>
+        </h1>
+
+        <div class="person" aria-hidden="true">
+          <div class="portrait">
+            <img src="profile.jpg" alt="">
+          </div>
+          <div class="mic"></div>
         </div>
-      </div>
 
-      <h1>
-        <span class="line">SNSを、</span>
-        <span class="line">意味のある</span>
-        <span class="line">ものにする。</span>
-      </h1>
+        <p class="hero-copy">
+          投稿しているのに伸びない。<br>
+          その<span>原因</span>と<span>改善策</span>を、<br>
+          個別相談でわかりやすく整理します。
+        </p>
+      </section>
 
-      <p class="lead">
-        <span class="lead-line">伸びる。売上につながる。続けられる。</span>
-        <span class="lead-line">そのために、SNSの意味を一緒に整理します。</span>
-      </p>
-
-      <div class="cta-wrap hero-cta">
-        <a class="button" href="https://liff.line.me/1660673314-ZLlEEeB7/landing?follow=%40678xties&amp;lp=xKyCDE&amp;liff_id=1660673314-ZLlEEeB7">LINEで個別相談する</a>
-        <p class="cta-note">無料・目的 / 届ける相手 / 売上導線を整理</p>
-      </div>
-
-      <div class="pain-card">
-        <p>こんな状態なら、相談してください。</p>
-        <ul class="check-list">
-          <li>伸ばしているのに、意味を感じられない</li>
-          <li>フォロワーは増えたのに、売上につながらない</li>
-          <li>届けたい相手や目的が曖昧になっている</li>
-        </ul>
-      </div>
-
-      <div class="axis">
-        <p class="axis-title">意味のあるSNSに必要なこと。</p>
-        <div class="axis-equation">
-          <div class="axis-item">
-            <strong>誰に</strong>
-            <span>何を届けるのか。</span>
-          </div>
-          <div class="axis-cross">×</div>
-          <div class="axis-item">
-            <strong>何のために</strong>
-            <span>続けていくのか。</span>
-          </div>
+      <section class="benefits" aria-label="相談でわかること">
+        <div class="benefit">
+          <div class="benefit-icon" aria-hidden="true">⌕</div>
+          <p>何が悪いかが<br><strong>わかる</strong></p>
         </div>
-      </div>
+        <div class="benefit">
+          <div class="benefit-icon" aria-hidden="true">☑</div>
+          <p>次にやることが<br><strong>明確になる</strong></p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon word" aria-hidden="true">LINE</div>
+          <p>LINEから<br><strong>気軽に相談できる</strong></p>
+        </div>
+      </section>
 
-    </header>
+      <section class="cta-area" aria-label="公式LINEへの導線">
+        <div class="cta-note">相談は無料・所要時間は約90分</div>
+        <div class="cta">
+          <div class="line-logo">LINE</div>
+          <strong>LINEで個別相談を申し込む</strong>
+          <div class="arrow" aria-hidden="true">›</div>
+        </div>
+      </section>
 
-    <section class="section">
-      <h2>意味が薄れる理由は、だいたい2つ。</h2>
-      <p>ユーザーの困りごとから逆算できていないこと。もうひとつは、自分がどこに向かうのかが見えなくなっていること。</p>
-      <ul class="simple-list">
-        <li>誰の、どんな悩みを解くのかを決める</li>
-        <li>競合がすでに出している解決策を見る</li>
-        <li>自分が発信する理由を言語化する</li>
-      </ul>
-      <p class="quote"><strong>意味のあるSNSには、設計があります。</strong>誰かの悩みを解くことと、あなた自身の目的をつなげること。その両方を整理します。</p>
-      <div class="cta-wrap">
-        <a class="button" href="https://liff.line.me/1660673314-ZLlEEeB7/landing?follow=%40678xties&amp;lp=xKyCDE&amp;liff_id=1660673314-ZLlEEeB7">LINEで個別相談する</a>
-        <p class="cta-note">目的・届ける相手・売上導線まで整理します</p>
-      </div>
-    </section>
+      <section class="flow" aria-label="個別相談の流れ">
+        <p class="flow-title">SAKIYOMIの個別相談フロー</p>
+        <ol class="flow-list">
+          <li>
+            <div class="num">01</div>
+            <div>
+              <strong>現状分析</strong>
+              <span>投稿内容とアカウントの状態を見ます。</span>
+            </div>
+          </li>
+          <li>
+            <div class="num">02</div>
+            <div>
+              <strong>改善ポイント</strong>
+              <span>伸びない原因と直す順番を整理します。</span>
+            </div>
+          </li>
+          <li>
+            <div class="num">03</div>
+            <div>
+              <strong>次のアクション</strong>
+              <span>明日からできる具体策を決めます。</span>
+            </div>
+          </li>
+        </ol>
+      </section>
 
-    <section class="section">
-      <h2>自分だけだと、ここで止まりやすい。</h2>
-      <ul class="enemy-list">
-        <li>
-          <div>
-            <strong>社会的な自分</strong>
-            <span>正解っぽい相手を選んでしまう。</span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <strong>冷笑的な自分</strong>
-            <span>理想を考えても、すぐにブレーキをかける。</span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <strong>効率的な自分</strong>
-            <span>役に立つことと、自分の目的を両立する設計まで考えきれない。</span>
-          </div>
-        </li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h2>個別相談では、SNSの意味を一度ほどきます。</h2>
-      <ul class="simple-list">
-        <li>誰の役に立つアカウントなのか</li>
-        <li>何を発信すると伸びるのか</li>
-        <li>SNSの先で、何につなげたいのか</li>
-        <li>売上につながる導線をどう作るのか</li>
-      </ul>
-      <div class="proof">
-        <p>SAKIYOMIでSNS運用・YouTube・個別相談を担当。発信の目的と導線設計を一緒に整理します。</p>
-      </div>
-    </section>
-
-    <section class="final" id="consultation">
-      <h2>SNSを、意味のあるものにしませんか。</h2>
-      <p>
-        届ける相手、発信の目的、売上につながる導線まで。無料相談で、今のSNSを一緒に整理します。
-      </p>
-      <a class="button" href="https://liff.line.me/1660673314-ZLlEEeB7/landing?follow=%40678xties&amp;lp=xKyCDE&amp;liff_id=1660673314-ZLlEEeB7">LINEで個別相談する</a>
-      <p class="cta-note">無料個別相談</p>
-    </section>
-  </main>
-
-  <div class="sticky-cta" id="stickyCta" aria-label="固定CTA">
-    <a class="button" href="https://liff.line.me/1660673314-ZLlEEeB7/landing?follow=%40678xties&amp;lp=xKyCDE&amp;liff_id=1660673314-ZLlEEeB7">LINEで個別相談する</a>
+      <section class="trust" aria-label="安心して相談できる理由">
+        <span>安心の<br>プライバシー保護</span>
+        <span>無理な営業は<br>一切なし</span>
+        <span>まずは話して<br>みるだけOK</span>
+      </section>
+    </a>
   </div>
-
-  <script>
-    (function() {
-      var stickyCta = document.getElementById('stickyCta');
-      function updateStickyCta() {
-        if (window.scrollY > 620) {
-          stickyCta.classList.add('is-visible');
-        } else {
-          stickyCta.classList.remove('is-visible');
-        }
-      }
-      updateStickyCta();
-      window.addEventListener('scroll', updateStickyCta, { passive: true });
-    })();
-  </script>
 </body>
 </html>

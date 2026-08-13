@@ -9,57 +9,63 @@
   <meta property="og:image" content="profile-line.jpg">
   <title>SAKIYOMI | 個別相談でコンセプト設計AIを無料配布</title>
   <style>
+    /* =========================================================
+       デザイントークン
+       面は3種類だけ： surface（暗いカード） / feature（特典・唯一の金枠） / paper（フロー・唯一の明るい面）
+       金は4用途だけ： H1のキーワード / 実績数字 / 特典 / CTA
+       ========================================================= */
     :root {
       --ink: #fffaf1;
-      --muted: rgba(255, 250, 241, 0.78);
-      --dark: #171615;
-      --panel: rgba(32, 31, 29, 0.86);
-      --panel-2: rgba(18, 18, 16, 0.9);
+      --ink-2: rgba(255, 250, 241, 0.74);
+      --ink-3: rgba(255, 250, 241, 0.46);
+
       --gold: #f1aa4e;
       --gold-2: #ffd28d;
-      --line: rgba(255, 203, 132, 0.42);
-      --paper: #fff8ec;
       --green: #06c755;
+      --paper: #fff8ec;
+
+      /* 面 */
+      --surface: rgba(255, 255, 255, 0.038);
+      --surface-line: rgba(255, 255, 255, 0.08);
+
+      /* 余白スケール（3値のみ） */
+      --gap-s: 12px;
+      --gap-m: 18px;
+      --gap-l: 26px;
+      --sec: 44px;
+
+      --radius: 14px;
       --max: 430px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html,
-    body {
-      min-height: 100%;
-    }
+    html, body { min-height: 100%; }
 
     body {
       margin: 0;
-      background: #070707;
+      background: #0a0a09;
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
-      line-height: 1.55;
+      /* 行間は本文1.85 / 見出し1.3 の2種類だけ */
+      line-height: 1.85;
       letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
     /* 文節単位の折り返し制御: .w で囲んだ塊の途中では改行しない */
-    .w {
-      display: inline-block;
-    }
+    .w { display: inline-block; }
 
     .stage {
       min-height: 100svh;
       display: grid;
-      place-items: center;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(241, 170, 78, 0.16), transparent 36%),
-        linear-gradient(180deg, #11100f, #050505);
+      place-items: start center;
+      background: #0a0a09;
     }
 
+    /* ---------- ポスター本体：背景は「単色＋上部の灯り1つ」だけ ---------- */
     .poster {
       position: relative;
       isolation: isolate;
@@ -67,600 +73,431 @@
       width: min(100%, var(--max));
       min-height: 100svh;
       overflow: hidden;
-      padding: 28px 20px calc(100px + env(safe-area-inset-bottom));
+      padding: 30px 22px calc(120px + env(safe-area-inset-bottom));
       color: var(--ink);
       background:
-        linear-gradient(115deg, rgba(255, 195, 114, 0) 0 62%, rgba(255, 183, 95, 0.92) 62% 100%),
-        radial-gradient(circle at 84% 16%, rgba(255, 202, 125, 0.36), transparent 25%),
-        linear-gradient(155deg, #363532 0%, #20201d 48%, #11110f 100%);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 28px 80px rgba(0, 0, 0, 0.58);
+        radial-gradient(120% 46% at 50% -4%, rgba(241, 170, 78, 0.22), transparent 62%),
+        linear-gradient(180deg, #1a1917 0%, #141312 34%, #0c0c0b 100%);
     }
 
-    .poster::before,
-    .poster::after {
-      content: "";
-      position: absolute;
-      pointer-events: none;
-      z-index: -1;
+    @media (min-width: 720px) {
+      .stage { padding: 34px 0; }
+      .poster { border-radius: 10px; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6); }
     }
 
-    .poster::before {
-      inset: 0;
-      background:
-        repeating-linear-gradient(165deg, rgba(255, 205, 134, 0.32) 0 2px, transparent 2px 12px),
-        linear-gradient(116deg, transparent 0 57%, rgba(18, 18, 16, 0.72) 57% 58%, transparent 58%);
-      opacity: 0.25;
-      mask-image: linear-gradient(118deg, transparent 0 46%, #000 54% 100%);
+    /* ---------- 見出し・共通タイポ ----------
+       weightは 400 / 700 / 900 の3段階のみ
+       sizeは 11 / 13 / 15 / 17 / 21 / 34 の6段のみ */
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      font-weight: 900;
     }
 
-    .poster::after {
-      left: -16%;
-      right: -16%;
-      bottom: 0;
-      height: 34%;
-      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.58) 42%, rgba(0, 0, 0, 0.9));
+    /* セクション見出しラベル（全セクション共通・記号なし） */
+    .label {
+      margin: var(--sec) 0 var(--gap-s);
+      color: var(--ink-3);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      line-height: 1;
+      text-align: center;
     }
 
+    /* 面：暗いカード（枠線は極薄・影なし） */
+    .card {
+      padding: var(--gap-m);
+      border: 1px solid var(--surface-line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    /* ---------- ヘッダー ---------- */
     .top {
-      position: relative;
-      z-index: 2;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 42px;
+      min-height: 40px;
     }
 
     .brand {
-      font-size: 29px;
-      font-weight: 850;
+      font-size: 26px;
+      font-weight: 900;
       line-height: 1;
-      letter-spacing: 0.2em;
-      text-indent: 0.2em;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.24);
+      letter-spacing: 0.22em;
+      text-indent: 0.22em;
     }
 
-    .brand span {
-      color: var(--gold);
-    }
+    .brand span { color: var(--gold); }
 
+    /* ---------- TikTokフック ---------- */
     .bubble {
-      position: relative;
-      z-index: 2;
       display: grid;
-      grid-template-columns: 50px 1fr;
-      gap: 12px;
+      grid-template-columns: 40px 1fr;
+      gap: var(--gap-s);
       align-items: center;
-      width: 100%;
-      margin-top: 22px;
-      padding: 13px 14px;
-      border: 1px solid rgba(255, 203, 132, 0.68);
-      border-radius: 10px;
-      background: rgba(29, 29, 27, 0.8);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 16px 34px rgba(0, 0, 0, 0.28);
+      margin-top: var(--gap-l);
+      padding: 11px 14px;
+      border: 1px solid var(--surface-line);
+      border-radius: 12px;
+      background: var(--surface);
     }
 
     .tiktok {
       display: grid;
       place-items: center;
-      width: 48px;
-      height: 48px;
-      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
       background: #050505;
       color: #fff;
-      font-size: 28px;
+      font-size: 21px;
       font-weight: 900;
-      text-shadow: -2px 0 #25f4ee, 2px 2px #fe2c55;
+      text-shadow: -1.5px 0 #25f4ee, 1.5px 1.5px #fe2c55;
     }
 
     .bubble p {
       margin: 0;
-      font-size: 13.5px;
-      font-weight: 650;
-      line-height: 1.7;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.6;
+      color: var(--ink-2);
     }
 
-    .bubble strong {
-      color: var(--gold-2);
-      font-weight: 900;
-    }
+    .bubble strong { color: var(--ink); font-weight: 900; }
 
-    .hero {
-      position: relative;
-      z-index: 1;
-      margin-top: 20px;
-      padding: 14px 0 0;
-    }
+    /* ---------- ヒーロー ---------- */
+    .hero { margin-top: var(--gap-l); }
 
+    /* 見出しは横幅いっぱいに置き、写真はその背後に重ねる。
+       写真の左側にスクリムを敷いて、文字が写真に乗っても読めるようにする。 */
     .hero-main {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 104px;
-      gap: 9px;
-      align-items: start;
+      position: relative;
+      min-height: 134px;
     }
 
     h1 {
       position: relative;
       z-index: 2;
-      margin: 0;
-      padding-top: 8px;
-      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "YuGothic", sans-serif;
-      font-size: clamp(30px, 8.6vw, 38px);
-      font-weight: 1000;
-      line-height: 1.22;
-      letter-spacing: -0.01em;
-      text-shadow: 0 4px 0 rgba(0, 0, 0, 0.34), 0 14px 28px rgba(0, 0, 0, 0.3);
-      transform: rotate(-1.2deg);
+      font-size: clamp(29px, 8.6vw, 34px);
+      line-height: 1.24;
     }
 
-    h1 .line {
-      display: block;
-      white-space: nowrap;
-    }
-
-    h1 .small {
-      font-size: 0.6em;
-    }
-
-    h1 .large {
-      font-size: 0.94em;
-    }
-
-    h1 .final-line {
-      font-size: 0.94em;
-    }
-
-    h1 .gold {
-      color: var(--gold);
-      text-shadow: 0 4px 0 rgba(67, 41, 14, 0.62), 0 14px 26px rgba(0, 0, 0, 0.34);
-    }
+    h1 .line { display: block; white-space: nowrap; }
+    h1 .small { font-size: 0.62em; color: var(--ink-2); }
+    h1 .gold { color: var(--gold); }
 
     .profile-card {
-      position: relative;
-      min-width: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 1;
+      width: 106px;
       margin: 0;
-      padding: 6px;
-      border: 1px solid rgba(255, 203, 132, 0.42);
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255, 250, 241, 0.13), rgba(21, 21, 19, 0.78));
-      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.36);
-      transform: rotate(2deg);
+    }
+
+    .profile-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: linear-gradient(96deg, rgba(20, 19, 17, 0.94) 0%, rgba(20, 19, 17, 0.5) 44%, rgba(20, 19, 17, 0.06) 78%);
+      pointer-events: none;
     }
 
     .profile-card img {
       display: block;
       width: 100%;
-      aspect-ratio: 1 / 1.12;
+      aspect-ratio: 1 / 1.16;
       object-fit: cover;
       object-position: 50% 20%;
-      border-radius: 13px;
-      filter: saturate(1.04) contrast(1.04);
-    }
-
-    .profile-card figcaption {
-      display: grid;
-      place-items: center;
-      min-height: 30px;
-      margin-top: 6px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.64);
-      color: var(--gold-2);
-      font-size: 10px;
-      font-weight: 1000;
-      letter-spacing: 0.04em;
+      border-radius: 12px;
+      filter: saturate(1.02);
     }
 
     .hero-copy {
-      position: relative;
-      z-index: 2;
-      width: min(100%, 360px);
-      margin: 18px 0 0;
-      color: rgba(255, 250, 241, 0.92);
+      margin: var(--gap-m) 0 0;
+      color: var(--ink-2);
       font-size: 15px;
-      font-weight: 550;
-      line-height: 1.95;
-      text-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+      font-weight: 400;
+      line-height: 1.85;
     }
 
-    .hero-copy b {
-      color: var(--gold);
-      font-weight: 900;
-      font-size: 1.06em;
-    }
+    .hero-copy b { color: var(--ink); font-weight: 900; }
 
-    .cred {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      margin-top: 18px;
-      padding: 12px 8px;
-      border: 1px solid rgba(255, 198, 119, 0.3);
-      border-radius: 10px;
-      background: rgba(20, 20, 18, 0.72);
-    }
-
-    .cred div {
-      display: grid;
-      justify-items: center;
-      align-content: center;
-      gap: 4px;
-      padding: 2px 4px;
-      text-align: center;
-    }
-
-    .cred div + div {
-      border-left: 1px dashed rgba(255, 203, 132, 0.26);
-    }
-
-    .cred b {
-      color: var(--gold-2);
-      font-size: 16px;
-      font-weight: 1000;
-      line-height: 1.2;
-    }
-
-    .cred b small {
-      font-size: 10px;
-      font-weight: 900;
-    }
-
-    .cred span {
-      color: rgba(255, 250, 241, 0.7);
-      font-size: 9.5px;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-
-    .cta-area {
-      position: relative;
-      z-index: 4;
-      margin-top: 22px;
-      text-align: center;
-    }
+    /* ---------- CTA ----------
+       主CTA（gold）はヒーロー直下と最終の2箇所だけ。
+       中間はゴースト（枠線のみ）にして強弱をつける。 */
+    .cta-area { margin-top: var(--gap-l); }
 
     .cta-note {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 29px;
-      padding: 5px 20px;
-      border-radius: 999px;
-      background: rgba(255, 250, 241, 0.94);
-      color: #22211e;
-      font-size: 12px;
-      font-weight: 900;
-      line-height: 1.4;
-      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.22);
-      transform: translateY(12px);
-      position: relative;
-      z-index: 2;
+      display: block;
+      margin: 0 0 10px;
+      color: var(--ink-3);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-align: center;
     }
 
     .cta {
       display: grid;
-      grid-template-columns: 56px 1fr auto;
-      gap: 12px;
+      grid-template-columns: 44px 1fr 20px;
+      gap: 13px;
       align-items: center;
-      min-height: 76px;
-      padding: 13px 18px;
+      min-height: 68px;
+      padding: 12px 20px;
       border-radius: 999px;
       background: linear-gradient(180deg, #ffd18a, #f2a442);
       color: #191816;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 18px 34px rgba(0, 0, 0, 0.36);
+      box-shadow: 0 14px 30px rgba(241, 170, 78, 0.16);
       text-align: left;
     }
 
-    .line-logo {
+    .cta .line-logo {
       display: grid;
       place-items: center;
-      width: 52px;
-      height: 52px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: #fff;
       color: var(--green);
-      font-size: 13px;
-      font-weight: 1000;
+      font-size: 11px;
+      font-weight: 900;
     }
 
     .cta strong {
       display: block;
-      font-size: clamp(17px, 4.8vw, 21px);
-      font-weight: 1000;
-      line-height: 1.22;
+      font-size: 17px;
+      font-weight: 900;
+      line-height: 1.3;
       letter-spacing: -0.02em;
     }
 
     .cta small {
       display: block;
-      margin-top: 4px;
+      margin-top: 2px;
       font-size: 11px;
       font-weight: 700;
-      color: rgba(25, 24, 22, 0.72);
+      line-height: 1.4;
+      color: rgba(25, 24, 22, 0.66);
     }
 
-    .arrow {
-      display: grid;
-      place-items: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: 2px solid rgba(25, 24, 22, 0.72);
-      font-size: 18px;
-      font-weight: 900;
-      line-height: 1;
-    }
+    .cta .arrow { color: rgba(25, 24, 22, 0.6); font-size: 17px; font-weight: 900; justify-self: end; }
 
-    .section-label {
-      position: relative;
-      z-index: 2;
-      margin: 40px 0 0;
-      text-align: center;
+    /* 中間CTA＝ゴースト */
+    .cta.ghost {
+      background: transparent;
+      border: 1px solid rgba(255, 210, 141, 0.4);
       color: var(--gold-2);
-      font-size: 12px;
-      font-weight: 1000;
-      letter-spacing: 0.18em;
+      box-shadow: none;
+      min-height: 58px;
     }
 
-    .diag {
-      position: relative;
-      z-index: 2;
-      margin-top: 14px;
-      padding: 18px 16px 16px;
-      border: 1px solid rgba(255, 203, 132, 0.4);
-      border-radius: 16px;
-      background: rgba(24, 24, 22, 0.82);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
-    }
+    .cta.ghost .line-logo { background: rgba(255, 210, 141, 0.12); color: var(--gold-2); width: 38px; height: 38px; }
+    .cta.ghost strong { font-size: 15px; }
+    .cta.ghost small { color: var(--ink-3); }
+    .cta.ghost .arrow { color: var(--gold-2); }
 
-    .diag h2 {
-      margin: 0;
-      text-align: center;
-      font-size: 17px;
-      font-weight: 1000;
-      line-height: 1.5;
-    }
-
-    .diag h2 span {
-      color: var(--gold);
-    }
+    /* ---------- 診断3択 ---------- */
+    .diag h2 { font-size: 17px; text-align: center; }
+    .diag h2 span { color: var(--gold); }
 
     .diag-list {
       display: grid;
-      gap: 10px;
-      margin: 14px 0 0;
+      gap: 9px;
+      margin: var(--gap-m) 0 0;
       padding: 0;
       list-style: none;
     }
 
     .diag-btn {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr 14px;
       gap: 10px;
       align-items: center;
-      padding: 14px 15px;
-      border: 1px solid rgba(255, 203, 132, 0.5);
-      border-radius: 12px;
-      background: linear-gradient(180deg, rgba(52, 50, 46, 0.92), rgba(30, 29, 27, 0.92));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 10px 20px rgba(0, 0, 0, 0.26);
-      font-size: 13.5px;
-      font-weight: 650;
+      padding: 13px 15px;
+      border: 1px solid var(--surface-line);
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.03);
+      font-size: 13px;
+      font-weight: 400;
       line-height: 1.6;
+      color: var(--ink-2);
     }
 
-    .diag-btn em {
-      font-style: normal;
-      color: var(--gold-2);
-      font-weight: 900;
-    }
-
-    .diag-btn .arrow {
-      border-color: rgba(255, 210, 141, 0.7);
-      color: var(--gold-2);
-    }
+    .diag-btn em { font-style: normal; color: var(--ink); font-weight: 900; }
+    .diag-btn .arrow { color: var(--ink-3); font-size: 15px; font-weight: 900; }
 
     .diag-note {
-      margin: 12px 0 0;
+      margin: var(--gap-s) 0 0;
       text-align: center;
-      color: rgba(255, 250, 241, 0.58);
+      color: var(--ink-3);
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 400;
     }
 
+    /* ---------- 特典（唯一の金枠＝ページの主役） ---------- */
     .gift {
-      position: relative;
-      z-index: 2;
-      margin-top: 14px;
-      padding: 3px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, var(--gold-2), var(--gold) 45%, #b9782a);
-      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.42), 0 0 32px rgba(241, 170, 78, 0.22);
+      margin-top: var(--gap-s);
+      padding: 1.5px;
+      border-radius: 17px;
+      background: linear-gradient(150deg, var(--gold-2), var(--gold) 46%, rgba(185, 120, 42, 0.7));
     }
 
     .gift-inner {
-      border-radius: 15px;
-      padding: 20px 18px 18px;
-      background: linear-gradient(180deg, #262522, #171614);
+      padding: var(--gap-l) var(--gap-m) var(--gap-m);
+      border-radius: 15.5px;
+      background: linear-gradient(180deg, #221f1b, #151413);
     }
 
     .gift-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      display: inline-block;
       margin: 0;
-      padding: 5px 14px;
+      padding: 4px 13px;
       border-radius: 999px;
       background: linear-gradient(180deg, var(--gold-2), var(--gold));
       color: #241703;
-      font-size: 12px;
-      font-weight: 1000;
-      letter-spacing: 0.02em;
-    }
-
-    .gift h2 {
-      margin: 13px 0 0;
-      font-size: 21px;
-      font-weight: 1000;
-      line-height: 1.42;
-      letter-spacing: -0.01em;
-    }
-
-    .gift h2 .gold {
-      color: var(--gold-2);
-    }
-
-    .gift-name {
-      margin: 10px 0 0;
-      color: rgba(255, 250, 241, 0.6);
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 900;
       line-height: 1.6;
     }
 
+    .gift h2 {
+      margin: var(--gap-s) 0 0;
+      font-size: 21px;
+      line-height: 1.42;
+    }
+
+    .gift h2 .gold { color: var(--gold-2); }
+
     .gift-list {
       display: grid;
-      gap: 11px;
-      margin: 16px 0 0;
+      gap: 10px;
+      margin: var(--gap-m) 0 0;
       padding: 0;
       list-style: none;
     }
 
     .gift-list li {
       display: grid;
-      grid-template-columns: 20px 1fr;
-      gap: 9px;
+      grid-template-columns: 17px 1fr;
+      gap: 10px;
       align-items: start;
-      font-size: 13.5px;
-      font-weight: 550;
+      font-size: 13px;
+      font-weight: 400;
       line-height: 1.75;
-      color: rgba(255, 250, 241, 0.92);
+      color: var(--ink-2);
     }
 
-    .gift-list b {
-      color: var(--gold-2);
-      font-weight: 900;
-    }
+    .gift-list b { color: var(--ink); font-weight: 900; }
 
     .gift-list .check {
       display: grid;
       place-items: center;
-      width: 18px;
-      height: 18px;
-      margin-top: 3px;
+      width: 16px;
+      height: 16px;
+      margin-top: 5px;
       border-radius: 50%;
-      background: linear-gradient(180deg, var(--gold-2), var(--gold));
+      background: var(--gold);
       color: #241703;
-      font-size: 11px;
-      font-weight: 1000;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
     }
 
     .gift-note {
-      margin: 15px 0 0;
-      padding-top: 12px;
-      border-top: 1px dashed rgba(255, 203, 132, 0.34);
-      color: rgba(255, 250, 241, 0.6);
+      margin: var(--gap-m) 0 0;
+      padding-top: var(--gap-s);
+      border-top: 1px solid rgba(255, 210, 141, 0.18);
+      color: var(--ink-3);
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 400;
       line-height: 1.75;
     }
 
-    .gift-note strong {
-      color: var(--gold-2);
-      font-weight: 900;
+    .gift-note strong { color: var(--ink-2); font-weight: 900; }
+
+    .gift-name {
+      margin: 6px 0 0;
+      color: var(--ink-3);
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.6;
     }
 
-    .session {
-      position: relative;
-      z-index: 2;
-      margin-top: 14px;
-      padding: 18px 16px;
-      border: 1px solid rgba(255, 203, 132, 0.36);
-      border-radius: 16px;
-      background: rgba(24, 24, 22, 0.82);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    .session h2 {
-      margin: 0;
-      font-size: 17px;
-      font-weight: 1000;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    .session h2 span {
-      color: var(--gold);
-    }
+    /* ---------- 個別相談でやること ---------- */
+    .session h2 { font-size: 17px; text-align: center; }
+    .session h2 span { color: var(--gold); }
 
     .session-list {
       display: grid;
-      gap: 10px;
-      margin: 14px 0 0;
+      gap: 11px;
+      margin: var(--gap-m) 0 0;
       padding: 0;
       list-style: none;
     }
 
     .session-list li {
       display: grid;
-      grid-template-columns: 26px 1fr;
-      gap: 10px;
+      grid-template-columns: 22px 1fr;
+      gap: 11px;
       align-items: start;
-      font-size: 13.5px;
-      font-weight: 550;
-      line-height: 1.75;
-      color: rgba(255, 250, 241, 0.92);
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--ink-2);
     }
 
-    .session-list b {
-      color: var(--gold-2);
-      font-weight: 900;
-    }
+    .session-list b { color: var(--ink); font-weight: 900; }
 
     .session-num {
       display: grid;
       place-items: center;
-      width: 24px;
-      height: 24px;
+      width: 21px;
+      height: 21px;
       margin-top: 1px;
       border-radius: 50%;
-      background: rgba(241, 170, 78, 0.16);
-      border: 1px solid rgba(255, 203, 132, 0.5);
-      color: var(--gold-2);
-      font-size: 12px;
-      font-weight: 1000;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--ink-2);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
     }
 
     .session-close {
-      margin: 14px 0 0;
+      margin: var(--gap-m) 0 0;
+      padding-top: var(--gap-s);
+      border-top: 1px solid var(--surface-line);
       text-align: center;
-      color: rgba(255, 250, 241, 0.62);
-      font-size: 11.5px;
-      font-weight: 600;
+      color: var(--ink-3);
+      font-size: 11px;
+      font-weight: 400;
     }
 
+    /* ---------- 受け取りフロー（唯一の明るい面） ---------- */
     .flow {
-      position: relative;
-      z-index: 2;
-      margin: 14px 0 0;
-      padding: 18px;
-      border: 1px solid rgba(255, 203, 132, 0.32);
-      border-radius: 16px;
-      background: rgba(255, 248, 236, 0.95);
+      margin-top: var(--gap-s);
+      padding: var(--gap-m);
+      border-radius: var(--radius);
+      background: var(--paper);
       color: #25231f;
-      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
     }
 
     .flow-title {
-      margin: 0 0 13px;
+      margin: 0 0 var(--gap-s);
       text-align: center;
       font-size: 13px;
-      font-weight: 1000;
-      letter-spacing: 0.04em;
+      font-weight: 900;
+      line-height: 1.4;
+      letter-spacing: 0.02em;
     }
 
     .flow-list {
       display: grid;
-      gap: 10px;
+      gap: 8px;
       margin: 0;
       padding: 0;
       list-style: none;
@@ -668,247 +505,169 @@
 
     .flow-list li {
       display: grid;
-      grid-template-columns: 42px 1fr;
+      grid-template-columns: 34px 1fr;
       gap: 12px;
       align-items: center;
-      padding: 12px;
+      padding: 11px 12px;
       border-radius: 10px;
-      background: #fffdf7;
-      box-shadow: 0 6px 14px rgba(63, 48, 30, 0.1);
+      background: rgba(37, 35, 31, 0.045);
     }
 
     .flow-list li.flow-goal {
-      background: linear-gradient(180deg, #fff3dd, #ffe9c4);
-      box-shadow: inset 0 0 0 1px rgba(206, 141, 46, 0.36), 0 6px 14px rgba(63, 48, 30, 0.12);
+      background: linear-gradient(180deg, #ffeccd, #ffe2b4);
     }
 
     .num {
       display: grid;
       place-items: center;
-      width: 42px;
-      height: 42px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      color: #fff;
-      background: linear-gradient(180deg, var(--gold-2), var(--gold));
-      font-size: 16px;
-      font-weight: 1000;
+      background: rgba(37, 35, 31, 0.1);
+      color: #6b5a3f;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1;
     }
 
-    .flow-goal .num {
-      background: linear-gradient(180deg, #ff9d3c, #e07a12);
-    }
+    .flow-goal .num { background: linear-gradient(180deg, var(--gold-2), var(--gold)); color: #fff; font-size: 15px; }
 
-    .flow-list strong,
-    .flow-list span {
-      display: block;
-    }
+    .flow-list strong, .flow-list span { display: block; }
 
-    .flow-list strong {
-      font-size: 13.5px;
-      line-height: 1.4;
-    }
+    .flow-list strong { font-size: 13px; font-weight: 900; line-height: 1.4; }
 
     .flow-list span {
-      color: rgba(37, 35, 31, 0.66);
+      margin-top: 2px;
+      color: rgba(37, 35, 31, 0.6);
       font-size: 11px;
-      font-weight: 500;
-      line-height: 1.65;
-      margin-top: 3px;
+      font-weight: 400;
+      line-height: 1.6;
     }
 
-    .faq {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
+    /* ---------- FAQ ---------- */
+    .faq { display: grid; gap: 1px; margin-top: var(--gap-s); border-radius: var(--radius); overflow: hidden; }
 
     .faq-item {
-      padding: 14px 16px;
-      border: 1px solid rgba(255, 203, 132, 0.3);
-      border-radius: 12px;
-      background: rgba(24, 24, 22, 0.8);
+      padding: var(--gap-m);
+      background: var(--surface);
     }
 
     .faq-item dt {
       margin: 0;
-      color: var(--gold-2);
-      font-size: 13.5px;
+      color: var(--ink);
+      font-size: 13px;
       font-weight: 900;
       line-height: 1.5;
     }
 
     .faq-item dd {
-      margin: 6px 0 0;
-      color: rgba(255, 250, 241, 0.82);
+      margin: 5px 0 0;
+      color: var(--ink-2);
       font-size: 12.5px;
-      font-weight: 500;
+      font-weight: 400;
       line-height: 1.8;
     }
 
-    .fit {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
+    /* ---------- 向き・不向き ---------- */
+    .fit { display: grid; gap: 10px; margin-top: var(--gap-s); }
 
     .fit-card {
-      padding: 14px 16px;
-      border-radius: 12px;
+      padding: var(--gap-m);
+      border-radius: var(--radius);
       font-size: 12.5px;
-      font-weight: 550;
-      line-height: 1.85;
+      font-weight: 400;
+      line-height: 1.8;
     }
 
-    .fit-card.ng {
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(20, 20, 18, 0.7);
-      color: rgba(255, 250, 241, 0.68);
-    }
+    .fit-card.ng { background: transparent; border: 1px dashed var(--surface-line); color: var(--ink-3); }
+    .fit-card.ok { background: var(--surface); border: 1px solid rgba(255, 210, 141, 0.28); color: var(--ink-2); }
 
-    .fit-card.ok {
-      border: 1px solid rgba(255, 203, 132, 0.55);
-      background: linear-gradient(180deg, rgba(58, 48, 32, 0.9), rgba(32, 28, 22, 0.9));
-      color: rgba(255, 250, 241, 0.94);
-    }
+    .fit-card h3 { margin: 0 0 6px; font-size: 13px; }
+    .fit-card.ng h3 { color: var(--ink-3); }
+    .fit-card.ok h3 { color: var(--gold-2); }
 
-    .fit-card h3 {
-      margin: 0 0 6px;
-      font-size: 13.5px;
-      font-weight: 1000;
-    }
+    .fit-card ul { margin: 0; padding-left: 17px; }
+    .fit-card li::marker { color: var(--ink-3); }
 
-    .fit-card.ok h3 {
-      color: var(--gold-2);
-    }
-
-    .fit-card ul {
-      margin: 0;
-      padding-left: 18px;
-    }
-
+    /* ---------- 安心3点 ---------- */
     .trust {
-      position: relative;
-      z-index: 2;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      margin-top: 18px;
-      padding: 12px 8px;
-      border: 1px solid rgba(255, 198, 119, 0.28);
-      border-radius: 10px;
-      background: rgba(25, 25, 23, 0.64);
+      margin-top: var(--gap-l);
+      padding-top: var(--gap-m);
+      border-top: 1px solid var(--surface-line);
     }
 
     .trust span {
       display: grid;
       place-items: center;
-      min-height: 28px;
-      color: rgba(255, 250, 241, 0.72);
+      color: var(--ink-3);
       font-size: 10.5px;
-      font-weight: 650;
-      line-height: 1.55;
+      font-weight: 400;
+      line-height: 1.6;
       text-align: center;
     }
 
+    .trust span + span { border-left: 1px solid var(--surface-line); }
+
+    /* ---------- sticky CTA：スクロールしてから出す ---------- */
     .sticky-cta {
       position: fixed;
       left: 50%;
-      bottom: calc(10px + env(safe-area-inset-bottom));
-      transform: translateX(-50%);
+      bottom: calc(12px + env(safe-area-inset-bottom));
       z-index: 20;
       display: grid;
-      grid-template-columns: 40px 1fr auto;
-      gap: 10px;
+      grid-template-columns: 34px 1fr 16px;
+      gap: 11px;
       align-items: center;
-      width: min(100% - 24px, calc(var(--max) - 24px));
-      min-height: 58px;
-      padding: 8px 16px 8px 10px;
+      width: min(100% - 28px, calc(var(--max) - 28px));
+      min-height: 56px;
+      padding: 8px 18px 8px 11px;
       border-radius: 999px;
-      background: linear-gradient(180deg, #10d565, #06c755);
+      background: var(--green);
       color: #fff;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 14px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      transform: translate(-50%, 130%);
+      opacity: 0;
+      transition: transform 0.36s cubic-bezier(0.2, 0.8, 0.3, 1), opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .sticky-cta.is-on {
+      transform: translate(-50%, 0);
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .sticky-cta .line-mini {
       display: grid;
       place-items: center;
-      width: 38px;
-      height: 38px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       background: #fff;
       color: var(--green);
-      font-size: 10px;
-      font-weight: 1000;
+      font-size: 9px;
+      font-weight: 900;
     }
 
-    .sticky-cta strong {
-      display: block;
-      font-size: 14.5px;
-      font-weight: 1000;
-      line-height: 1.25;
-      letter-spacing: -0.01em;
-    }
+    .sticky-cta strong { display: block; font-size: 14px; font-weight: 900; line-height: 1.25; letter-spacing: -0.01em; }
+    .sticky-cta small { display: block; margin-top: 1px; font-size: 10px; font-weight: 400; line-height: 1.4; opacity: 0.9; }
+    .sticky-cta .arrow { color: rgba(255, 255, 255, 0.85); font-size: 15px; font-weight: 900; justify-self: end; }
 
-    .sticky-cta small {
-      display: block;
-      margin-top: 2px;
-      font-size: 10px;
-      font-weight: 650;
-      opacity: 0.94;
-    }
-
-    .sticky-cta .arrow {
-      border-color: rgba(255, 255, 255, 0.85);
-      color: #fff;
+    @media (prefers-reduced-motion: reduce) {
+      .sticky-cta { transition: none; }
     }
 
     @media (max-width: 374px) {
-      .poster {
-        padding-right: 15px;
-        padding-left: 15px;
-      }
-
-      .brand {
-        font-size: 25px;
-      }
-
-      h1 {
-        font-size: 33px;
-      }
-
-      .bubble p {
-        font-size: 13px;
-      }
-
-      .gift h2 {
-        font-size: 19px;
-      }
-
-      .cta {
-        grid-template-columns: 48px 1fr auto;
-        padding: 12px 14px;
-      }
-
-      .line-logo {
-        width: 46px;
-        height: 46px;
-        font-size: 12px;
-      }
-    }
-
-    @media (min-width: 720px) {
-      .stage {
-        padding: 34px 0;
-      }
-
-      .poster {
-        min-height: 840px;
-        border-radius: 8px;
-      }
+      .poster { padding-right: 16px; padding-left: 16px; }
+      .brand { font-size: 23px; }
+      h1 { font-size: 27px; }
+      .hero-main { min-height: 118px; }
+      .profile-card { width: 92px; }
+      .gift h2 { font-size: 19px; }
+      .cta { grid-template-columns: 40px 1fr 18px; padding: 12px 16px; }
+      .cta .line-logo { width: 38px; height: 38px; }
     }
   </style>
 </head>
@@ -928,13 +687,12 @@
         <div class="hero-main">
           <h1>
             <span class="line small">伸びない原因は、</span>
-            <span class="line large">投稿じゃない。</span>
-            <span class="line final-line"><span class="gold">コンセプト</span>です。</span>
+            <span class="line">投稿じゃない。</span>
+            <span class="line"><span class="gold">コンセプト</span>です。</span>
           </h1>
 
           <figure class="profile-card" aria-hidden="true">
             <img src="profile-line.jpg" alt="">
-            <figcaption>PRO CHECK</figcaption>
           </figure>
         </div>
 
@@ -943,15 +701,10 @@
           <span class="w">無料の個別相談で、</span><span class="w">プロと一緒に</span><span class="w"><b>バズるコンセプト</b>から</span><span class="w">作り直しませんか。</span>
         </p>
 
-        <div class="cred" aria-label="SAKIYOMIの実績">
-          <div><b>12<small>万部</small></b><span>書籍<br>累計発行部数</span></div>
-          <div><b>8<small>万人</small></b><span>公式SNS<br>フォロワー</span></div>
-          <div><b>主催</b><span>SNS<br>サミット</span></div>
-        </div>
       </section>
 
       <section class="cta-area" aria-label="公式LINEへの導線">
-        <div class="cta-note">相談は無料・オンライン約90分</div>
+        <span class="cta-note">相談は無料・オンライン約90分</span>
         <a class="cta" href="https://lstep.app/a3OUqsv">
           <div class="line-logo">LINE</div>
           <div>
@@ -962,8 +715,8 @@
         </a>
       </section>
 
-      <p class="section-label">― 30秒でわかる ―</p>
-      <section class="diag" aria-label="かんたん診断">
+      <p class="label">30秒でわかる</p>
+      <section class="diag card" aria-label="かんたん診断">
         <h2>あなたは<span>どれ</span>に当てはまりますか？</h2>
         <ul class="diag-list">
           <li>
@@ -988,7 +741,7 @@
         <p class="diag-note">タップするとLINEが開きます</p>
       </section>
 
-      <p class="section-label">― 参加特典 ―</p>
+      <p class="label">参加特典</p>
       <section class="gift" aria-label="参加特典">
         <div class="gift-inner">
           <p class="gift-eyebrow">🎁 個別相談に来た方全員に</p>
@@ -1003,8 +756,8 @@
         </div>
       </section>
 
-      <p class="section-label">― 個別相談でやること ―</p>
-      <section class="session" aria-label="個別相談の中身">
+      <p class="label">個別相談でやること</p>
+      <section class="session card" aria-label="個別相談の中身">
         <h2>プロと一緒に、GPTsを<span>使い倒す90分</span></h2>
         <ol class="session-list">
           <li><span class="session-num">1</span><span><span class="w">プロがあなたの</span><span class="w">アカウントを<b>分析</b></span></span></li>
@@ -1042,7 +795,7 @@
       </section>
 
       <section class="cta-area" aria-label="公式LINEへの導線">
-        <a class="cta" href="https://lstep.app/a3OUqsv">
+        <a class="cta ghost" href="https://lstep.app/a3OUqsv">
           <div class="line-logo">LINE</div>
           <div>
             <strong>無料相談を予約する</strong>
@@ -1052,7 +805,7 @@
         </a>
       </section>
 
-      <p class="section-label">― よくあるご心配 ―</p>
+      <p class="label">よくあるご心配</p>
       <dl class="faq" aria-label="よくあるご心配">
         <div class="faq-item">
           <dt>Q. 営業されませんか？</dt>
@@ -1068,6 +821,7 @@
         </div>
       </dl>
 
+      <p class="label">こんな方へ</p>
       <div class="fit" aria-label="向いている方・向いていない方">
         <div class="fit-card ng">
           <h3>向いていない方</h3>
@@ -1091,7 +845,7 @@
       </section>
 
       <section class="cta-area" aria-label="公式LINEへの導線">
-        <div class="cta-note">🎁 参加者全員にコンセプトGPTs配布中</div>
+        <span class="cta-note">🎁 参加者全員にコンセプトGPTs配布中</span>
         <a class="cta" href="https://lstep.app/a3OUqsv">
           <div class="line-logo">LINE</div>
           <div>
@@ -1112,5 +866,28 @@
       </a>
     </main>
   </div>
+
+  <script>
+    // sticky CTA はヒーローのCTAを通り過ぎてから出し、最終CTAが見えたら引っ込める
+    // （画面内でCTAが二重にならないように）
+    (function () {
+      var sticky = document.querySelector('.sticky-cta');
+      var areas = document.querySelectorAll('.cta-area');
+      if (!sticky || !areas.length) return;
+      var first = areas[0];
+      var last = areas[areas.length - 1];
+      var ticking = false;
+      function update() {
+        ticking = false;
+        var passedFirst = first.getBoundingClientRect().bottom < 0;
+        var lastVisible = last.getBoundingClientRect().top < window.innerHeight - 40;
+        sticky.classList.toggle('is-on', passedFirst && !lastVisible);
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      update();
+    })();
+  </script>
 </body>
 </html>
